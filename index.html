@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tattu Charity provides essential support to vulnerable communities in Uganda through clean water, education, healthcare, and shelter initiatives.">
+    <meta name="keywords" content="charity, Uganda, clean water, education, healthcare, donation">
+    <meta name="author" content="Tattu Charity">
+    <title>Tattu Charity - Bringing Hope to Uganda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary: #34495e;
+            --accent: #f39c12;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #7f8c8d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary: #55e7a0;
+            --primary-dark: #4cd68f;
+            --secondary: #e0e0e0;
+            --light: #2c2c2c;
+            --dark: #ffffff;
+            --gray: #b0b0b0;
+            --white: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+            background-color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            loading: lazy;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-accent:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-lg {
+            padding: 15px 32px;
+            font-size: 18px;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 20px 0;
+            background-color: transparent;
+        }
+
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+
+        [data-theme="dark"] .header-scrolled {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+
+        .header-scrolled .logo {
+            color: var(--dark);
+        }
+
+        .header-scrolled .nav-links a {
+            color: var(--dark);
+        }
+
+        .header-scrolled .donate-btn {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            left: 0;
+            bottom: -5px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .donate-btn {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .donate-btn:hover {
+            background-color: var(--white);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .header-scrolled .mobile-menu-btn {
+            color: var(--dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--white);
+            font-size: 30px;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 0;
+            background-color: rgba(46, 204, 113, 0.05);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-number i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .stat-text {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .about-content h2:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .about-img {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .about-img img {
+            transition: transform 0.5s ease;
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Programs Section */
+        .programs {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--gray);
+        }
+
+        .programs-slider {
+            position: relative;
+        }
+
+        .programs-set {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .programs-set.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .program-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .program-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .program-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .program-card:hover .program-img img {
+            transform: scale(1.1);
+        }
+
+        .program-content {
+            padding: 25px;
+        }
+
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(46, 204, 113, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .program-icon i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .program-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .program-desc {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .program-stats {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Impact Section */
+        .impact {
+            padding: 100px 0;
+        }
+
+        .impact-slideshow {
+            position: relative;
+        }
+
+        .impact-slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .impact-slide.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .impact-story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+
+        .impact-img {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .impact-img img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .impact-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .impact-text p {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .testimonial {
+            border-left: 3px solid var(--primary);
+            padding-left: 20px;
+            font-style: italic;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+
+        /* Donation Section */
+        .donation {
+            padding: 100px 0;
+            background: linear-gradient(rgba(46, 204, 113, 0.9), rgba(46, 204, 113, 0.9)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            color: var(--white);
+        }
+
+        .donation-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .donation-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .donation-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .donation-progress {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .donation-progress-text {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 75%;
+            height: 100%;
+            background-color: var(--accent);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .donation-amounts {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .amount-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--white);
+            border-radius: 50px;
+            background-color: transparent;
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .amount-btn:hover,
+        .amount-btn.selected {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        #custom-amount {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 150px;
+            color: var(--dark);
+        }
+
+        .donation-action {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .donation-note {
+            text-align: center;
+            color: var(--white);
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Events Section */
+        .events {
+            padding: 100px 0;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .event-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-header {
+            padding: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .event-date {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .event-content {
+            padding: 25px;
+        }
+
+        .event-desc {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .event-items {
+            margin-bottom: 20px;
+        }
+
+        .event-items h4 {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .event-items ul {
+            list-style: disc;
+            padding-left: 20px;
+            color: var(--gray);
+        }
+
+        .event-items li {
+            margin-bottom: 5px;
+        }
+
+        .event-footer {
+            padding: 0 25px 25px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .contact-info h2:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .contact-info p {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(46, 204, 113, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .contact-icon i {
+            color: var(--primary);
+        }
+
+        .contact-text span {
+            display: block;
+            color: var(--gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .form-control:invalid:focus {
+            border-color: #e74c3c;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 60px 0;
+            background-color: rgba(46, 204, 113, 0.05);
+        }
+
+        .newsletter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .newsletter-content {
+            max-width: 500px;
+        }
+
+        .newsletter-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .newsletter-content p {
+            color: var(--gray);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .newsletter-input {
+            width: 300px;
+            padding: 14px 20px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 80px 0 0;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--white);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .header-scrolled .theme-toggle {
+            color: var(--dark);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .programs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero-btns .btn {
+                width: 100%;
+            }
+
+            .about-container,
+            .contact-container,
+            .impact-story {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .newsletter-input {
+                width: 100%;
+            }
+
+            .nav-links,
+            .donate-btn {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: var(--white);
+                z-index: 1001;
+                padding: 80px 20px;
+                transition: var(--transition);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .mobile-menu.active {
+                right: 0;
+                animation: slideIn 0.3s ease forwards;
+            }
+
+            .mobile-menu-close {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                font-size: 28px;
+                cursor: pointer;
+                color: var(--dark);
+            }
+
+            .mobile-nav-links {
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .mobile-nav-links a {
+                color: var(--dark);
+                font-weight: 500;
+                font-size: 18px;
+                padding: 15px 0;
+                border-bottom: 1px solid #eee;
+                display: block;
+            }
+
+            .mobile-donate-btn {
+                margin-top: 40px;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+            }
+
+            .overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .impact-img img {
+                height: auto;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-text h3 {
+                font-size: 1.3rem;
+            }
+
+            .donation-amounts {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .amount-btn {
+                width: 100%;
+            }
+
+            #custom-amount {
+                width: 100%;
+            }
+        }
+
+        /* Accessibility Improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        a:focus,
+        button:focus,
+        input:focus,
+        textarea:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo" aria-label="Tattu Charity Home">
+                <i class="fas fa-heart"></i>
+                Tattu Charity
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#impact">Impact</a></li>
+                    <li><a href="#donation">Donation</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="#donation" class="donate-btn">Donate Now</a>
+            <button class="mobile-menu-btn" aria-label="Open mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Bringing Hope to Uganda</h1>
+            <p>Tattu Charity provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.</p>
+            <div class="hero-btns">
+                <a href="#donation" class="btn btn-primary btn-lg">Donate Now</a>
+                <a href="#about" class="btn btn-secondary btn-lg">Learn More</a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down" aria-label="Scroll to about">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2>About Tattu Charity</h2>
+                    <p>Founded with a vision to transform lives across Uganda, Tattu Charity works directly with communities to address their most pressing needs. Every two months, we organize collection drives and distribute essential resources to those who need them most.</p>
+                    <p>Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently.</p>
+                    <a href="#programs" class="btn btn-outline">Explore Our Programs</a>
+                </div>
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Volunteers working in a community">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="programs">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Programs</h2>
+                <p>We focus on key areas to create comprehensive support for vulnerable communities.</p>
+            </div>
+            <div class="programs-slider">
+                <!-- Set 1 -->
+                <div class="programs-set active">
+                    <div class="programs-grid">
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Clean water program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-tint"></i></div>
+                                <h3 class="program-title">Clean Water</h3>
+                                <p class="program-desc">Providing access to safe, clean water through wells and purification systems.</p>
+                                <p class="program-stats">25 communities reached</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80" alt="Education program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-book-open"></i></div>
+                                <h3 class="program-title">Education</h3>
+                                <p class="program-desc">Building schools and providing educational materials.</p>
+                                <p class="program-stats">12 schools built</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Healthcare program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-heartbeat"></i></div>
+                                <h3 class="program-title">Healthcare</h3>
+                                <p class="program-desc">Supporting clinics and organizing health camps.</p>
+                                <p class="program-stats">10,000+ patients treated</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Set 2 -->
+                <div class="programs-set">
+                    <div class="programs-grid">
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Shelter program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-home"></i></div>
+                                <h3 class="program-title">Shelter</h3>
+                                <p class="program-desc">Building safe homes for displaced families.</p>
+                                <p class="program-stats">50 homes constructed</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1593113598332-629a3a1c3e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Food Security program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-seedling"></i></div>
+                                <h3 class="program-title">Food Security</h3>
+                                <p class="program-desc">Distributing seeds and training farmers.</p>
+                                <p class="program-stats">200 farmers supported</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Community Development program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-users"></i></div>
+                                <h3 class="program-title">Community Development</h3>
+                                <p class="program-desc">Empowering communities with skills.</p>
+                                <p class="program-stats">15 communities engaged</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Set 3 -->
+                <div class="programs-set">
+                    <div class="programs-grid">
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1517487881594-2787fef0ebf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Youth Empowerment program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-graduation-cap"></i></div>
+                                <h3 class="program-title">Youth Empowerment</h3>
+                                <p class="program-desc">Vocational training for young adults.</p>
+                                <p class="program-stats">150 youth trained</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Women’s Support program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-female"></i></div>
+                                <h3 class="program-title">Women’s Support</h3>
+                                <p class="program-desc">Empowering women with skills and resources.</p>
+                                <p class="program-stats">100 women supported</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1603697301128-338a2e0fd90f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Environmental Care program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-leaf"></i></div>
+                                <h3 class="program-title">Environmental Care</h3>
+                                <p class="program-desc">Promoting sustainability and reforestation.</p>
+                                <p class="program-stats">1,000 trees planted</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Set 4 -->
+                <div class="programs-set">
+                    <div class="programs-grid">
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1582213782179-e81b6e3e73d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Mental Health program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-brain"></i></div>
+                                <h3 class="program-title">Mental Health</h3>
+                                <p class="program-desc">Providing counseling and support services.</p>
+                                <p class="program-stats">500 individuals helped</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Skill Development program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-tools"></i></div>
+                                <h3 class="program-title">Skill Development</h3>
+                                <p class="program-desc">Training in trades like carpentry and tailoring.</p>
+                                <p class="program-stats">300 participants trained</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="program-card">
+                            <div class="program-img">
+                                <img src="https://images.unsplash.com/photo-1593115057326-1a20559047cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Emergency Relief program">
+                            </div>
+                            <div class="program-content">
+                                <div class="program-icon"><i class="fas fa-ambulance"></i></div>
+                                <h3 class="program-title">Emergency Relief</h3>
+                                <p class="program-desc">Rapid response to natural disasters.</p>
+                                <p class="program-stats">10,000 aided in crises</p>
+                                <a href="#" class="btn btn-outline">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Impact</h2>
+                <p>Real stories of transformation from the communities we serve.</p>
+            </div>
+            <div class="impact-slideshow">
+                <div class="impact-slide active">
+                    <div class="impact-story">
+                        <div class="impact-img">
+                            <img src="https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Namugongo Village water project">
+                        </div>
+                        <div class="impact-text">
+                            <h3>Clean Water in Namugongo</h3>
+                            <p>In 2022, Tattu Charity installed a well in Namugongo Village, serving over 450 families.</p>
+                            <div class="testimonial">"This water has changed everything for us." — Nakato</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="impact-slide">
+                    <div class="impact-story">
+                        <div class="impact-img">
+                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80" alt="Mbale School project">
+                        </div>
+                        <div class="impact-text">
+                            <h3>Education in Mbale</h3>
+                            <p>A new school in Mbale now educates 320 children, boosting literacy by 70%.</p>
+                            <div class="testimonial">"I dream of becoming a doctor." — Sarah</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="impact-slide">
+                    <div class="impact-story">
+                        <div class="impact-img">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Healthcare initiative">
+                        </div>
+                        <div class="impact-text">
+                            <h3>Healthcare Access</h3>
+                            <p>Our mobile clinics have provided healthcare to over 5,000 people in remote areas.</p>
+                            <div class="testimonial">"I can finally get treatment." — John</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="impact-slide">
+                    <div class="impact-story">
+                        <div class="impact-img">
+                            <img src="https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Community development">
+                        </div>
+                        <div class="impact-text">
+                            <h3>Community Development</h3>
+                            <p>Empowering local leaders through training and resources.</p>
+                            <div class="testimonial">"We are building a better future." — Amina</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="impact-slide">
+                    <div class="impact-story">
+                        <div class="impact-img">
+                            <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Food security project">
+                        </div>
+                        <div class="impact-text">
+                            <h3>Food Security</h3>
+                            <p>Distributing seeds and training farmers to improve yields.</p>
+                            <div class="testimonial">"Now we have enough to eat and sell." — Peter</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number"><i class="fas fa-users"></i>5,000+</div>
+                    <div class="stat-text">Families Supported</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><i class="fas fa-tint"></i>25+</div>
+                    <div class="stat-text">Water Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><i class="fas fa-school"></i>12</div>
+                    <div class="stat-text">Schools Built</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><i class="fas fa-clinic-medical"></i>8</div>
+                    <div class="stat-text">Medical Clinics</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section id="donation" class="donation">
+        <div class="container">
+            <div class="donation-header">
+                <h2>Make a Difference</h2>
+                <p>Choose your donation amount</p>
+            </div>
+            <div class="donation-progress">
+                <p class="donation-progress-text">Current Goal: $10,000 | Raised: $7,500</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            <div class="donation-amounts">
+                <button class="amount-btn" data-amount="10">$10</button>
+                <button class="amount-btn" data-amount="25">$25</button>
+                <button class="amount-btn" data-amount="50">$50</button>
+                <button class="amount-btn" data-amount="100">$100</button>
+                <input type="number" id="custom-amount" placeholder="Custom Amount" min="1">
+            </div>
+            <div class="donation-action">
+                <a href="#" class="btn btn-primary btn-lg">Donate Now</a>
+            </div>
+            <p class="donation-note">Your donation helps provide clean water, education, and healthcare to communities in Uganda.</p>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="events">
+        <div class="container">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p>Join our collection drives to support Uganda.</p>
+            </div>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-header">
+                        <h3 class="event-title">April 2025 Drive</h3>
+                        <p class="event-date">April 15-30, 2025</p>
+                    </div>
+                    <div class="event-content">
+                        <p class="event-desc">Collecting educational materials for Kampala.</p>
+                        <div class="event-items">
+                            <h4>Items Needed:</h4>
+                            <ul>
+                                <li>Notebooks</li>
+                                <li>Pens</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <a href="#" class="btn btn-outline">Volunteer</a>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-header">
+                        <h3 class="event-title">June 2025 Drive</h3>
+                        <p class="event-date">June 1-15, 2025</p>
+                    </div>
+                    <div class="event-content">
+                        <p class="event-desc">Collecting medical supplies for Mbale.</p>
+                        <div class="event-items">
+                            <h4>Items Needed:</h4>
+                            <ul>
+                                <li>Bandages</li>
+                                <li>Antiseptics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <a href="#" class="btn btn-outline">Volunteer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Contact Us</h2>
+                    <p>Reach out to get involved!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="contact-text"><span>+256 700 123456</span></div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-text"><span>info@tattucharity.org</span></div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" class="form-control" placeholder="Your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-container">
+                <div class="newsletter-content">
+                    <h3>Stay Updated</h3>
+                    <p>Subscribe for project updates.</p>
+                </div>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" name="email" class="newsletter-input" placeholder="Your email" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Mission</a></li>
+                        <li><a href="#" class="footer-link">Team</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Programs</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Clean Water</a></li>
+                        <li><a href="#" class="footer-link">Education</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Get Involved</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Donate</a></li>
+                        <li><a href="#" class="footer-link">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Tattu Charity. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            header.classList.toggle('header-scrolled', window.scrollY > 100);
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenuClose = document.querySelector('.mobile-menu-close');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const overlay = document.querySelector('.overlay');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileMenuClose.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Dark Mode Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? '' : 'dark';
+            themeToggle.querySelector('i').classList.toggle('fa-moon');
+            themeToggle.querySelector('i').classList.toggle('fa-sun');
+        });
+
+        // Slideshow Functionality
+        function cycleSlides(containerClass, slideClass) {
+            const slides = document.querySelectorAll(`.${containerClass} .${slideClass}`);
+            if (slides.length === 0) return;
+            let current = 0;
+            slides[current].classList.add('active');
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 3000);
+        }
+
+        // Initialize slideshows
+        cycleSlides('impact-slideshow', 'impact-slide');
+        cycleSlides('programs-slider', 'programs-set');
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                e.preventDefault();
+                const targetId = anchor.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    if (mobileMenu.classList.contains('active')) toggleMenu();
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    window.scrollTo({
+                        top: target.getBoundingClientRect().top + window.pageYOffset - headerHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animation on Scroll
+        const animateElements = document.querySelectorAll('.stat-item, .program-card, .event-card');
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        function animateOnScroll() {
+            const windowHeight = window.innerHeight;
+            animateElements.forEach(el => {
+                if (el.getBoundingClientRect().top < windowHeight - 100) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Form Validation
+        const contactForm = document.getElementById('contactForm');
+        const newsletterForm = document.getElementById('newsletterForm');
+
+        contactForm.addEventListener('submit', e => {
+            e.preventDefault();
+            if (contactForm.checkValidity()) {
+                alert('Thank you for your message!');
+                contactForm.reset();
+            } else {
+                contactForm.reportValidity();
+            }
+        });
+
+        newsletterForm.addEventListener('submit', e => {
+            e.preventDefault();
+            if (newsletterForm.checkValidity()) {
+                alert('Thank you for subscribing!');
+                newsletterForm.reset();
+            } else {
+                newsletterForm.reportValidity();
+            }
+        });
+
+        // Donation Selection
+        document.querySelectorAll('.amount-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                document.getElementById('custom-amount').value = '';
+            });
+        });
+
+        document.getElementById('custom-amount').addEventListener('input', () => {
+            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+        });
+
+        // Back to Top
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 300);
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

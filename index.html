@@ -1227,6 +1227,98 @@
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
+
+        /* Modal Styles */
+/* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1002;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .modal.active {
+        opacity: 1;
+    }
+    
+    .modal-content {
+        background-color: var(--white);
+        margin: 5% auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+    }
+    
+    .modal.active .modal-content {
+        transform: translateY(0);
+    }
+    
+    .modal h2 {
+        margin-bottom: 20px;
+        color: var(--secondary);
+        text-align: center;
+    }
+    
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 24px;
+        font-weight: bold;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--gray);
+        transition: var(--transition);
+    }
+    
+    .close-modal:hover {
+        color: var(--primary);
+    }
+    
+    .btn-block {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .merchant-info {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: var(--gray);
+    }
+    
+    .merchant-info p {
+        margin-bottom: 10px;
+    }
+    
+    .note {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .modal-content {
+            margin: 10% auto;
+            padding: 20px;
+        }
+    }
     </style>
 </head>
 <body>
@@ -1243,7 +1335,7 @@
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#programs">Programs</a></li>
                     <li><a href="#impact">Impact</a></li>
-                    <li><a href="#donation">Donation</a></li>
+                    <li><a href="#" class="donate-trigger">Donation</a></li>
                     <li><a href="#events">Events</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -1265,7 +1357,10 @@
             <h1>Bringing Hope to Uganda</h1>
             <p>Tattu Charity provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.</p>
             <div class="hero-btns">
-                <a href="#donation" class="btn btn-primary btn-lg">Donate Now</a>
+                  <a href="#donation" class="donate-btn">Donate Now</a>
+            <button class="mobile-menu-btn" aria-label="Open mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
                 <a href="#about" class="btn btn-secondary btn-lg">Learn More</a>
             </div>
         </div>
@@ -1584,7 +1679,11 @@
                 <input type="number" id="custom-amount" placeholder="Custom Amount" min="1">
             </div>
             <div class="donation-action">
-                <a href="#" class="btn btn-primary btn-lg">Donate Now</a>
+                  <a href="#donation" class="donate-btn">Donate Now</a>
+            <button class="mobile-menu-btn" aria-label="Open mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
+                <!-- <a href="#" class="btn btn-primary btn-lg">Donate Now</a> -->
             </div>
             <p class="donation-note">Your donation helps provide clean water, education, and healthcare to communities in Uganda.</p>
         </div>
@@ -1699,6 +1798,43 @@
         </div>
     </section>
 
+    <!-- Mobile Money Donation Modal -->
+<div id="donationModal" class="modal">
+    <div class="modal-content">
+        <button class="close-modal" aria-label="Close donation modal">&times;</button>
+        <h2>Make a Donation via MTN Mobile Money</h2>
+        
+        <form id="mobileMoneyForm">
+            <div class="form-group">
+                <label for="donationAmount">Amount (USD)</label>
+                <input type="number" id="donationAmount" name="amount" class="form-control" min="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="donorName">Your Name</label>
+                <input type="text" id="donorName" name="name" class="form-control" placeholder="Optional">
+            </div>
+            
+            <div class="form-group">
+                <label for="donorPhone">MTN Mobile Money Number</label>
+                <input type="tel" id="donorPhone" name="phone" class="form-control" placeholder="256XXXXXXXXX" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="donorEmail">Email (Optional)</label>
+                <input type="email" id="donorEmail" name="email" class="form-control" placeholder="For receipt">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">Proceed to Payment</button>
+            
+            <div class="merchant-info">
+                <p><strong>Merchant Code:</strong> <span id="merchantCode">288198</span></p>
+                <p class="note">You'll receive a Mobile Money prompt to complete the transaction</p>
+            </div>
+        </form>
+    </div>
+</div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -1720,7 +1856,7 @@
                 <div class="footer-col">
                     <h4>Get Involved</h4>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">Donate</a></li>
+                     
                         <li><a href="#" class="footer-link">Volunteer</a></li>
                     </ul>
                 </div>
@@ -1742,6 +1878,157 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
+<script>
+    // Donation Modal Functionality
+    const donationModal = document.getElementById('donationModal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const mobileMoneyForm = document.getElementById('mobileMoneyForm');
+
+    document.querySelectorAll('.donate-trigger').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        openDonationModal(); // Uses the same function we already have
+    });
+});
+    
+    // Function to open modal with preset amount (if any)
+    function openDonationModal(presetAmount = '') {
+        if (presetAmount) {
+            document.getElementById('donationAmount').value = presetAmount;
+        }
+        document.body.style.overflow = 'hidden';
+        donationModal.style.display = 'block';
+        setTimeout(() => {
+            donationModal.classList.add('active');
+        }, 10);
+    }
+    
+    // Function to close modal
+    function closeDonationModal() {
+        donationModal.classList.remove('active');
+        setTimeout(() => {
+            donationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
+    
+    // Close modal when clicking outside content
+    donationModal.addEventListener('click', (e) => {
+        if (e.target === donationModal) {
+            closeDonationModal();
+        }
+    });
+    
+    // Close modal with button
+    closeModalBtn.addEventListener('click', closeDonationModal);
+    
+    // Handle form submission
+    mobileMoneyForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = {
+            amount: document.getElementById('donationAmount').value,
+            name: document.getElementById('donorName').value,
+            phone: document.getElementById('donorPhone').value,
+            email: document.getElementById('donorEmail').value,
+            merchantCode: document.getElementById('merchantCode').textContent,
+            date: new Date().toISOString()
+        };
+        
+        // Basic validation
+        if (!formData.phone.startsWith('256') || formData.phone.length < 12) {
+            alert('Please enter a valid MTN Mobile Money number starting with 256');
+            return;
+        }
+        
+        if (formData.amount < 1) {
+            alert('Please enter a valid donation amount');
+            return;
+        }
+        
+        // Here you would normally send this data to your backend
+        // For now, we'll just show a confirmation and close the modal
+        alert(`Thank you for your donation of $${formData.amount}! You will receive a Mobile Money prompt shortly.`);
+        
+        // Reset form and close modal
+        mobileMoneyForm.reset();
+        closeDonationModal();
+    });
+    
+    // Connect all donate buttons to the modal
+    document.querySelectorAll('.donate-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDonationModal();
+        });
+    });
+    
+    // Connect amount buttons to the modal with preset amounts
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const presetAmount = btn.getAttribute('data-amount');
+            openDonationModal(presetAmount);
+        });
+    });
+    
+    // Handle custom amount input
+    document.getElementById('custom-amount').addEventListener('change', (e) => {
+        const customAmount = e.target.value;
+        if (customAmount) {
+            // Clear any selected amount buttons
+            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+        }
+    });
+
+mobileMoneyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        amount: document.getElementById('donationAmount').value,
+        phone: document.getElementById('donorPhone').value,
+        name: document.getElementById('donorName').value,
+        email: document.getElementById('donorEmail').value,
+        merchantCode: "288198" // Your merchant code
+    };
+
+    // Validate input
+    if (!formData.phone.startsWith('256') || formData.phone.length < 12) {
+        alert('Please enter a valid MTN Mobile Money number (e.g., 2567XXXXXXXX)');
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = mobileMoneyForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing...';
+
+    try {
+        // Send data to your backend (replace with your server URL)
+        const response = await fetch('https://your-server.com/process_payment.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Payment request sent! Check your phone to approve.');
+            mobileMoneyForm.reset();
+            closeDonationModal();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Proceed to Payment';
+    }
+});
+</script>
     <script>
         // Sticky Header
         window.addEventListener('scroll', () => {

@@ -1,12 +1,10 @@
 # Tattu Care - root .htaccess
-# - Sets default directory index
-# - Blocks access to dotfiles & hidden folders
-# - Adds basic security headers
+# Security headers, dotfile/source blocks, default index, no listing.
 
 DirectoryIndex index.html index.php
 
-# Block .git, .htaccess, .json source, etc.
-<FilesMatch "^\.">
+# Block dotfiles + version-control + backups
+<FilesMatch "^\.|~$|\.bak$|\.swp$|composer\.(json|lock)$|package\.(json|lock)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -17,11 +15,48 @@ DirectoryIndex index.html index.php
 </FilesMatch>
 
 <IfModule mod_headers.c>
+    # Mitigate clickjacking, MIME-sniffing, XSS
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Permissions-Policy "geolocation=(), camera=(), microphone=()"
+    Header set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=()"
+    Header set Cross-Origin-Opener-Policy "same-origin"
+    Header set Cross-Origin-Resource-Policy "same-site"
+
+    # Content Security Policy - allow our own assets + the CDNs we actually use
+    Header set Content-Security-Policy "\
+default-src 'self'; \
+script-src  'self' 'unsafe-inline' https://cdnjs.cloudflare.com; \
+style-src   'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; \
+font-src    'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; \
+img-src     'self' data: https:; \
+connect-src 'self'; \
+frame-ancestors 'self'; \
+base-uri 'self'; \
+form-action 'self';"
+
+    # Cache rules
+    <FilesMatch "\.(css|js|jpg|jpeg|png|gif|webp|svg|ico|woff|woff2)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+
+    # HSTS - only effective on HTTPS, harmless otherwise
+    Header set Strict-Transport-Security "max-age=15552000; includeSubDomains" env=HTTPS
 </IfModule>
 
-# Disable directory listing
-Options -Indexes
+# Disable server signature
+ServerSignature Off
+Options -Indexes -ExecCGI
+
+# Disallow common script extensions inside upload paths (defence in depth)
+<DirectoryMatch ".*/uploads(/.*)?$">
+    <FilesMatch "\.(php|php\d|phtml|phar|pl|py|cgi|sh|asp|aspx)$">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+    </FilesMatch>
+</DirectoryMatch>

@@ -3,7 +3,7 @@
         "name": "Tattu Care",
         "tagline": "Bringing Hope to Uganda",
         "shortDescription": "Tattu Care provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.",
-        "registrationNumber": "12qwer4567",
+        "registrationNumber": "REG-XXXXXX (update in admin panel)",
         "founded": "2020",
         "address": "Plot 123, Kampala Road, Kampala, Uganda",
         "phone": "+256 770 495 837",
@@ -18,25 +18,7 @@
         "subtitle": "Tattu Care provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.",
         "image": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
         "primaryCtaText": "Donate Now",
-        "secondaryCtaText": "Learn More",
-        "rotateMs": 6500,
-        "slides": [
-            {
-                "title": "Bringing Hope to Uganda",
-                "subtitle": "Tattu Care provides essential support to vulnerable communities across Uganda - clean water, education, healthcare, and shelter.",
-                "image": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-            },
-            {
-                "title": "Clean Water for Every Family",
-                "subtitle": "We dig wells and install purification systems so children stop walking miles for unsafe water.",
-                "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-            },
-            {
-                "title": "Education Opens Doors",
-                "subtitle": "From school construction to scholarships - we help children stay in class and dream further.",
-                "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80"
-            }
-        ]
+        "secondaryCtaText": "Learn More"
     },
     "about": {
         "heading": "About Tattu Care",
@@ -44,24 +26,7 @@
             "Founded with a vision to transform lives across Uganda, Tattu Care works directly with communities to address their most pressing needs. Every two months, we organize collection drives and distribute essential resources to those who need them most.",
             "Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently."
         ],
-        "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-        "rotateMs": 8000,
-        "slides": [
-            {
-                "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                "paragraphs": [
-                    "Founded with a vision to transform lives across Uganda, Tattu Care works directly with communities to address their most pressing needs. Every two months, we organize collection drives and distribute essential resources to those who need them most.",
-                    "Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently."
-                ]
-            },
-            {
-                "image": "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                "paragraphs": [
-                    "Our volunteer network spans across rural Uganda. Local coordinators, community leaders, and donors all play a vital role in reaching the families who need us most.",
-                    "Every shilling, every box of supplies, and every hour of volunteer time is documented and reported back so our donors see the difference they made."
-                ]
-            }
-        ]
+        "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
     },
     "stats": [
         {

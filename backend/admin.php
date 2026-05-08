@@ -24,84 +24,165 @@ $loggedIn = !empty($_SESSION['is_admin']);
 body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);}
 a{color:var(--primary-dark);text-decoration:none}
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-card{background:var(--card);padding:40px;border-radius:var(--radius);box-shadow:var(--shadow);max-width:400px;width:100%}
-.login-card h1{margin:0 0 8px;font-size:1.6rem}
-.login-card p{color:var(--muted);margin:0 0 24px}
-.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-@media(max-width:780px){.shell{grid-template-columns:1fr}}
-.sidebar{background:#1f2937;color:#fff;padding:24px 0}
-.sidebar h2{padding:0 24px;font-size:1.1rem;margin:0 0 20px;display:flex;align-items:center;gap:8px}
-.sidebar h2 i{color:var(--primary)}
+.login-card{background:var(--card);padding:28px 26px;border-radius:var(--radius);box-shadow:var(--shadow);max-width:340px;width:100%;border:1px solid var(--border)}
+.login-card h1{margin:0 0 6px;font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.login-card p{color:var(--muted);margin:0 0 18px;font-size:.85rem}
+.shell{display:grid;grid-template-columns:215px 1fr;min-height:100vh}
+.sidebar{background:#1f2937;color:#fff;padding:18px 0;transition:transform .3s ease}
+.sidebar h2{padding:0 18px;font-size:.98rem;margin:0 0 14px;display:flex;align-items:center;gap:7px}
+.sidebar h2 i{color:var(--primary);font-size:.95rem}
 .sidebar nav button{
-    width:100%;text-align:left;padding:12px 24px;
+    width:100%;text-align:left;padding:9px 18px;
     background:none;border:none;color:#cbd5e1;cursor:pointer;font-family:inherit;
-    font-size:.95rem;display:flex;gap:10px;align-items:center;
+    font-size:.85rem;display:flex;gap:9px;align-items:center;
+    transition:.15s;
 }
-.sidebar nav button:hover{background:#111827;color:#fff}
+.sidebar nav button i{width:16px;font-size:.8rem;opacity:.85}
+.sidebar nav button:hover{background:rgba(0,0,0,.25);color:#fff}
 .sidebar nav button.active{background:var(--primary);color:#fff}
-.sidebar .logout{padding:12px 24px;margin-top:30px;border-top:1px solid #374151;}
+.sidebar .logout{padding:8px 18px;margin-top:22px;border-top:1px solid #374151;}
 .sidebar .logout button{
-    background:none;border:1px solid #4b5563;color:#cbd5e1;padding:8px 14px;
-    border-radius:6px;cursor:pointer;font-family:inherit;
+    background:none;border:1px solid #4b5563;color:#cbd5e1;padding:6px 12px;
+    border-radius:6px;cursor:pointer;font-family:inherit;font-size:.82rem;
 }
 .sidebar .logout button:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
-.main{padding:30px 40px;overflow:auto}
-.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:12px;flex-wrap:wrap}
-.toolbar h1{margin:0;font-size:1.4rem}
+.main{padding:22px 28px;overflow:auto}
+
+/* Mobile: hamburger toggle + frosted slide-in sidebar */
+.admin-hamburger{
+    display:none;
+    position:fixed;top:14px;left:14px;
+    width:42px;height:42px;
+    background:#1f2937;color:#fff;border:none;border-radius:10px;
+    font-size:1.1rem;cursor:pointer;z-index:1102;
+    box-shadow:var(--shadow);
+    align-items:center;justify-content:center;
+    transition:.2s;
+}
+.admin-hamburger:hover{background:var(--primary)}
+.sidebar-backdrop{
+    display:none;
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.4);
+    backdrop-filter:blur(3px);
+    z-index:1100;
+    opacity:0;
+    transition:opacity .25s ease;
+}
+.sidebar-backdrop.active{opacity:1}
+
+@media(max-width:780px){
+    .shell{grid-template-columns:1fr}
+    .admin-hamburger{display:inline-flex}
+    .sidebar-backdrop.active{display:block}
+    .sidebar{
+        position:fixed;
+        top:0;left:0;
+        width:78%;max-width:260px;
+        height:100vh;
+        z-index:1101;
+        background:rgba(31,41,55,.78);
+        backdrop-filter:blur(28px) saturate(160%);
+        -webkit-backdrop-filter:blur(28px) saturate(160%);
+        border-right:1px solid rgba(255,255,255,.06);
+        transform:translateX(-105%);
+        box-shadow:6px 0 24px rgba(0,0,0,.25);
+        overflow-y:auto;
+        padding:18px 0;
+    }
+    .sidebar.active{transform:translateX(0)}
+    .sidebar h2{font-size:1rem;padding:0 18px;margin-bottom:14px}
+    .sidebar nav button{padding:11px 18px;font-size:.9rem}
+    .sidebar .logout{padding:10px 18px;margin-top:18px}
+    .main{padding:64px 16px 24px}
+    .toolbar{flex-direction:column;align-items:stretch}
+    .toolbar h1{font-size:1.15rem}
+    .toolbar > div{display:flex;gap:8px;flex-wrap:wrap}
+    .toolbar .btn{flex:1;justify-content:center}
+    .row2,.row3{grid-template-columns:1fr}
+    .card{padding:16px}
+}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px;flex-wrap:wrap}
+.toolbar h1{margin:0;font-size:1.15rem;font-weight:600}
 .btn{
-    background:var(--primary);color:#fff;border:none;padding:10px 18px;border-radius:6px;
-    font-family:inherit;font-weight:600;cursor:pointer;font-size:.95rem;
-    display:inline-flex;align-items:center;gap:8px;
+    background:var(--primary);color:#fff;border:none;padding:8px 14px;border-radius:6px;
+    font-family:inherit;font-weight:600;cursor:pointer;font-size:.85rem;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:.15s;
 }
 .btn:hover{background:var(--primary-dark)}
 .btn[disabled]{opacity:.6;cursor:not-allowed}
 .btn-ghost{background:#fff;color:var(--text);border:1px solid var(--border)}
 .btn-ghost:hover{background:#f3f4f6}
 .btn-danger{background:var(--danger)}
-.card{background:var(--card);padding:24px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:24px}
-.card h3{margin:0 0 16px;font-size:1.05rem;color:#111}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.card{background:var(--card);padding:16px 18px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;border:1px solid var(--border)}
+.card h3{margin:0 0 10px;font-size:.95rem;color:#111;font-weight:600;display:flex;align-items:center;gap:6px}
+.card h3 i{color:var(--primary);font-size:.9rem}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:3px;font-weight:500;text-transform:uppercase;letter-spacing:.4px}
 .field input, .field textarea, .field select{
-    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;
-    font-family:inherit;font-size:.95rem;background:#fff;color:var(--text);
+    width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:6px;
+    font-family:inherit;font-size:.85rem;background:#fff;color:var(--text);
 }
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(46,204,113,.15)}
-.field textarea{min-height:80px;resize:vertical}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-@media(max-width:640px){.row2,.row3{grid-template-columns:1fr}}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(46,204,113,.15)}
+.field textarea{min-height:62px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr;gap:8px}}
 .list-item{
-    border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;
+    border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;
     background:#fafafa;position:relative;
 }
 .list-item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.list-item-head strong{font-size:.95rem}
-.list-item-actions{display:flex;gap:6px}
+.list-item-head strong{font-size:.85rem;color:#111}
+.list-item-actions{display:flex;gap:4px}
 .icon-btn{
-    background:#fff;border:1px solid var(--border);width:30px;height:30px;
-    border-radius:6px;cursor:pointer;color:var(--muted);display:inline-flex;
-    align-items:center;justify-content:center;
+    background:#fff;border:1px solid var(--border);width:26px;height:26px;
+    border-radius:5px;cursor:pointer;color:var(--muted);display:inline-flex;
+    align-items:center;justify-content:center;font-size:.72rem;transition:.15s;
 }
 .icon-btn:hover{color:var(--primary);border-color:var(--primary)}
 .icon-btn.danger:hover{color:#fff;background:var(--danger);border-color:var(--danger)}
 .tabs-content{display:none}
 .tabs-content.active{display:block}
-.notice{padding:12px 16px;border-radius:6px;background:#ecfdf5;color:#065f46;margin-bottom:16px;border-left:3px solid var(--primary)}
+.notice{padding:9px 12px;border-radius:6px;background:#ecfdf5;color:#065f46;margin-bottom:10px;border-left:3px solid var(--primary);font-size:.85rem}
 .notice.error{background:#fef2f2;color:#991b1b;border-left-color:var(--danger)}
-table{width:100%;border-collapse:collapse;font-size:.92rem}
-table th, table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
-table th{background:#f9fafb;font-weight:600;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.status-badge{padding:3px 8px;border-radius:99px;font-size:.78rem;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+table th, table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+table th{background:#f9fafb;font-weight:600;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.status-badge{padding:2px 7px;border-radius:99px;font-size:.68rem;font-weight:600}
 .status-badge.s-awaiting_approval{background:#fef3c7;color:#92400e}
 .status-badge.s-pending,.status-badge.s-manual_pending{background:#dbeafe;color:#1e40af}
+.status-badge.s-airtel_pledged,.status-badge.s-bank_pledged{background:#fef3c7;color:#854d0e}
 .status-badge.s-failed{background:#fee2e2;color:#991b1b}
 .status-badge.s-success{background:#d1fae5;color:#065f46}
-.empty{padding:40px;text-align:center;color:var(--muted)}
-.help{font-size:.85rem;color:var(--muted);margin-top:6px}
-.toast-host{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
-.toast{background:#fff;border-left:4px solid var(--primary);padding:12px 18px;border-radius:6px;box-shadow:var(--shadow);min-width:240px}
+.empty{padding:24px;text-align:center;color:var(--muted);font-size:.85rem}
+.help{font-size:.75rem;color:var(--muted);margin-top:4px}
+.toast-host{position:fixed;top:14px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:6px}
+.toast{background:#fff;border-left:3px solid var(--primary);padding:8px 14px;border-radius:5px;box-shadow:var(--shadow);min-width:220px;font-size:.82rem}
 .toast.error{border-left-color:var(--danger)}
+
+/* Image upload widget (compact) */
+.image-field{position:relative}
+.image-field .image-row{display:flex;gap:10px;align-items:flex-start}
+.image-field .preview{
+    width:72px;height:72px;border-radius:7px;
+    background:#f3f4f6 center/cover no-repeat;
+    border:1px solid var(--border);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:.62rem;text-align:center;
+}
+.image-field .preview.empty{color:var(--muted)}
+.image-field .image-controls{flex:1;display:flex;flex-direction:column;gap:6px}
+.image-field input[type="file"]{display:none}
+.upload-btn{
+    background:#fff;color:var(--text);border:1px dashed var(--border);
+    padding:6px 11px;border-radius:5px;cursor:pointer;font-family:inherit;
+    font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;
+    gap:5px;align-self:flex-start;transition:.15s;
+}
+.upload-btn:hover{border-color:var(--primary);color:var(--primary)}
+.upload-btn.uploading{opacity:.6;cursor:wait}
 </style>
 </head>
 <body>
@@ -136,8 +217,13 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 
 <?php else: ?>
+<button type="button" class="admin-hamburger" id="adminHamburger" aria-label="Open menu">
+    <i class="fas fa-bars"></i>
+</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
 <div class="shell">
-    <aside class="sidebar">
+    <aside class="sidebar" id="adminSidebar">
         <h2><i class="fas fa-heart"></i> Tattu Care Admin</h2>
         <nav id="adminNav">
             <button data-tab="org"        class="active"><i class="fas fa-building"></i> Organization</button>
@@ -199,27 +285,30 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
         <section class="tabs-content" data-tab="hero">
             <div class="card">
-                <h3>Hero Section</h3>
-                <div class="field"><label>Title</label><input data-bind="hero.title"></div>
-                <div class="field"><label>Subtitle</label><textarea data-bind="hero.subtitle"></textarea></div>
+                <h3><i class="fas fa-image"></i> Hero Slider <button class="btn" style="float:right" data-add="heroSlides">+ Add slide</button></h3>
+                <p class="help" style="margin-top:0">Each slide rotates automatically on the homepage. Add multiple to make the hero come alive. Image + headline + subtitle change together.</p>
                 <div class="row2">
-                    <div class="field"><label>Primary CTA Text</label><input data-bind="hero.primaryCtaText"></div>
-                    <div class="field"><label>Secondary CTA Text</label><input data-bind="hero.secondaryCtaText"></div>
+                    <div class="field"><label>Rotation interval (ms)</label><input type="number" data-bind="hero.rotateMs" data-as="number" placeholder="6500"></div>
+                    <div class="field">
+                        <label>CTA Buttons</label>
+                        <div style="display:flex;gap:8px">
+                            <input data-bind="hero.primaryCtaText"   placeholder="Primary text">
+                            <input data-bind="hero.secondaryCtaText" placeholder="Secondary text">
+                        </div>
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Background Image URL</label>
-                    <input data-bind="hero.image">
-                    <p class="help">Tip: upload your own image to <code>frontend/images/</code> and use a path like <code>frontend/images/hero.jpg</code>.</p>
-                </div>
+                <div data-list="heroSlides"></div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-info-circle"></i> About Section</h3>
+                <div class="field"><label>Heading</label><input data-bind="about.heading"></div>
             </div>
             <div class="card">
-                <h3>About Section</h3>
-                <div class="field"><label>Heading</label><input data-bind="about.heading"></div>
-                <div class="field">
-                    <label>Paragraphs (blank line between paragraphs)</label>
-                    <textarea data-bind="about.paragraphs" data-as="paragraphs" style="min-height:160px"></textarea>
-                </div>
-                <div class="field"><label>Image URL</label><input data-bind="about.image"></div>
+                <h3><i class="fas fa-images"></i> About Slider <button class="btn" style="float:right" data-add="aboutSlides">+ Add slide</button></h3>
+                <p class="help" style="margin-top:0">Add multiple "About" slides - the image and the paragraphs will fade between each slide.</p>
+                <div class="field"><label>Rotation interval (ms)</label><input type="number" data-bind="about.rotateMs" data-as="number" placeholder="8000"></div>
+                <div data-list="aboutSlides"></div>
             </div>
         </section>
 
@@ -272,8 +361,24 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                     <label>Suggested Amounts (comma-separated)</label>
                     <input data-bind="donation.amounts" data-as="numberList" placeholder="10, 25, 50, 100">
                 </div>
-                <div class="field"><label>Merchant Code</label><input data-bind="donation.merchantCode"></div>
+                <div class="row2">
+                    <div class="field"><label>MTN Merchant Code</label><input data-bind="donation.merchantCode"></div>
+                    <div class="field"><label>Airtel Merchant Code</label><input data-bind="donation.airtelMerchantCode"></div>
+                </div>
                 <div class="field"><label>Donation Note</label><textarea data-bind="donation.note"></textarea></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-university"></i> Bank Transfer Details</h3>
+                <p class="help" style="margin-top:0">Shown to donors who choose the Bank tab when donating.</p>
+                <div class="row2">
+                    <div class="field"><label>Bank Name</label><input data-bind="donation.bank.bankName"></div>
+                    <div class="field"><label>Account Name</label><input data-bind="donation.bank.accountName"></div>
+                </div>
+                <div class="row2">
+                    <div class="field"><label>Account Number</label><input data-bind="donation.bank.accountNumber"></div>
+                    <div class="field"><label>Branch</label><input data-bind="donation.bank.branch"></div>
+                </div>
+                <div class="field"><label>SWIFT Code</label><input data-bind="donation.bank.swift"></div>
             </div>
         </section>
 
@@ -323,6 +428,24 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     let CONTENT = {};
     const $  = (s, c=document)=>c.querySelector(s);
     const $$ = (s, c=document)=>Array.from(c.querySelectorAll(s));
+
+    /* Mobile sidebar toggle */
+    const sidebar  = $('#adminSidebar');
+    const burger   = $('#adminHamburger');
+    const backdrop = $('#sidebarBackdrop');
+    function setSidebar(open){
+        if(!sidebar) return;
+        sidebar.classList.toggle('active', open);
+        if(backdrop) backdrop.classList.toggle('active', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+    if(burger)   burger.addEventListener('click', () => setSidebar(true));
+    if(backdrop) backdrop.addEventListener('click', () => setSidebar(false));
+    document.addEventListener('keyup', e => { if(e.key==='Escape') setSidebar(false); });
+    // Close sidebar when a nav button is tapped on mobile
+    $$('#adminNav button').forEach(b => b.addEventListener('click', () => {
+        if(window.innerWidth <= 780) setSidebar(false);
+    }));
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function getPath(obj, path){
         return path.split('.').reduce((a,k)=> (a==null?undefined:a[k]), obj);
@@ -351,6 +474,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         impactStories:{ title:'New Story', text:'', quote:'', quoteAuthor:'', image:'' },
         team:         { name:'Team Member', role:'', bio:'', image:'' },
         events:       { title:'New Event', date:'', description:'', items:[], ctaText:'Volunteer', ctaLink:'#contact' },
+        heroSlides:   { title:'New headline', subtitle:'A short supporting line', image:'' },
+        aboutSlides:  { paragraphs: [], image:'' },
     };
     const FIELDS = {
         stats: [
@@ -386,6 +511,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             ['ctaText','Button text','input'],
             ['ctaLink','Button link (e.g., #contact)','input'],
         ],
+        heroSlides: [
+            ['title','Headline','input'],
+            ['subtitle','Subtitle','textarea'],
+            ['image','Background Image','input'],
+        ],
+        aboutSlides: [
+            ['paragraphs','Paragraphs (blank line between paragraphs)','paragraphs'],
+            ['image','Image','input'],
+        ],
     };
 
     function renderListItem(listKey, idx, item){
@@ -393,14 +527,35 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const inner = fields.map(([k, label, type]) => {
             const v  = item[k];
             const id = `${listKey}_${idx}_${k}`;
+            const liKey = `${listKey}|${idx}|${k}`;
             if (type === 'textarea') {
-                return `<div class="field"><label for="${id}">${label}</label><textarea id="${id}" data-li="${listKey}|${idx}|${k}">${esc(v ?? '')}</textarea></div>`;
+                return `<div class="field"><label for="${id}">${label}</label><textarea id="${id}" data-li="${liKey}">${esc(v ?? '')}</textarea></div>`;
+            }
+            if (type === 'paragraphs') {
+                const val = Array.isArray(v) ? v.join('\n\n') : (v || '');
+                return `<div class="field"><label for="${id}">${label}</label><textarea id="${id}" data-li="${liKey}" data-as="paragraphs" style="min-height:140px">${esc(val)}</textarea></div>`;
             }
             if (type === 'itemsList') {
                 const val = Array.isArray(v) ? v.join(', ') : (v||'');
-                return `<div class="field"><label for="${id}">${label}</label><input id="${id}" data-li="${listKey}|${idx}|${k}" data-as="commaList" value="${esc(val)}"></div>`;
+                return `<div class="field"><label for="${id}">${label}</label><input id="${id}" data-li="${liKey}" data-as="commaList" value="${esc(val)}"></div>`;
             }
-            return `<div class="field"><label for="${id}">${label}</label><input id="${id}" data-li="${listKey}|${idx}|${k}" value="${esc(v ?? '')}"></div>`;
+            // Image fields get the upload widget
+            if (k === 'image') {
+                return `
+                    <div class="field image-field">
+                        <label>${label}</label>
+                        <div class="image-row">
+                            <div class="preview ${v ? '' : 'empty'}" data-preview-for-li="${liKey}" ${v ? `style="background-image:url('${esc(v)}')"` : ''}>${v ? '' : 'No image'}</div>
+                            <div class="image-controls">
+                                <label class="upload-btn"><i class="fas fa-upload"></i> Choose image
+                                    <input type="file" accept="image/*" data-image-upload-li="${liKey}">
+                                </label>
+                                <input id="${id}" data-li="${liKey}" value="${esc(v ?? '')}" placeholder="Or paste an image URL">
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            return `<div class="field"><label for="${id}">${label}</label><input id="${id}" data-li="${liKey}" value="${esc(v ?? '')}"></div>`;
         }).join('');
         return `
             <div class="list-item" data-row="${listKey}|${idx}">
@@ -422,6 +577,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const arr = Array.isArray(CONTENT[listKey]) ? CONTENT[listKey] : [];
         if (!arr.length) { host.innerHTML = '<p class="empty">No items yet. Click "+ Add" above.</p>'; return; }
         host.innerHTML = arr.map((it, i) => renderListItem(listKey, i, it)).join('');
+        refreshAllPreviews();
     }
 
     function bindFields(){
@@ -434,7 +590,107 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             if (as === 'bool') v = v ? 'true' : 'false';
             el.value = v ?? '';
         });
+        refreshAllPreviews();
     }
+
+    /* ---------- Image upload + preview ---------- */
+    function setPreview(host, url){
+        if (!host) return;
+        if (url) {
+            host.style.backgroundImage = `url('${url.replace(/'/g, "%27")}')`;
+            host.classList.remove('empty');
+            host.textContent = '';
+        } else {
+            host.style.backgroundImage = '';
+            host.classList.add('empty');
+            host.textContent = 'No image';
+        }
+    }
+    function refreshAllPreviews(){
+        // Static (data-bind) previews
+        $$('[data-preview-for]').forEach(host => {
+            const path = host.getAttribute('data-preview-for');
+            setPreview(host, getPath(CONTENT, path) || '');
+        });
+        // List-item previews (read from current input value, not CONTENT)
+        $$('[data-preview-for-li]').forEach(host => {
+            const liKey = host.getAttribute('data-preview-for-li');
+            const input = $(`[data-li="${CSS.escape(liKey)}"]`);
+            setPreview(host, input ? input.value : '');
+        });
+    }
+
+    async function uploadImage(file){
+        if (!file) throw new Error('No file');
+        if (!/^image\//.test(file.type)) throw new Error('Please choose an image file.');
+        if (file.size > 5 * 1024 * 1024) throw new Error('File too large (max 5MB).');
+        const fd = new FormData();
+        fd.append('file', file);
+        const res  = await fetch('api/admin_upload.php', { method: 'POST', body: fd });
+        const body = await res.json().catch(() => ({}));
+        if (res.status === 401) { location.reload(); throw new Error('Session expired'); }
+        if (!res.ok || !body.success) throw new Error(body.message || 'Upload failed');
+        return body.url;
+    }
+
+    async function handleUpload(fileInput, targetSelectorFn, previewSelectorFn){
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        const wrap = fileInput.closest('.upload-btn');
+        if (wrap) wrap.classList.add('uploading');
+        try {
+            const url = await uploadImage(file);
+            const target = targetSelectorFn();
+            if (target) {
+                target.value = url;
+                target.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            const preview = previewSelectorFn();
+            setPreview(preview, url);
+            toast('Image uploaded.');
+        } catch (err) {
+            toast(err.message || 'Upload failed', 'error');
+        } finally {
+            if (wrap) wrap.classList.remove('uploading');
+            fileInput.value = '';
+        }
+    }
+
+    document.addEventListener('change', e => {
+        // Static field upload  (data-image-upload="hero.image")
+        if (e.target.matches('[data-image-upload]')) {
+            const path = e.target.getAttribute('data-image-upload');
+            handleUpload(
+                e.target,
+                () => $(`[data-bind="${CSS.escape(path)}"]`),
+                () => $(`[data-preview-for="${CSS.escape(path)}"]`)
+            );
+            return;
+        }
+        // List-item upload (data-image-upload-li="programs|0|image")
+        if (e.target.matches('[data-image-upload-li]')) {
+            const liKey = e.target.getAttribute('data-image-upload-li');
+            handleUpload(
+                e.target,
+                () => $(`[data-li="${CSS.escape(liKey)}"]`),
+                () => $(`[data-preview-for-li="${CSS.escape(liKey)}"]`)
+            );
+        }
+    });
+
+    // When admin types/pastes a URL manually, refresh preview live
+    document.addEventListener('input', e => {
+        if (e.target.matches('[data-bind]')) {
+            const path = e.target.getAttribute('data-bind');
+            const host = $(`[data-preview-for="${CSS.escape(path)}"]`);
+            if (host) setPreview(host, e.target.value);
+        }
+        if (e.target.matches('[data-li]')) {
+            const liKey = e.target.getAttribute('data-li');
+            const host  = $(`[data-preview-for-li="${CSS.escape(liKey)}"]`);
+            if (host) setPreview(host, e.target.value);
+        }
+    });
     function collectFields(){
         $$('[data-bind]').forEach(el => {
             const path = el.getAttribute('data-bind');
@@ -452,8 +708,11 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             const arr = CONTENT[listKey] || (CONTENT[listKey] = []);
             if (!arr[i]) arr[i] = {};
             let v = el.value;
-            if (el.getAttribute('data-as') === 'commaList') {
+            const as = el.getAttribute('data-as');
+            if (as === 'commaList') {
                 v = v.split(',').map(s=>s.trim()).filter(Boolean);
+            } else if (as === 'paragraphs') {
+                v = v.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
             }
             arr[i][key] = v;
         });
@@ -504,6 +763,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     $('#saveBtn').addEventListener('click', async () => {
         collectFields();
+        // Mirror the heroSlides/aboutSlides shadow lists into hero.slides / about.slides
+        if (Array.isArray(CONTENT.heroSlides))  { (CONTENT.hero  ||= {}).slides = CONTENT.heroSlides;  delete CONTENT.heroSlides; }
+        if (Array.isArray(CONTENT.aboutSlides)) { (CONTENT.about ||= {}).slides = CONTENT.aboutSlides; delete CONTENT.aboutSlides; }
         const btn = $('#saveBtn');
         btn.disabled = true; const orig = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
@@ -582,7 +844,18 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             const res  = await fetch('api/content.php');
             CONTENT    = await res.json();
             bindFields();
-            ['stats','programs','impactStories','team','events'].forEach(renderList);
+            ['stats','programs','impactStories','team','events','heroSlides','aboutSlides']
+                .forEach(k => {
+                    // Map heroSlides -> hero.slides, aboutSlides -> about.slides for storage
+                    if (k === 'heroSlides') {
+                        if (!CONTENT.hero) CONTENT.hero = {};
+                        CONTENT[k] = CONTENT.hero.slides || [];
+                    } else if (k === 'aboutSlides') {
+                        if (!CONTENT.about) CONTENT.about = {};
+                        CONTENT[k] = CONTENT.about.slides || [];
+                    }
+                    renderList(k);
+                });
         } catch (err) {
             toast('Could not load content', 'error');
         }

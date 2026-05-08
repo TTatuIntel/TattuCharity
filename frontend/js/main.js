@@ -1,11 +1,10 @@
-/* Tattu Care - main interactions */
+/* Tattu Care - main interactions (compact dropdown, scroll-reveal, bank reveal) */
 (function () {
     'use strict';
 
     const API = (window.TATTU_API || '/backend/api/');
-
-    const $  = (s, c = document) => c.querySelector(s);
-    const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+    const $   = (s, c = document) => c.querySelector(s);
+    const $$  = (s, c = document) => Array.from(c.querySelectorAll(s));
 
     /* ---------------- Toast ---------------- */
     function ensureToastContainer() {
@@ -18,10 +17,10 @@
         }
         return host;
     }
-    function toast(message, type = 'success', timeout = 4500) {
+    function toast(message, type = 'success', timeout = 4200) {
         const host = ensureToastContainer();
         const el = document.createElement('div');
-        el.className = 'toast ' + (type === 'success' ? '' : type);
+        el.className = 'toast' + (type === 'success' ? '' : ' ' + type);
         el.textContent = message;
         host.appendChild(el);
         setTimeout(() => {
@@ -32,12 +31,15 @@
     }
     window.toast = toast;
 
-    /* ---------------- Sticky header / back-to-top ---------------- */
-    const header = $('#header');
+    /* ---------------- Sticky header / back-to-top / floating donate ---------------- */
+    const header   = $('#header');
+    const fab      = $('#floatingDonate');
+    const backToTop = $('.back-to-top');
     function onScroll() {
-        if (header) header.classList.toggle('header-scrolled', window.scrollY > 60);
-        const back = $('.back-to-top');
-        if (back) back.classList.toggle('visible', window.scrollY > 300);
+        const y = window.scrollY;
+        if (header)    header.classList.toggle('header-scrolled', y > 60);
+        if (backToTop) backToTop.classList.toggle('visible', y > 300);
+        // (FAB stays visible; do not hide on scroll-up)
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -84,8 +86,7 @@
         if (!themeToggle) return;
         const i = themeToggle.querySelector('i');
         if (!i) return;
-        const dark = root.dataset.theme === 'dark';
-        i.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+        i.className = root.dataset.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
     syncThemeIcon();
     if (themeToggle) {
@@ -97,56 +98,119 @@
     }
 
     /* ---------------- Back to top ---------------- */
-    const back = $('.back-to-top');
-    if (back) back.addEventListener('click', () =>
+    if (backToTop) backToTop.addEventListener('click', () =>
         window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    /* ---------------- Donation modal ---------------- */
-    const modal       = $('#donationModal');
-    const closeModal  = modal ? modal.querySelector('.close-modal') : null;
-    const donorForm   = $('#mobileMoneyForm');
-    const donorAmount = $('#donationAmount');
+    /* =========================================================
+     *  Donation dropdown
+     * ========================================================= */
+    const dropdown = $('#donationDropdown');
 
-    function openDonation(preset) {
-        if (!modal) return;
-        if (preset && donorAmount) donorAmount.value = preset;
-        document.body.style.overflow = 'hidden';
-        modal.style.display = 'block';
-        requestAnimationFrame(() => modal.classList.add('active'));
-        const first = modal.querySelector('input, button');
-        if (first) setTimeout(() => first.focus(), 200);
-    }
-    function closeDonation() {
-        if (!modal) return;
-        modal.classList.remove('active');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-        }, 280);
-    }
-    window.openDonation  = openDonation;
-    window.closeDonation = closeDonation;
-
-    if (closeModal) closeModal.addEventListener('click', closeDonation);
-    if (modal) modal.addEventListener('click', e => { if (e.target === modal) closeDonation(); });
-    document.addEventListener('keyup', e => { if (e.key === 'Escape') closeDonation(); });
-
-    document.addEventListener('click', e => {
-        const trigger = e.target.closest('.donate-trigger, .donate-btn, .mobile-donate-btn, [data-action="donate"]');
-        if (trigger && !trigger.closest('#donationModal')) {
-            e.preventDefault();
-            openDonation();
-            return;
+    function isDropdownOpen() { return dropdown && dropdown.classList.contains('active'); }
+    function openDropdown(preset) {
+        if (!dropdown) return;
+        dropdown.classList.add('active');
+        if (fab) fab.classList.add('dropdown-open');
+        if (preset != null) {
+            const amount = dropdown.querySelector('.pay-panel.active input[name="amount"]');
+            if (amount) amount.value = preset;
         }
+        const first = dropdown.querySelector('.pay-panel.active input');
+        if (first) setTimeout(() => first.focus(), 220);
+    }
+    function closeDropdown() {
+        if (!dropdown) return;
+        dropdown.classList.remove('active');
+        if (fab) fab.classList.remove('dropdown-open');
+    }
+    function toggleDropdown(preset) {
+        isDropdownOpen() ? closeDropdown() : openDropdown(preset);
+    }
+    window.openDonation  = openDropdown;
+    window.closeDonation = closeDropdown;
+
+    document.addEventListener('keyup', e => { if (e.key === 'Escape' && isDropdownOpen()) closeDropdown(); });
+
+    // Close on outside click (anything not inside the dropdown or the FAB)
+    document.addEventListener('click', e => {
+        if (!isDropdownOpen()) return;
+        if (e.target.closest('#donationDropdown')) return;
+        if (e.target.closest('.donate-trigger, #floatingDonate, .amount-btn')) return;
+        closeDropdown();
+    });
+
+    /* Triggers + tabs + amount buttons + close-X + bank actions */
+    document.addEventListener('click', e => {
+        const closeBtn = e.target.closest('#donationDropdown .close-modal');
+        if (closeBtn) { closeDropdown(); return; }
+
+        const trigger = e.target.closest('.donate-trigger, [data-action="donate"]');
+        if (trigger) { e.preventDefault(); toggleDropdown(); return; }
+
         const amt = e.target.closest('.amount-btn');
         if (amt) {
             e.preventDefault();
             $$('.amount-btn').forEach(b => b.classList.remove('selected'));
             amt.classList.add('selected');
-            const v = amt.getAttribute('data-amount');
             const custom = $('#custom-amount');
             if (custom) custom.value = '';
-            openDonation(v);
+            openDropdown(amt.getAttribute('data-amount'));
+            return;
+        }
+
+        // Pay-method tab
+        const tab = e.target.closest('.pay-tab');
+        if (tab && dropdown) {
+            const key = tab.getAttribute('data-pay-tab');
+            $$('.pay-tab', dropdown).forEach(t => t.classList.toggle('active', t === tab));
+            $$('.pay-panel', dropdown).forEach(p =>
+                p.classList.toggle('active', p.getAttribute('data-pay-panel') === key));
+            return;
+        }
+
+        // "Contact us" link inside dropdown
+        if (e.target.matches('[data-close-dropdown]')) {
+            setTimeout(closeDropdown, 60);
+        }
+
+        // Bank: reveal account number
+        const reveal = e.target.closest('[data-reveal]');
+        if (reveal && dropdown) {
+            const key = reveal.getAttribute('data-reveal');
+            const el  = dropdown.querySelector(`[data-bank-secret="${key}"]`);
+            if (el && el.dataset.full) {
+                if (el.classList.contains('revealed')) {
+                    el.classList.remove('revealed');
+                    el.textContent = el.dataset.masked;
+                    reveal.querySelector('i').className = 'fas fa-eye';
+                } else {
+                    el.textContent = el.dataset.full;
+                    el.classList.add('revealed');
+                    reveal.querySelector('i').className = 'fas fa-eye-slash';
+                }
+            }
+            return;
+        }
+
+        // Bank: copy account number (without revealing)
+        const copy = e.target.closest('[data-copy]');
+        if (copy && dropdown) {
+            const key = copy.getAttribute('data-copy');
+            const el  = dropdown.querySelector(`[data-bank-secret="${key}"]`);
+            const value = (el && el.dataset.full) || '';
+            if (value && navigator.clipboard) {
+                navigator.clipboard.writeText(value).then(() => {
+                    copy.classList.add('copied');
+                    const icon = copy.querySelector('i');
+                    const prev = icon.className;
+                    icon.className = 'fas fa-check';
+                    toast('Account number copied');
+                    setTimeout(() => {
+                        copy.classList.remove('copied');
+                        icon.className = prev;
+                    }, 1500);
+                }).catch(() => toast('Could not copy', 'error'));
+            }
         }
     });
 
@@ -156,56 +220,94 @@
         }
     });
 
-    if (donorForm) {
-        donorForm.addEventListener('submit', async e => {
-            e.preventDefault();
-            const submitBtn = donorForm.querySelector('button[type="submit"]');
-            const fd = new FormData(donorForm);
-            const payload = {
-                amount: Number(fd.get('amount') || 0),
-                name:   String(fd.get('name')   || '').trim(),
-                phone:  String(fd.get('phone')  || '').replace(/\s+/g, ''),
-                email:  String(fd.get('email')  || '').trim(),
-            };
+    /* Submit handler shared by all 3 payment forms */
+    async function submitPayment(form) {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const method    = form.getAttribute('data-method') || 'momo';
+        const fd        = new FormData(form);
+        const payload = {
+            method,
+            amount:    Number(fd.get('amount') || 0),
+            name:      String(fd.get('name')      || '').trim(),
+            phone:     String(fd.get('phone')     || '').replace(/\s+/g, ''),
+            email:     String(fd.get('email')     || '').trim(),
+            reference: String(fd.get('reference') || '').trim(),
+        };
 
-            if (payload.amount < 1) { toast('Please enter an amount.', 'error'); return; }
-            if (!/^256\d{9}$/.test(payload.phone)) {
-                toast('Phone must start with 256 and be 12 digits, e.g. 256770000000', 'error');
-                return;
-            }
+        if (payload.amount < 1) { toast('Please enter an amount.', 'error'); return; }
+        if ((method === 'momo' || method === 'airtel') && !/^256\d{9}$/.test(payload.phone)) {
+            toast('Phone must start with 256 + 9 digits, e.g. 256770000000', 'error');
+            return;
+        }
+        if (method === 'bank' && !payload.email) {
+            toast('Please provide an email so we can confirm.', 'error');
+            return;
+        }
 
-            const original = submitBtn.textContent;
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Processing…';
-            try {
-                const res  = await fetch(API + 'donate.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                });
-                const body = await res.json().catch(() => ({}));
-                if (res.ok && body.success) {
-                    toast(body.message || 'Thank you for your donation!');
-                    donorForm.reset();
-                    closeDonation();
-                } else {
-                    toast(body.message || 'Could not process the donation. Please try again.', 'error');
-                }
-            } catch (err) {
-                toast('Network error. Please check your connection.', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = original;
+        const orig = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        try {
+            const res  = await fetch(API + 'donate.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const body = await res.json().catch(() => ({}));
+            if (res.ok && body.success) {
+                toast(body.message || 'Thank you for your donation!');
+                form.reset();
+                closeDropdown();
+            } else {
+                toast(body.message || 'Could not process the donation.', 'error');
             }
-        });
+        } catch (err) {
+            toast('Network error. Please check your connection.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = orig;
+        }
     }
+    document.addEventListener('submit', e => {
+        const form = e.target.closest('.pay-form');
+        if (!form) return;
+        e.preventDefault();
+        submitPayment(form);
+    });
 
-    /* ---------------- Contact form ---------------- */
+    /* ---------- Bank details: render with masked account number ---------- */
+    function maskNumber(n) {
+        const s = String(n || '').replace(/\s+/g, '');
+        if (s.length <= 4) return s;
+        return '•'.repeat(Math.max(4, s.length - 4)) + ' ' + s.slice(-4);
+    }
+    document.addEventListener('content:ready', e => {
+        const data = e.detail;
+        if (!data || !data.donation || !data.donation.bank) return;
+        const bank = data.donation.bank;
+        $$('[data-bank]').forEach(el => {
+            const key = el.getAttribute('data-bank');
+            el.textContent = bank[key] || '-';
+        });
+        const secret = $('[data-bank-secret="accountNumber"]');
+        if (secret) {
+            const full = bank.accountNumber || '';
+            const masked = maskNumber(full);
+            secret.dataset.full   = full;
+            secret.dataset.masked = masked;
+            secret.textContent    = masked;
+            secret.classList.remove('revealed');
+        }
+    });
+
+    /* =========================================================
+     *  Other forms (contact, newsletter)
+     * ========================================================= */
     const contactForm = $('#contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', async e => {
             e.preventDefault();
-            const fb = contactForm.querySelector('.form-feedback');
+            const fb  = contactForm.querySelector('.form-feedback');
             const btn = contactForm.querySelector('button[type="submit"]');
             const data = {
                 name:    contactForm.name.value.trim(),
@@ -238,7 +340,6 @@
         });
     }
 
-    /* ---------------- Newsletter ---------------- */
     const newsForm = $('#newsletterForm');
     if (newsForm) {
         newsForm.addEventListener('submit', async e => {
@@ -268,7 +369,9 @@
         });
     }
 
-    /* ---------------- Slider ---------------- */
+    /* =========================================================
+     *  Slider (Impact stories)
+     * ========================================================= */
     function buildSlider(rootSel, slideSel, dotsSel, autoMs = 7000) {
         const root = $(rootSel);
         if (!root) return;
@@ -300,8 +403,145 @@
         start();
     }
 
-    document.addEventListener('content:ready', () => {
-        buildSlider('.impact-slideshow', '.impact-slide', '[data-content="impactDots"]', 7000);
+    /* =========================================================
+     *  Scroll reveal (IntersectionObserver)
+     * ========================================================= */
+    function initRevealObserver() {
+        if (!('IntersectionObserver' in window)) {
+            $$('.reveal, .reveal-stagger').forEach(el => el.classList.add('in-view'));
+            return;
+        }
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+        $$('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+    }
+
+    /* =========================================================
+     *  Programs scroller — nav buttons
+     * ========================================================= */
+    document.addEventListener('click', e => {
+        const btn = e.target.closest('.programs-nav');
+        if (!btn) return;
+        const wrap = btn.closest('.programs-scroller');
+        const grid = wrap && wrap.querySelector('.programs-grid');
+        if (!grid) return;
+        const card = grid.querySelector('.program-card');
+        const step = (card ? card.getBoundingClientRect().width : 280) + 14;
+        grid.scrollBy({ left: btn.classList.contains('next') ? step : -step, behavior: 'smooth' });
     });
+
+    /* =========================================================
+     *  Impact: click-to-expand modal
+     * ========================================================= */
+    const impactExpand = $('#impactExpand');
+    function openImpactExpand(story) {
+        if (!impactExpand || !story) return;
+        const img   = $('[data-expand-img]',   impactExpand);
+        const title = $('[data-expand-title]', impactExpand);
+        const text  = $('[data-expand-text]',  impactExpand);
+        const quote = $('[data-expand-quote]', impactExpand);
+        if (img)   img.style.backgroundImage = story.image ? `url("${story.image.replace(/"/g,'%22')}")` : '';
+        if (title) title.textContent = story.title || '';
+        if (text)  text.textContent  = story.text  || '';
+        if (quote) {
+            if (story.quote) {
+                quote.style.display = '';
+                quote.innerHTML = `"${String(story.quote).replace(/[<>]/g,'')}"` +
+                    (story.quoteAuthor ? ` <strong>— ${String(story.quoteAuthor).replace(/[<>]/g,'')}</strong>` : '');
+            } else {
+                quote.style.display = 'none';
+            }
+        }
+        impactExpand.classList.add('active');
+        impactExpand.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeImpactExpand() {
+        if (!impactExpand) return;
+        impactExpand.classList.remove('active');
+        impactExpand.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('click', e => {
+        const card = e.target.closest('.impact-card');
+        if (card) {
+            const idx = Number(card.getAttribute('data-impact-idx') || 0);
+            const list = window.__IMPACT_STORIES__ || [];
+            openImpactExpand(list[idx]);
+            return;
+        }
+        if (e.target.closest('#impactExpand .impact-expand-close')) { closeImpactExpand(); return; }
+        if (e.target === impactExpand) closeImpactExpand();
+    });
+    document.addEventListener('keyup', e => {
+        if (e.key === 'Escape' && impactExpand && impactExpand.classList.contains('active')) closeImpactExpand();
+    });
+    document.addEventListener('keydown', e => {
+        // Enter/Space on focused card
+        if ((e.key === 'Enter' || e.key === ' ') && document.activeElement?.classList.contains('impact-card')) {
+            e.preventDefault();
+            document.activeElement.click();
+        }
+    });
+
+    document.addEventListener('content:ready', () => {
+        initRevealObserver();
+    });
+    // Also kick off reveal on initial load (for elements present before content fetch)
+    document.addEventListener('DOMContentLoaded', initRevealObserver);
+
+    /* =========================================================
+     *  Mobile pill nav scroll-spy
+     *  Highlights the pill matching whichever section is most in view.
+     * ========================================================= */
+    function initPillSpy() {
+        const pills = $$('#mobilePillNav a');
+        if (!pills.length) return;
+        const sections = pills
+            .map(a => document.querySelector(a.getAttribute('href')))
+            .filter(Boolean);
+        if (!sections.length) return;
+
+        function setActive(id) {
+            pills.forEach(p => p.classList.toggle('active', p.getAttribute('href') === '#' + id));
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            setActive(sections[0].id);
+            return;
+        }
+
+        // Track ratios so we can pick the most-visible section
+        const ratios = new Map();
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(en => ratios.set(en.target.id, en.intersectionRatio));
+            let bestId = null, bestR = 0;
+            ratios.forEach((r, id) => { if (r > bestR) { bestR = r; bestId = id; } });
+            if (bestId && bestR > 0) setActive(bestId);
+        }, {
+            // Trigger when section's center area is in the viewport, ignoring header/pill-nav offsets
+            rootMargin: '-30% 0px -45% 0px',
+            threshold: [0, .25, .5, .75, 1],
+        });
+        sections.forEach(s => io.observe(s));
+
+        // Auto-scroll the active pill into view when the user navigates by scrolling
+        let lastActive = '';
+        const watch = setInterval(() => {
+            const cur = pills.find(p => p.classList.contains('active'));
+            if (cur && cur.dataset.pill !== lastActive) {
+                lastActive = cur.dataset.pill;
+                cur.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }, 400);
+        // (interval is harmless on desktop too; pill nav is hidden via CSS there)
+    }
+    document.addEventListener('DOMContentLoaded', initPillSpy);
 
 })();

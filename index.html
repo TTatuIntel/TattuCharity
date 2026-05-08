@@ -43,28 +43,56 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
-        <button type="button" class="donate-btn donate-trigger">Donate Now</button>
         <button type="button" class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
             <i class="fas fa-bars"></i>
         </button>
     </div>
 </header>
 
-<!-- Mobile menu -->
+<!-- Mobile menu (full-screen frosted overlay) -->
 <aside class="mobile-menu" aria-label="Mobile navigation">
-    <button type="button" class="mobile-menu-close" aria-label="Close menu">&times;</button>
+    <div class="mobile-menu-header">
+        <span class="mobile-menu-logo">
+            <i class="fas fa-heart"></i>
+            <span data-content="org.name">Tattu Care</span>
+        </span>
+        <button type="button" class="mobile-menu-close" aria-label="Close menu">&times;</button>
+    </div>
+
     <ul class="mobile-nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#programs">Programs</a></li>
-        <li><a href="#impact">Impact</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#events">Events</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="#programs"><i class="fas fa-hand-holding-heart"></i> Our Programs</a></li>
+        <li><a href="#impact"><i class="fas fa-chart-line"></i> Our Impact</a></li>
+        <li><a href="#team"><i class="fas fa-users"></i> Our Team</a></li>
+        <li><a href="#events"><i class="fas fa-calendar"></i> Events</a></li>
+        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
-    <button type="button" class="mobile-donate-btn donate-trigger">Donate Now</button>
+
+    <div class="mobile-menu-footer">
+        <div class="socials">
+            <a data-content="org.facebook"  href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a data-content="org.twitter"   href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a data-content="org.instagram" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="contact-mini">
+            <a data-content="org.phone-link" href="#"><span data-content="org.phone">-</span></a>
+            &nbsp;·&nbsp;
+            <a data-content="org.email-link" href="#"><span data-content="org.email">-</span></a>
+        </div>
+    </div>
 </aside>
-<div class="overlay"></div>
+
+<!-- Mobile fixed pill nav (visible only on phones) -->
+<nav class="mobile-pill-nav" aria-label="Quick navigation" id="mobilePillNav">
+    <a href="#home"     data-pill="home"     aria-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#about"    data-pill="about"    aria-label="About"><i class="fas fa-info-circle"></i><span>About</span></a>
+    <a href="#programs" data-pill="programs" aria-label="Programs"><i class="fas fa-hand-holding-heart"></i><span>Programs</span></a>
+    <a href="#impact"   data-pill="impact"   aria-label="Impact"><i class="fas fa-chart-line"></i><span>Impact</span></a>
+    <a href="#team"     data-pill="team"     aria-label="Team"><i class="fas fa-users"></i><span>Team</span></a>
+    <a href="#events"   data-pill="events"   aria-label="Events"><i class="fas fa-calendar"></i><span>Events</span></a>
+    <a href="#contact"  data-pill="contact"  aria-label="Contact"><i class="fas fa-envelope"></i><span>Contact</span></a>
+</nav>
 
 <!-- Theme toggle -->
 <button class="theme-toggle" aria-label="Toggle dark mode">
@@ -75,19 +103,28 @@
 
 <!-- Hero -->
 <section id="home" class="hero">
-    <div class="hero-content">
+    <div class="hero-bg" data-hero-bg="a"></div>
+    <div class="hero-bg" data-hero-bg="b"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" data-hero-content>
         <h1 data-content="hero.title">Bringing Hope to Uganda</h1>
         <p data-content="hero.subtitle">Tattu Care provides essential support to vulnerable communities across Uganda.</p>
         <div class="hero-btns">
-            <button type="button" class="donate-btn donate-trigger btn-lg">
-                <span data-content="hero.primaryCta">Donate Now</span>
-            </button>
-            <a href="#about" class="btn btn-secondary btn-lg" data-content="hero.secondaryCta">Learn More</a>
+            <a href="#about"    class="btn btn-secondary btn-lg" data-content="hero.secondaryCta">Learn More</a>
+            <a href="#programs" class="btn btn-outline btn-lg" style="color:#fff;border-color:#fff">Our Programs</a>
         </div>
     </div>
+    <div class="hero-dots" data-hero-dots></div>
     <a href="#about" class="scroll-down" aria-label="Scroll down">
         <i class="fas fa-chevron-down"></i>
     </a>
+</section>
+
+<!-- Stats - glass card floating over the bottom of the hero -->
+<section class="stats stats-floating" aria-label="Our impact in numbers">
+    <div class="container">
+        <div class="stats-card reveal-stagger" data-content="stats"></div>
+    </div>
 </section>
 
 <!-- Trust bar -->
@@ -100,67 +137,74 @@
     </div>
 </div>
 
-<!-- About -->
 <section id="about" class="about">
     <div class="container">
         <div class="about-container">
-            <div class="about-content">
+            <div class="about-content reveal">
                 <h2 data-content="about.heading">About Tattu Care</h2>
-                <div data-content="about.paragraphs"></div>
+                <div data-content="about.paragraphs" data-about-paragraphs></div>
                 <a href="#programs" class="btn btn-outline">Explore Our Programs</a>
             </div>
-            <div class="about-img">
+            <div class="about-img reveal delay-1" data-about-img-wrap>
                 <img data-content="about.image"
                      src="https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
                      alt="Tattu Care volunteers in the field"
                      loading="lazy">
+                <div class="about-dots" data-about-dots></div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Stats -->
-<section class="stats" aria-label="Our impact in numbers">
-    <div class="container">
-        <div class="stats-container" data-content="stats"></div>
     </div>
 </section>
 
 <!-- Programs -->
 <section id="programs" class="programs">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>Our Programs</h2>
-            <p>We focus on key areas to create comprehensive support for vulnerable communities.</p>
+            <p>We focus on key areas to create comprehensive support. Swipe or use the arrows to browse.</p>
         </div>
-        <div class="programs-grid" data-content="programs"></div>
+        <div class="programs-scroller reveal">
+            <button type="button" class="programs-nav prev" aria-label="Previous program"><i class="fas fa-chevron-left"></i></button>
+            <div class="programs-grid" data-content="programs"></div>
+            <button type="button" class="programs-nav next" aria-label="Next program"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
 </section>
 
-<!-- Impact -->
+<!-- Impact: continuous marquee with click-to-expand cards -->
 <section id="impact" class="impact">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>Our Impact</h2>
-            <p>Real stories of transformation from the communities we serve.</p>
+            <p>Real stories of transformation from the communities we serve. Tap a card for the full story.</p>
         </div>
-        <div class="impact-slideshow" data-content="impactStories"></div>
-        <div class="slider-controls">
-            <button type="button" data-slider="prev" aria-label="Previous story"><i class="fas fa-chevron-left"></i></button>
-            <div class="slider-dots" data-content="impactDots"></div>
-            <button type="button" data-slider="next" aria-label="Next story"><i class="fas fa-chevron-right"></i></button>
+        <div class="impact-track-wrap reveal">
+            <div class="impact-track" data-content="impactStories" role="list"></div>
         </div>
     </div>
 </section>
+
+<!-- Impact expand modal (filled in dynamically when a card is clicked) -->
+<div class="impact-expand" id="impactExpand" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="impact-expand-card">
+        <button type="button" class="impact-expand-close" aria-label="Close">&times;</button>
+        <div class="impact-expand-img" data-expand-img></div>
+        <div class="impact-expand-body">
+            <h3 data-expand-title></h3>
+            <p data-expand-text></p>
+            <div class="impact-expand-quote" data-expand-quote></div>
+        </div>
+    </div>
+</div>
 
 <!-- Team -->
 <section id="team" class="team">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>Our Team</h2>
             <p>Meet the people behind Tattu Care.</p>
         </div>
-        <div class="team-grid" data-content="team"></div>
+        <div class="team-grid reveal-stagger" data-content="team"></div>
     </div>
 </section>
 
@@ -181,9 +225,6 @@
             </div>
         </div>
         <div class="donation-amounts" data-content="donation.amounts"></div>
-        <div class="donation-action">
-            <button type="button" class="btn btn-primary btn-lg donate-trigger">Donate Now</button>
-        </div>
         <p class="donation-note" data-content="donation.note">
             Your donation helps provide clean water, education, and healthcare to communities in Uganda.
         </p>
@@ -277,35 +318,123 @@
 
 </main>
 
-<!-- Donation modal -->
-<div id="donationModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="donationModalTitle">
-    <div class="modal-content">
-        <button type="button" class="close-modal" aria-label="Close donation form">&times;</button>
-        <h2 id="donationModalTitle">Donate via MTN Mobile Money</h2>
-        <form id="mobileMoneyForm" novalidate>
-            <div class="form-group">
-                <label for="donationAmount">Amount</label>
-                <input type="number" id="donationAmount" name="amount" class="form-control" min="1" required>
+<!-- Donation dropdown (compact, anchored to floating button) -->
+<div id="donationDropdown" class="donate-dropdown" role="dialog" aria-modal="false" aria-labelledby="donationDropdownTitle">
+    <h2 id="donationDropdownTitle">
+        <span><i class="fas fa-heart" style="color:var(--primary);margin-right:6px"></i>Quick Donation</span>
+        <button type="button" class="close-modal" aria-label="Close">&times;</button>
+    </h2>
+
+    <!-- Method tabs -->
+    <div class="pay-tabs" role="tablist">
+        <button type="button" class="pay-tab active" data-pay-tab="momo"   role="tab"><i class="fas fa-mobile-alt"></i> MoMo</button>
+        <button type="button" class="pay-tab"        data-pay-tab="airtel" role="tab"><i class="fas fa-signal"></i> Airtel</button>
+        <button type="button" class="pay-tab"        data-pay-tab="bank"   role="tab"><i class="fas fa-university"></i> Bank</button>
+    </div>
+
+    <!-- MoMo -->
+    <div class="pay-panel active" data-pay-panel="momo">
+        <form class="pay-form" data-method="momo" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" name="amount" class="form-control" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>MoMo Number</label>
+                    <input type="tel" name="phone" class="form-control" placeholder="256770000000" required pattern="^256\d{9}$">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="donorName">Your Name (optional)</label>
-                <input type="text" id="donorName" name="name" class="form-control" placeholder="Anonymous if blank" maxlength="100">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="optional" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="optional">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="donorPhone">MTN Mobile Money Number</label>
-                <input type="tel" id="donorPhone" name="phone" class="form-control" placeholder="256770000000" required pattern="^256\d{9}$">
-                <small class="note">Format: 256 followed by 9 digits.</small>
-            </div>
-            <div class="form-group">
-                <label for="donorEmail">Email (optional, for receipt)</label>
-                <input type="email" id="donorEmail" name="email" class="form-control" placeholder="you@example.com">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Proceed to Payment</button>
-            <div class="merchant-info">
-                <p><strong>Merchant Code:</strong> <span data-content="donation.merchantCode">-</span></p>
-                <p class="note">You'll receive a Mobile Money prompt on your phone to approve the transaction.</p>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-lock"></i> Pay with MoMo</button>
         </form>
+    </div>
+
+    <!-- Airtel -->
+    <div class="pay-panel" data-pay-panel="airtel">
+        <form class="pay-form" data-method="airtel" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" name="amount" class="form-control" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Airtel #</label>
+                    <input type="tel" name="phone" class="form-control" placeholder="256700000000" required pattern="^256\d{9}$">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="optional" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="optional">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-lock"></i> Pay with Airtel</button>
+        </form>
+    </div>
+
+    <!-- Bank -->
+    <div class="pay-panel" data-pay-panel="bank">
+        <div class="bank-details">
+            <div class="bank-row">
+                <span class="label">Bank</span>
+                <span class="value" data-bank="bankName">-</span>
+            </div>
+            <div class="bank-row">
+                <span class="label">Account</span>
+                <span class="value" data-bank="accountName">-</span>
+            </div>
+            <div class="bank-row">
+                <span class="label">Number</span>
+                <span class="bank-secret" data-bank-secret="accountNumber" title="Click to reveal">••••••••••</span>
+                <span class="bank-actions">
+                    <button type="button" class="icon-action" data-reveal="accountNumber" aria-label="Reveal"><i class="fas fa-eye"></i></button>
+                    <button type="button" class="icon-action" data-copy="accountNumber"   aria-label="Copy"><i class="fas fa-copy"></i></button>
+                </span>
+            </div>
+            <div class="bank-row"><span class="label">Branch</span><span class="value" data-bank="branch">-</span></div>
+            <div class="bank-row"><span class="label">SWIFT</span><span class="value" data-bank="swift">-</span></div>
+        </div>
+        <form class="pay-form" data-method="bank" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" name="amount" class="form-control" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Reference</label>
+                    <input type="text" name="reference" class="form-control" placeholder="txn id" maxlength="80">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="your name" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="receipt" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane"></i> Notify Transfer</button>
+        </form>
+    </div>
+
+    <div class="help-link">
+        Need help? <a href="#contact" data-close-dropdown>Contact us</a>
     </div>
 </div>
 
@@ -335,7 +464,7 @@
             <div class="footer-col">
                 <h4>Get Involved</h4>
                 <ul class="footer-links">
-                    <li><button type="button" class="footer-link donate-trigger" style="background:none;border:none;padding:0;text-align:left;cursor:pointer;color:inherit;font:inherit;">Donate</button></li>
+                    <li><button type="button" class="footer-link donate-trigger">Donate</button></li>
                     <li><a href="#contact" class="footer-link">Volunteer</a></li>
                     <li><a href="#contact" class="footer-link">Partner With Us</a></li>
                 </ul>
@@ -354,6 +483,11 @@
         </div>
     </div>
 </footer>
+
+<!-- Floating donate CTA -->
+<button class="floating-donate donate-trigger" type="button" aria-label="Donate Now" id="floatingDonate">
+    <i class="fas fa-heart"></i>
+</button>
 
 <button class="back-to-top" aria-label="Back to top">
     <i class="fas fa-arrow-up"></i>

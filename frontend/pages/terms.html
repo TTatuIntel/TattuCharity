@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Use - Tattu Care</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+.legal-page{padding:60px 0 80px;max-width:820px;margin:0 auto;}
+.legal-page h1{color:var(--secondary);margin-bottom:30px;font-size:2.2rem}
+.legal-page h2{color:var(--secondary);margin:30px 0 15px;font-size:1.3rem}
+.legal-page p, .legal-page li{color:var(--gray);margin-bottom:12px}
+.legal-page ul{margin:0 0 16px 24px}
+.top-bar{background:#fff;border-bottom:1px solid var(--border);padding:18px 0}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container">
+        <a href="../../index.html" class="logo"><i class="fas fa-heart"></i> <span data-content="org.name">Tattu Care</span></a>
+        <a href="../../index.html" class="btn btn-outline">← Back to Home</a>
+    </div>
+</div>
+
+<main class="legal-page container">
+    <h1>Terms of Use & Donation Policy</h1>
+    <p><em>Last updated: <span id="updated"></span></em></p>
+
+    <h2>1. About this site</h2>
+    <p>This website is operated by <strong data-content="org.name">Tattu Care</strong>, registered in
+       <span data-content="trust.country">Uganda</span>
+       (Registration #: <span data-content="org.registrationNumber">-</span>). By using this site you agree
+       to these terms.</p>
+
+    <h2>2. Donations</h2>
+    <ul>
+        <li>All donations are voluntary and made through MTN Mobile Money.</li>
+        <li>Donations are denominated in the currency shown at the time of payment.</li>
+        <li>You will receive a Mobile Money prompt on your phone to authorize each transaction.</li>
+        <li>A receipt will be emailed to you if you provided an email address.</li>
+        <li>100% of donations are used to fund the programs described on this site, less any unavoidable
+            transaction fees imposed by Mobile Money operators.</li>
+    </ul>
+
+    <h2>3. Refund Policy</h2>
+    <p>If you donated by mistake or believe a transaction was unauthorized, contact us within
+       <strong>14 days</strong> at <span data-content="org.email">our email</span> or
+       <span data-content="org.phone">our phone number</span>. We will investigate and, if confirmed,
+       refund the amount through Mobile Money. Approved refunds are processed within 7 business days.</p>
+
+    <h2>4. Use of the site</h2>
+    <ul>
+        <li>You agree not to use this site for unlawful purposes or to interfere with its operation.</li>
+        <li>All content on this site is owned by Tattu Care and may not be copied without permission.</li>
+    </ul>
+
+    <h2>5. Volunteers</h2>
+    <p>Volunteers acting on behalf of Tattu Care must comply with our internal code of conduct,
+       which is provided during onboarding.</p>
+
+    <h2>6. Limitation of liability</h2>
+    <p>This site is provided "as is". To the extent permitted by law, Tattu Care is not liable for any
+       indirect or consequential loss arising from your use of the site.</p>
+
+    <h2>7. Governing law</h2>
+    <p>These terms are governed by the laws of <span data-content="trust.country">Uganda</span>.</p>
+
+    <h2>8. Contact</h2>
+    <p>Questions? Email <span data-content="org.email">us</span> or call <span data-content="org.phone">our office</span>.</p>
+</main>
+
+<script src="../js/api-config.js"></script>
+<script src="../js/content-loader.js"></script>
+<script>document.getElementById('updated').textContent = new Date().toLocaleDateString();</script>
+</body>
+</html>

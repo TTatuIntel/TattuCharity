@@ -1,0 +1,231 @@
+[Fri May  8 10:50:59 2026] PHP 8.2.12 Development Server (http://localhost:8080) started
+[Fri May  8 10:51:01 2026] [::1]:50479 Accepted
+[Fri May  8 10:51:01 2026] [::1]:50479 [200]: GET /
+[Fri May  8 10:51:01 2026] [::1]:50479 Closing
+[Fri May  8 10:51:02 2026] [::1]:50480 Accepted
+[Fri May  8 10:51:02 2026] [::1]:50480 [200]: GET /backend/admin.php
+[Fri May  8 10:51:02 2026] [::1]:50480 Closing
+[Fri May  8 10:51:02 2026] [::1]:50481 Accepted
+[Fri May  8 10:51:02 2026] [::1]:50481 [200]: GET /backend/api/content.php
+[Fri May  8 10:51:02 2026] [::1]:50481 Closing
+[Fri May  8 10:51:03 2026] [::1]:50482 Accepted
+[Fri May  8 10:51:03 2026] [::1]:50482 Closing
+[Fri May  8 10:51:03 2026] [::1]:50484 Accepted
+[Fri May  8 10:51:03 2026] [::1]:50484 Closing
+[Fri May  8 10:51:04 2026] [::1]:50485 Accepted
+[Fri May  8 10:51:04 2026] [::1]:50485 Closing
+[Fri May  8 10:51:04 2026] [::1]:50486 Accepted
+[Fri May  8 10:51:04 2026] [::1]:50486 Closing
+[Fri May  8 10:51:05 2026] [::1]:50487 Accepted
+[Fri May  8 10:51:05 2026] [::1]:50487 [200]: GET /frontend/css/styles.css
+[Fri May  8 10:51:05 2026] [::1]:50487 Closing
+[Fri May  8 10:51:19 2026] [::1]:54973 Accepted
+[Fri May  8 10:51:19 2026] [::1]:54973 [200]: POST /backend/api/newsletter.php
+[Fri May  8 10:51:19 2026] [::1]:54973 Closing
+[Fri May  8 10:51:19 2026] [::1]:54974 Accepted
+[Fri May  8 10:51:19 2026] [::1]:54974 [200]: POST /backend/api/donate.php
+[Fri May  8 10:51:19 2026] [::1]:54974 Closing
+[Fri May  8 13:41:00 2026] [::1]:49356 Accepted
+[Fri May  8 13:41:00 2026] [::1]:49356 [200]: GET /backend/admin.php
+[Fri May  8 13:41:00 2026] [::1]:49356 Closing
+[Fri May  8 13:41:05 2026] [::1]:53339 Accepted
+[Fri May  8 13:41:05 2026] [::1]:53339 [200]: GET /
+[Fri May  8 13:41:05 2026] [::1]:53339 Closing
+[Fri May  8 13:41:05 2026] [::1]:55258 Accepted
+[Fri May  8 13:41:05 2026] [::1]:52845 Accepted
+[Fri May  8 13:41:05 2026] [::1]:55258 [200]: GET /frontend/css/styles.css
+[Fri May  8 13:41:05 2026] [::1]:62718 Accepted
+[Fri May  8 13:41:06 2026] [::1]:52845 [200]: GET /frontend/js/api-config.js
+[Fri May  8 13:41:06 2026] [::1]:54438 Accepted
+[Fri May  8 13:41:06 2026] [::1]:62718 [200]: GET /frontend/js/main.js
+[Fri May  8 13:41:07 2026] [::1]:54438 [200]: GET /frontend/js/content-loader.js
+[Fri May  8 13:41:07 2026] [::1]:55258 Closing
+[Fri May  8 13:41:07 2026] [::1]:52845 Closing
+[Fri May  8 13:41:07 2026] [::1]:62718 Closing
+[Fri May  8 13:41:07 2026] [::1]:54438 Closing
+[Fri May  8 13:41:07 2026] [::1]:51374 Accepted
+[Fri May  8 13:41:07 2026] [::1]:51374 [200]: GET /backend/api/content.php
+[Fri May  8 13:41:07 2026] [::1]:51374 Closing
+[Fri May  8 13:41:54 2026] [::1]:62168 Accepted
+[Fri May  8 13:41:57 2026] [::1]:62168 [404]: GET /packages/flutter/src/cupertino/text_form_field_row.dart.lib.js - No error
+[Fri May  8 13:41:57 2026] [::1]:62168 Closing
+[Fri May  8 13:41:57 2026] [::1]:62169 Accepted
+[Fri May  8 13:41:57 2026] [::1]:62169 [200]: GET /
+[Fri May  8 13:41:57 2026] [::1]:62170 Accepted
+[Fri May  8 13:41:57 2026] [::1]:62170 [404]: GET /packages/flutter/src/cupertino/text_form_field_row.dart.lib.js - No error
+[Fri May  8 13:41:57 2026] [::1]:62169 Closing
+[Fri May  8 13:41:57 2026] [::1]:62170 Closing
+[Fri May  8 13:41:57 2026] [::1]:62171 Accepted
+[Fri May  8 13:41:57 2026] [::1]:62171 [200]: GET /frontend/css/styles.css
+[Fri May  8 13:41:57 2026] [::1]:62172 Accepted
+[Fri May  8 13:41:57 2026] [::1[Fri May  8 13:56:12 2026] [::1]:56058 Accepted
+[Fri May  8 13:56:13 2026] [::1]:56058 [200]: GET /backend/admin.php
+[Fri May  8 13:56:13 2026] [::1]:56058 Closing
+6] [::1]:62173 Accepted
+[Fri May  8 13:41:57 2026] [::1]:62174 Accepted
+[Fri May  8 13:41:57 2026] [::1]:62173 [200]: GET /frontend/js/content-loader.js
+[Fri May  8 13:41:57 2026] [::1]:62174 [200]: GET /frontend/js/main.js
+[Fri May  8 13:41:57 2026] [::1]:62173 Closing
+[Fri May  8 13:41:57 2026] [::1]:62174 Closing
+[Fri May  8 13:42:00 2026] [::1]:62188 Accepted
+[Fri May  8 13:42:00 2026] [::1]:62188 [200]: GET /backend/api/content.php
+[Fri May  8 13:42:00 2026] [::1]:62188 Closing
+[Fri May  8 13:42:30 2026] [::1]:50592 Accepted
+[Fri May  8 13:42:30 2026] [::1]:50593 Accepted
+[Fri May  8 13:42:30 2026] [::1]:50594 Accepted
+[Fri May  8 13:42:31 2026] [::1]:50596 Accepted
+[Fri May  8 13:42:31 2026] [::1]:50597 Accepted
+[Fri May  8 13:42:35 2026] [::1]:50593 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:35 2026] [::1]:50593 Closing
+[Fri May  8 13:42:35 2026] [::1]:50592 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:35 2026] [::1]:50592 Closing
+[Fri May  8 13:42:36 2026] [::1]:50597 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:36 2026] [::1]:50597 Closing
+[Fri May  8 13:42:36 2026] [::1]:50594 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:36 2026] [::1]:50594 Closing
+[Fri May  8 13:42:36 2026] [::1]:50596 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:36 2026] [::1]:50596 Closing
+[Fri May  8 13:42:39 2026] [::1]:50608 Accepted
+[Fri May  8 13:42:39 2026] [::1]:50609 Accepted
+[Fri May  8 13:42:39 2026] [::1]:50610 Accepted
+[Fri May  8 13:42:40 2026] [::1]:50611 Accepted
+[Fri May  8 13:42:40 2026] [::1]:50611 [200]: GET /$dwdsSseHandler
+[Fri May  8 13:42:40 2026] [::1]:50611 Closing
+[Fri May  8 13:42:45 2026] [::1]:50610 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:45 2026] [::1]:50610 Closing
+[Fri May  8 13:42:45 2026] [::1]:50608 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:45 2026] [::1]:50608 Closing
+[Fri May  8 13:42:45 2026] [::1]:50609 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:45 2026] [::1]:50609 Closing
+[Fri May  8 13:42:51 2026] [::1]:57085 Accepted
+[Fri May  8 13:42:56 2026] [::1]:57085 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:42:56 2026] [::1]:57085 Closing
+[Fri May  8 13:43:09 2026] [::1]:64084 Accepted
+[Fri May  8 13:43:09 2026] [::1]:64084 [200]: GET /$dwdsSseHandler
+[Fri May  8 13:43:09 2026] [::1]:64084 Closing
+[Fri May  8 13:44:32 2026] [::1]:63567 Accepted
+[Fri May  8 13:44:33 2026] [::1]:58142 Accepted
+[Fri May  8 13:44:33 2026] [::1]:58143 Accepted
+[Fri May  8 13:44:33 2026] [::1]:58144 Accepted
+[Fri May  8 13:44:38 2026] [::1]:58142 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:44:38 2026] [::1]:58142 Closing
+[Fri May  8 13:44:38 2026] [::1]:63567 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:44:38 2026] [::1]:63567 Closing
+[Fri May  8 13:44:39 2026] [::1]:58144 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:44:39 2026] [::1]:58144 Closing
+[Fri May  8 13:44:39 2026] [::1]:58143 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:44:39 2026] [::1]:58143 Closing
+[Fri May  8 13:47:18 2026] [::1]:55342 Accepted
+[Fri May  8 13:47:18 2026] [::1]:55343 Accepted
+[Fri May  8 13:47:18 2026] [::1]:55344 Accepted
+[Fri May  8 13:47:20 2026] [::1]:55345 Accepted
+[Fri May  8 13:47:23 2026] [::1]:55342 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:47:23 2026] [::1]:55342 Closing
+[Fri May  8 13:47:24 2026] [::1]:55343 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:47:24 2026] [::1]:55343 Closing
+[Fri May  8 13:47:24 2026] [::1]:55344 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:47:24 2026] [::1]:55344 Closing
+[Fri May  8 13:47:25 2026] [::1]:55345 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:47:25 2026] [::1]:55345 Closing
+[Fri May  8 13:48:03 2026] [::1]:64820 Accepted
+[Fri May  8 13:48:03 2026] [::1]:64820 [200]: GET /
+[Fri May  8 13:48:03 2026] [::1]:64820 Closing
+[Fri May  8 13:48:03 2026] [::1]:51396 Accepted
+[Fri May  8 13:48:03 2026] [::1]:51396 [200]: GET /frontend/css/styles.css
+[Fri May  8 13:48:03 2026] [::1]:51396 Closing
+[Fri May  8 13:48:03 2026] [::1]:59027 Accepted
+[Fri May  8 13:48:03 2026] [::1]:63517 Accepted
+[Fri May  8 13:48:03 2026] [::1]:63726 Accepted
+[Fri May  8 13:48:03 2026] [::1]:59027 [200]: GET /frontend/js/api-config.js
+[Fri May  8 13:48:03 2026] [::1]:63517 [200]: GET /frontend/js/content-loader.js
+[Fri May  8 13:48:03 2026] [::1]:63726 [200]: GET /frontend/js/main.js
+[Fri May  8 13:48:03 2026] [::1]:59027 Closing
+[Fri May  8 13:48:03 2026] [::1]:63517 Closing
+[Fri May  8 13:48:03 2026] [::1]:63726 Closing
+[Fri May  8 13:48:04 2026] [::1]:63068 Accepted
+[Fri May  8 13:48:04 2026] [::1]:63068 [200]: GET /backend/api/content.php
+[Fri May  8 13:48:04 2026] [::1]:63068 Closing
+[Fri May  8 13:48:14 2026] [::1]:50605 Accepted
+[Fri May  8 13:48:14 2026] [::1]:50605 [200]: GET /backend/admin.php
+[Fri May  8 13:48:14 2026] [::1]:50605 Closing
+[Fri May  8 13:48:17 2026] [::1]:62761 Accepted
+[Fri May  8 13:48:17 2026] [::1]:62761 [401]: POST /backend/api/admin_login.php
+[Fri May  8 13:48:17 2026] [::1]:62761 Closing
+[Fri May  8 13:48:20 2026] [::1]:59081 Accepted
+[Fri May  8 13:48:20 2026] [::1]:59081 [401]: POST /backend/api/admin_login.php
+[Fri May  8 13:48:20 2026] [::1]:59081 Closing
+[Fri May  8 13:48:31 2026] [::1]:64336 Accepted
+[Fri May  8 13:48:31 2026] [::1]:64336 [401]: POST /backend/api/admin_login.php
+[Fri May  8 13:48:31 2026] [::1]:64336 Closing
+[Fri May  8 13:48:41 2026] [::1]:62872 Accepted
+[Fri May  8 13:48:41 2026] [::1]:62872 [401]: POST /backend/api/admin_login.php
+[Fri May  8 13:48:41 2026] [::1]:62872 Closing
+[Fri May  8 13:49:38 2026] [::1]:62440 Accepted
+[Fri May  8 13:49:38 2026] [::1]:62440 [200]: GET /backend/admin.php
+[Fri May  8 13:49:38 2026] [::1]:62440 Closing
+[Fri May  8 13:49:39 2026] [::1]:62441 Accepted
+[Fri May  8 13:49:39 2026] [::1]:62441 [200]: POST /backend/api/admin_login.php
+[Fri May  8 13:49:39 2026] [::1]:62441 Closing
+[Fri May  8 13:50:02 2026] [::1]:62722 Accepted
+[Fri May  8 13:50:02 2026] [::1]:62722 [429]: POST /backend/api/admin_login.php
+[Fri May  8 13:50:02 2026] [::1]:62722 Closing
+[Fri May  8 13:50:05 2026] [::1]:51446 Accepted
+[Fri May  8 13:50:05 2026] [::1]:51446 [200]: GET /backend/admin.php
+[Fri May  8 13:50:05 2026] [::1]:51446 Closing
+[Fri May  8 13:50:08 2026] [::1]:63896 Accepted
+[Fri May  8 13:50:08 2026] [::1]:63896 [200]: GET /backend/admin.php
+[Fri May  8 13:50:08 2026] [::1]:63896 Closing
+[Fri May  8 13:50:09 2026] [::1]:57092 Accepted
+[Fri May  8 13:50:09 2026] [::1]:57092 [200]: GET /backend/admin.php
+[Fri May  8 13:50:09 2026] [::1]:57092 Closing
+[Fri May  8 13:50:15 2026] [::1]:50252 Accepted
+[Fri May  8 13:50:15 2026] [::1]:50252 [200]: GET /
+[Fri May  8 13:50:15 2026] [::1]:50252 Closing
+[Fri May  8 13:50:15 2026] [::1]:52064 Accepted
+[Fri May  8 13:50:15 2026] [::1]:52064 [200]: GET /frontend/css/styles.css
+[Fri May  8 13:50:15 2026] [::1]:52064 Closing
+[Fri May  8 13:50:16 2026] [::1]:52801 Accepted
+[Fri May  8 13:50:16 2026] [::1]:58339 Accepted
+[Fri May  8 13:50:16 2026] [::1]:56561 Accepted
+[Fri May  8 13:50:16 2026] [::1]:52801 [200]: GET /frontend/js/api-config.js
+[Fri May  8 13:50:16 2026] [::1]:58339 [200]: GET /frontend/js/content-loader.js
+[Fri May  8 13:50:16 2026] [::1]:56561 [200]: GET /frontend/js/main.js
+[Fri May  8 13:50:16 2026] [::1]:52801 Closing
+[Fri May  8 13:50:16 2026] [::1]:58339 Closing
+[Fri May  8 13:50:16 2026] [::1]:56561 Closing
+[Fri May  8 13:50:16 2026] [::1]:58129 Accepted
+[Fri May  8 13:50:16 2026] [::1]:58129 [200]: GET /backend/api/content.php
+[Fri May  8 13:50:16 2026] [::1]:58129 Closing
+[Fri May  8 13:50:23 2026] [::1]:60203 Accepted
+[Fri May  8 13:50:23 2026] [::1]:60203 [200]: GET /backend/admin.php
+[Fri May  8 13:50:23 2026] [::1]:60203 Closing
+[Fri May  8 13:50:27 2026] [::1]:54600 Accepted
+[Fri May  8 13:50:27 2026] [::1]:54600 [429]: POST /backend/api/admin_login.php
+[Fri May  8 13:50:27 2026] [::1]:54600 Closing
+[Fri May  8 13:50:49 2026] [::1]:57399 Accepted
+[Fri May  8 13:50:49 2026] [::1]:57399 [200]: GET /backend/admin.php
+[Fri May  8 13:50:49 2026] [::1]:57399 Closing
+[Fri May  8 13:50:49 2026] [::1]:62552 Accepted
+[Fri May  8 13:50:49 2026] [::1]:62001 Accepted
+[Fri May  8 13:51:31 2026] [::1]:62552 [429]: POST /backend/api/admin_login.php
+[Fri May  8 13:51:31 2026] [::1]:62552 Closing
+[Fri May  8 13:55:51 2026] [::1]:62001 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri May  8 13:55:51 2026] [::1]:62001 Closing
+[Fri May  8 13:56:12 2026] [::1]:56056 Accepted
+[Fri May  8 13:56:12 2026] [::1]:56056 [200]: GET /backend/admin.php
+[Fri May  8 13:56:12 2026] [::1]:56056 Closing
+[Fri May  8 13:57:07 2026] [::1]:61427 Accepted
+[Fri May  8 13:57:07 2026] [::1]:61427 [200]: POST /backend/api/admin_login.php
+[Fri May  8 13:57:07 2026] [::1]:61427 Closing
+[Fri May  8 13:57:07 2026] [::1]:61428 Accepted
+[Fri May  8 13:57:07 2026] [::1]:61428 [200]: GET /backend/api/admin_data.php
+[Fri May  8 13:57:07 2026] [::1]:61428 Closing
+[Fri May  8 13:57:08 2026] [::1]:61429 Accepted
+[Fri May  8 13:57:08 2026] [::1]:61429 [200]: POST /backend/api/admin_logout.php
+[Fri May  8 13:57:08 2026] [::1]:61429 Closing
+[Fri May  8 13:57:09 2026] [::1]:61430 Accepted
+[Fri May  8 13:57:09 2026] [::1]:61430 [401]: GET /backend/api/admin_data.php
+[Fri May  8 13:57:09 2026] [::1]:61430 Closing
+[Fri May  8 13:59:12 2026] [::1]:50705 Accepted
+[Fri May  8 13:59:13 2026] [::1]:50705 [200]: GET /backend/api/content.php
+[Fri May  8 13:59:13 2026] [::1]:50705 Closing

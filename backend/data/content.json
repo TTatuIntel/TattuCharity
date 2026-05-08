@@ -1,0 +1,72 @@
+{
+  "organization": {
+    "name": "Tattu Care",
+    "tagline": "Bringing Hope to Uganda",
+    "shortDescription": "Tattu Care provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.",
+    "registrationNumber": "REG-XXXXXX (update in admin panel)",
+    "founded": "2020",
+    "address": "Plot 123, Kampala Road, Kampala, Uganda",
+    "phone": "+256 770 495 837",
+    "email": "info@tattucare.org",
+    "facebook": "#",
+    "twitter": "#",
+    "instagram": "#",
+    "linkedin": ""
+  },
+  "hero": {
+    "title": "Bringing Hope to Uganda",
+    "subtitle": "Tattu Care provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.",
+    "image": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+    "primaryCtaText": "Donate Now",
+    "secondaryCtaText": "Learn More"
+  },
+  "about": {
+    "heading": "About Tattu Care",
+    "paragraphs": [
+      "Founded with a vision to transform lives across Uganda, Tattu Care works directly with communities to address their most pressing needs. Every two months, we organize collection drives and distribute essential resources to those who need them most.",
+      "Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently."
+    ],
+    "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+  },
+  "stats": [
+    { "icon": "fa-users",          "number": "5,000+", "label": "Families Supported" },
+    { "icon": "fa-tint",           "number": "25+",    "label": "Water Projects" },
+    { "icon": "fa-school",         "number": "12",     "label": "Schools Built" },
+    { "icon": "fa-clinic-medical", "number": "8",      "label": "Medical Clinics" }
+  ],
+  "programs": [
+    { "icon": "fa-tint",          "title": "Clean Water",         "description": "Providing access to safe, clean water through wells and purification systems.", "stats": "25 communities reached", "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" },
+    { "icon": "fa-book-open",     "title": "Education",           "description": "Building schools and providing educational materials.",                       "stats": "12 schools built",      "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80" },
+    { "icon": "fa-heartbeat",     "title": "Healthcare",          "description": "Supporting clinics and organizing health camps.",                              "stats": "10,000+ patients treated", "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" },
+    { "icon": "fa-home",          "title": "Shelter",             "description": "Building safe homes for displaced families.",                                  "stats": "50 homes constructed",  "image": "https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" },
+    { "icon": "fa-seedling",      "title": "Food Security",       "description": "Distributing seeds and training farmers.",                                     "stats": "200 farmers supported", "image": "https://images.unsplash.com/photo-1593113598332-629a3a1c3e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" },
+    { "icon": "fa-users",         "title": "Community Development","description": "Empowering communities with skills.",                                       "stats": "15 communities engaged","image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" }
+  ],
+  "impactStories": [
+    { "title": "Clean Water in Namugongo", "text": "In 2022, Tattu Care installed a well in Namugongo Village, serving over 450 families.", "quote": "This water has changed everything for us.", "quoteAuthor": "Nakato, Namugongo Village", "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" },
+    { "title": "Education in Mbale",        "text": "A new school in Mbale now educates 320 children, boosting literacy by 70%.",                "quote": "I dream of becoming a doctor.",     "quoteAuthor": "Sarah, Mbale",          "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80" },
+    { "title": "Healthcare Access",         "text": "Our mobile clinics have provided healthcare to over 5,000 people in remote areas.",          "quote": "I can finally get treatment.",      "quoteAuthor": "John, rural Uganda",    "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" }
+  ],
+  "team": [
+    { "name": "Founder Name",   "role": "Founder & Director", "bio": "Brief bio - update from the admin panel.", "image": "" },
+    { "name": "Team Member",    "role": "Programs Lead",      "bio": "Brief bio - update from the admin panel.", "image": "" }
+  ],
+  "events": [
+    { "title": "April 2026 Drive", "date": "April 15-30, 2026", "description": "Collecting educational materials for Kampala.", "items": ["Notebooks", "Pens", "Backpacks"], "ctaText": "Volunteer", "ctaLink": "#contact" },
+    { "title": "June 2026 Drive",  "date": "June 1-15, 2026",   "description": "Collecting medical supplies for Mbale.",        "items": ["Bandages", "Antiseptics", "Gloves"], "ctaText": "Volunteer", "ctaLink": "#contact" }
+  ],
+  "donation": {
+    "goal": 10000,
+    "raised": 7500,
+    "currency": "USD",
+    "amounts": [10, 25, 50, 100],
+    "merchantCode": "288198",
+    "note": "Your donation helps provide clean water, education, and healthcare to communities in Uganda."
+  },
+  "trust": {
+    "registrationCountry": "Uganda",
+    "taxDeductible": false,
+    "annualReportUrl": "",
+    "partners": []
+  }
+}

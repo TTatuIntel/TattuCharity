@@ -228,6 +228,7 @@
         const payload = {
             method,
             amount:    Number(fd.get('amount') || 0),
+            currency:  FX_STATE.selected || 'USD',
             name:      String(fd.get('name')      || '').trim(),
             phone:     String(fd.get('phone')     || '').replace(/\s+/g, ''),
             email:     String(fd.get('email')     || '').trim(),
@@ -423,18 +424,65 @@
     }
 
     /* =========================================================
-     *  Programs scroller — nav buttons
+     *  Programs — auto-rotating spotlight carousel
      * ========================================================= */
-    document.addEventListener('click', e => {
-        const btn = e.target.closest('.programs-nav');
-        if (!btn) return;
-        const wrap = btn.closest('.programs-scroller');
-        const grid = wrap && wrap.querySelector('.programs-grid');
+    let _progTimer = null;
+    function initProgramsSpotlight() {
+        const grid  = $('.programs-grid');
+        const dots  = $('[data-programs-dots]');
         if (!grid) return;
-        const card = grid.querySelector('.program-card');
-        const step = (card ? card.getBoundingClientRect().width : 280) + 14;
-        grid.scrollBy({ left: btn.classList.contains('next') ? step : -step, behavior: 'smooth' });
-    });
+        const cards = $$('.program-card', grid);
+        if (cards.length < 2) return;
+
+        let idx = 0;
+        const dotEls = dots ? $$('button', dots) : [];
+
+        function spotlight(i) {
+            idx = (i + cards.length) % cards.length;
+            cards.forEach((c, k) => c.classList.toggle('spotlight', k === idx));
+            dotEls.forEach((d, k) => d.classList.toggle('active', k === idx));
+            // Smoothly bring the spotlighted card into view
+            cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+        function next() { spotlight(idx + 1); }
+        function start() { stop(); _progTimer = setInterval(next, 3500); }
+        function stop()  { if (_progTimer) { clearInterval(_progTimer); _progTimer = null; } }
+
+        spotlight(0);
+        start();
+
+        // Hover/focus pauses; click selects
+        const wrap = $('.programs-scroller');
+        if (wrap) {
+            wrap.addEventListener('mouseenter', stop);
+            wrap.addEventListener('mouseleave', start);
+            wrap.addEventListener('focusin',  stop);
+            wrap.addEventListener('focusout', start);
+        }
+        grid.addEventListener('click', e => {
+            const card = e.target.closest('.program-card');
+            if (!card) return;
+            const i = cards.indexOf(card);
+            if (i >= 0) { spotlight(i); start(); }
+        });
+        if (dots) {
+            dots.addEventListener('click', e => {
+                const b = e.target.closest('button[data-program-go]');
+                if (!b) return;
+                spotlight(Number(b.getAttribute('data-program-go') || 0));
+                start();
+            });
+        }
+        // Pause when section not visible (saves CPU)
+        if ('IntersectionObserver' in window) {
+            const sec = $('#programs');
+            if (sec) {
+                new IntersectionObserver(entries => {
+                    entries.forEach(en => en.isIntersecting ? start() : stop());
+                }, { threshold: 0.1 }).observe(sec);
+            }
+        }
+    }
 
     /* =========================================================
      *  Impact: click-to-expand modal
@@ -490,8 +538,272 @@
         }
     });
 
-    document.addEventListener('content:ready', () => {
+    /* =========================================================
+     *  Multi-currency support (live FX + UGX charge preview)
+     * ========================================================= */
+    const FX_STATE = { rates: {}, charge: 'UGX', selected: 'USD' };
+
+    const FRIENDLY_NAMES = {
+        USD: 'US Dollar', EUR: 'Euro', GBP: 'British Pound', AUD: 'Australian Dollar',
+        CAD: 'Canadian Dollar', NZD: 'NZ Dollar', CHF: 'Swiss Franc', JPY: 'Japanese Yen',
+        CNY: 'Chinese Yuan', INR: 'Indian Rupee', ZAR: 'S. African Rand', NGN: 'Nigerian Naira',
+        UGX: 'Ugandan Shilling', KES: 'Kenyan Shilling', TZS: 'Tanzanian Shilling',
+        RWF: 'Rwandan Franc', BIF: 'Burundian Franc', GHS: 'Ghanaian Cedi',
+        EGP: 'Egyptian Pound', AED: 'UAE Dirham', SAR: 'Saudi Riyal', XAF: 'CFA Franc',
+        XOF: 'West African CFA',
+    };
+
+    function fxConvert(amount, from, to) {
+        if (!amount || from === to) return Number(amount) || 0;
+        const r = FX_STATE.rates;
+        if (!r[from] || !r[to]) return amount;
+        return (Number(amount) / r[from]) * r[to];
+    }
+    function fmtMoney(amount, currency) {
+        const n = Number(amount) || 0;
+        try {
+            return new Intl.NumberFormat(undefined, {
+                style: 'currency', currency, maximumFractionDigits: 2
+            }).format(n);
+        } catch (_) {
+            return `${currency} ${n.toLocaleString()}`;
+        }
+    }
+    function friendlyRound(v) {
+        if (v < 1)     return Math.round(v * 100) / 100;
+        if (v < 10)    return Math.round(v);
+        if (v < 100)   return Math.round(v / 5)   * 5;
+        if (v < 1000)  return Math.round(v / 10)  * 10;
+        if (v < 10000) return Math.round(v / 100) * 100;
+        return Math.round(v / 1000) * 1000;
+    }
+
+    async function loadFxRates() {
+        try {
+            const res  = await fetch(API + 'fx.php', { credentials: 'same-origin' });
+            const body = await res.json();
+            if (body && body.success && body.rates) {
+                FX_STATE.rates  = body.rates;
+                FX_STATE.charge = body.charge || 'UGX';
+            }
+        } catch (err) {
+            console.warn('FX rates unavailable, using static fallback', err);
+            // Minimal hard-coded fallback so the UI still works offline
+            FX_STATE.rates = { USD:1, EUR:0.92, GBP:0.79, UGX:3700, KES:130, TZS:2500, RWF:1300,
+                               AUD:1.5, CAD:1.36, NZD:1.65, CHF:0.88, JPY:150, INR:83, ZAR:18.5, NGN:1500 };
+        }
+    }
+
+    function detectInitialCurrency(supported) {
+        // 1) localStorage 2) navigator.language fallback 3) USD
+        const saved = localStorage.getItem('tattu-currency');
+        if (saved && supported.includes(saved)) return saved;
+        // Map common locales to currency
+        const localeToCurrency = {
+            'en-US': 'USD', 'en-GB': 'GBP', 'en-AU': 'AUD', 'en-CA': 'CAD',
+            'en-NZ': 'NZD', 'en-IN': 'INR', 'en-ZA': 'ZAR', 'en-NG': 'NGN',
+            'en-KE': 'KES', 'en-UG': 'UGX', 'en-TZ': 'TZS', 'en-RW': 'RWF',
+            'fr-FR': 'EUR', 'de-DE': 'EUR', 'es-ES': 'EUR', 'it-IT': 'EUR',
+            'ja-JP': 'JPY', 'zh-CN': 'CNY',
+        };
+        const langs = (navigator.languages || [navigator.language || 'en-US']);
+        for (const l of langs) {
+            const c = localeToCurrency[l] || localeToCurrency[l.split('-')[0]];
+            if (c && supported.includes(c)) return c;
+        }
+        return supported.includes('USD') ? 'USD' : supported[0];
+    }
+
+    function buildCurDropdown(host, supported, initial) {
+        host.classList.add('cur-dd');
+        host.setAttribute('data-open', 'false');
+        host.innerHTML = `
+            <button type="button" class="cur-dd-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="cur-code">${initial}</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <ul class="cur-dd-menu" role="listbox">
+                ${supported.map(code => `
+                    <li role="option" data-value="${code}" class="${code === initial ? 'selected' : ''}">
+                        <span><strong>${code}</strong></span>
+                        <small>${FRIENDLY_NAMES[code] || code}</small>
+                    </li>`).join('')}
+            </ul>`;
+    }
+
+    function setCurrencyEverywhere(code) {
+        FX_STATE.selected = code;
+        localStorage.setItem('tattu-currency', code);
+        $$('[data-currency-picker]').forEach(host => {
+            const trig = host.querySelector('.cur-dd-trigger .cur-code');
+            if (trig) trig.textContent = code;
+            $$('li', host).forEach(li => li.classList.toggle('selected', li.getAttribute('data-value') === code));
+            host.setAttribute('data-open', 'false');
+            const btn = host.querySelector('.cur-dd-trigger');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        });
+        renderAmountButtons();
+        refreshAllChargePreviews();
+    }
+
+    function populateCurrencyPickers() {
+        const supported = (window.__DONATION_BASE__ && window.__DONATION_BASE__.supportedCurrencies)
+                       || ['USD','EUR','GBP','UGX','KES'];
+        const initial = detectInitialCurrency(supported);
+        FX_STATE.selected = initial;
+        $$('[data-currency-picker]').forEach(host => buildCurDropdown(host, supported, initial));
+    }
+
+    /* Toggle / select / outside-click for the custom dropdown (event delegation) */
+    document.addEventListener('click', e => {
+        const trig = e.target.closest('.cur-dd-trigger');
+        if (trig) {
+            const dd = trig.closest('.cur-dd');
+            const wasOpen = dd.getAttribute('data-open') === 'true';
+            // Close any others first
+            $$('.cur-dd[data-open="true"]').forEach(d => {
+                d.setAttribute('data-open', 'false');
+                const b = d.querySelector('.cur-dd-trigger');
+                if (b) b.setAttribute('aria-expanded', 'false');
+            });
+            dd.setAttribute('data-open', wasOpen ? 'false' : 'true');
+            trig.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
+            return;
+        }
+        const opt = e.target.closest('.cur-dd-menu li');
+        if (opt) {
+            setCurrencyEverywhere(opt.getAttribute('data-value'));
+            return;
+        }
+        // Click outside: close all
+        if (!e.target.closest('.cur-dd')) {
+            $$('.cur-dd[data-open="true"]').forEach(d => {
+                d.setAttribute('data-open', 'false');
+                const b = d.querySelector('.cur-dd-trigger');
+                if (b) b.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+    document.addEventListener('keyup', e => {
+        if (e.key === 'Escape') {
+            $$('.cur-dd[data-open="true"]').forEach(d => {
+                d.setAttribute('data-open', 'false');
+                const b = d.querySelector('.cur-dd-trigger');
+                if (b) b.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+
+    function renderAmountButtons() {
+        const host = $('[data-content="donation.amounts"]');
+        const base = window.__DONATION_BASE__;
+        if (!host || !base) return;
+        const selected = FX_STATE.selected;
+        const baseCur  = base.currency || 'USD';
+        const cur      = selected;
+        // Convert each base amount to selected currency, rounded friendly
+        const converted = base.amounts.map(a => friendlyRound(fxConvert(a, baseCur, cur)));
+        host.innerHTML = converted.map(a =>
+            `<button type="button" class="amount-btn" data-amount="${a}">${cur} ${a.toLocaleString()}</button>`
+        ).join('') + `<input type="number" id="custom-amount" placeholder="Custom (${cur})" min="1" aria-label="Custom amount">`;
+
+        // Update goal/raised display in selected currency
+        const goalEl   = $('[data-content="donation.goal"]');
+        const raisedEl = $('[data-content="donation.raised"]');
+        if (goalEl)   goalEl.textContent   = `${cur} ${friendlyRound(fxConvert(base.goal,   baseCur, cur)).toLocaleString()}`;
+        if (raisedEl) raisedEl.textContent = `${cur} ${friendlyRound(fxConvert(base.raised, baseCur, cur)).toLocaleString()}`;
+    }
+
+    function chargePreviewFor(amount) {
+        if (!amount || !Number(amount)) return '';
+        const sel    = FX_STATE.selected;
+        const charge = FX_STATE.charge;
+        if (sel === charge) return '';
+        const ugx = fxConvert(amount, sel, charge);
+        if (!ugx || isNaN(ugx)) return '';
+        return `≈ <strong>${fmtMoney(ugx, charge)}</strong> will be charged via Mobile Money`;
+    }
+    function refreshAllChargePreviews() {
+        $$('.pay-form').forEach(form => {
+            const amt = form.querySelector('input[name="amount"]');
+            const pre = form.querySelector('[data-charge-preview]');
+            if (!pre) return;
+            const html = chargePreviewFor(amt ? amt.value : '');
+            pre.innerHTML = html;
+            pre.classList.toggle('empty', !html);
+        });
+    }
+    document.addEventListener('input', e => {
+        if (e.target && e.target.matches('.pay-form input[name="amount"]')) {
+            const form = e.target.closest('.pay-form');
+            const pre  = form && form.querySelector('[data-charge-preview]');
+            if (!pre) return;
+            const html = chargePreviewFor(e.target.value);
+            pre.innerHTML = html;
+            pre.classList.toggle('empty', !html);
+        }
+    });
+
+    /* =========================================================
+     *  Programs - 3D coverflow rotation
+     * ========================================================= */
+    let _cfTimer = null;
+    function initProgramsCoverflow() {
+        const grid = $('.programs-grid');
+        if (!grid) return;
+        const cards = $$('.program-card', grid);
+        if (cards.length < 2) return;
+
+        let active = 0;
+        const N = cards.length;
+
+        function position() {
+            cards.forEach((c, i) => {
+                let d = i - active;
+                // wrap to shortest signed distance so it cycles cleanly
+                if (d >  N / 2) d -= N;
+                if (d < -N / 2) d += N;
+                c.setAttribute('data-cf', Math.abs(d) <= 2 ? String(d) : 'hide');
+            });
+        }
+        function next()  { active = (active + 1) % N; position(); }
+        function start() { stop(); _cfTimer = setInterval(next, 3500); }
+        function stop()  { if (_cfTimer) { clearInterval(_cfTimer); _cfTimer = null; } }
+
+        position();
+        start();
+
+        const wrap = $('.programs-scroller');
+        if (wrap) {
+            wrap.addEventListener('mouseenter', stop);
+            wrap.addEventListener('mouseleave', start);
+            wrap.addEventListener('focusin',  stop);
+            wrap.addEventListener('focusout', start);
+        }
+        // Click any card to bring it into focus
+        grid.addEventListener('click', e => {
+            const card = e.target.closest('.program-card');
+            if (!card) return;
+            const i = cards.indexOf(card);
+            if (i >= 0) { active = i; position(); start(); }
+        });
+        // Pause when section not visible (saves CPU)
+        if ('IntersectionObserver' in window) {
+            const sec = $('#programs');
+            if (sec) {
+                new IntersectionObserver(entries => {
+                    entries.forEach(en => en.isIntersecting ? start() : stop());
+                }, { threshold: 0.15 }).observe(sec);
+            }
+        }
+    }
+
+    document.addEventListener('content:ready', async () => {
         initRevealObserver();
+        initProgramsCoverflow();
+        await loadFxRates();
+        populateCurrencyPickers();
+        renderAmountButtons();
     });
     // Also kick off reveal on initial load (for elements present before content fetch)
     document.addEventListener('DOMContentLoaded', initRevealObserver);
@@ -501,7 +813,7 @@
      *  Highlights the pill matching whichever section is most in view.
      * ========================================================= */
     function initPillSpy() {
-        const pills = $$('#mobilePillNav a');
+        const pills = $$('#mobilePillNav a:not(.pill-brand)');
         if (!pills.length) return;
         const sections = pills
             .map(a => document.querySelector(a.getAttribute('href')))

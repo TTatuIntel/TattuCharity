@@ -92,8 +92,8 @@
 
         const progHost = $('[data-content="programs"]');
         if (progHost && Array.isArray(c.programs) && c.programs.length) {
-            const cardHTML = (p) => `
-                <article class="program-card" tabindex="0">
+            progHost.innerHTML = c.programs.map((p, i) => `
+                <article class="program-card" tabindex="0" data-program-idx="${i}">
                     ${p.image ? `
                         <div class="program-img">
                             <img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy">
@@ -105,10 +105,8 @@
                         <p class="program-desc">${esc(p.description)}</p>
                         ${p.stats ? `<p class="program-stats">${esc(p.stats)}</p>` : ''}
                     </div>
-                </article>`;
-            // duplicate the list for seamless infinite marquee
-            progHost.innerHTML = c.programs.map(cardHTML).join('') +
-                                 c.programs.map(cardHTML).join('');
+                </article>
+            `).join('');
         }
 
         const impactHost = $('[data-content="impactStories"]');
@@ -153,22 +151,26 @@
         const d = c.donation || {};
         setText('[data-content="donation.note"]',         d.note);
         setText('[data-content="donation.merchantCode"]', d.merchantCode);
-        const goal   = Number(d.goal   || 0);
-        const raised = Number(d.raised || 0);
-        const cur    = d.currency || 'USD';
-        setText('[data-content="donation.goal"]',   `${cur} ${goal.toLocaleString()}`);
-        setText('[data-content="donation.raised"]', `${cur} ${raised.toLocaleString()}`);
+        // Stored values are interpreted as the BASE currency in content.json
+        // (default USD). Frontend will re-render in the active picker currency.
+        window.__DONATION_BASE__ = {
+            currency: d.currency || 'USD',
+            goal:     Number(d.goal   || 0),
+            raised:   Number(d.raised || 0),
+            amounts:  Array.isArray(d.amounts) ? d.amounts.map(Number) : [10, 25, 50, 100],
+            supportedCurrencies: Array.isArray(d.supportedCurrencies) && d.supportedCurrencies.length
+                ? d.supportedCurrencies
+                : ['USD','EUR','GBP','UGX','KES'],
+        };
         const fill = $('[data-content="donation.progressFill"]');
         if (fill) {
+            const goal = window.__DONATION_BASE__.goal;
+            const raised = window.__DONATION_BASE__.raised;
             const pct = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
             requestAnimationFrame(() => { fill.style.width = pct + '%'; });
         }
-        const amountsHost = $('[data-content="donation.amounts"]');
-        if (amountsHost && Array.isArray(d.amounts)) {
-            amountsHost.innerHTML = d.amounts.map(a =>
-                `<button type="button" class="amount-btn" data-amount="${Number(a)}">${cur} ${Number(a).toLocaleString()}</button>`
-            ).join('') + `<input type="number" id="custom-amount" placeholder="Custom (${cur})" min="1" aria-label="Custom amount">`;
-        }
+        // The currency picker + amount buttons are rendered dynamically by main.js
+        // once FX rates are fetched; main.js dispatches when ready.
 
         const eventsHost = $('[data-content="events"]');
         if (eventsHost && Array.isArray(c.events)) {

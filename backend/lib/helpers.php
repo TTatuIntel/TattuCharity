@@ -47,6 +47,20 @@ function require_admin(): void {
     if (empty($_SESSION['is_admin'])) {
         json_response(['success' => false, 'message' => 'Unauthorized'], 401);
     }
+    // 2-hour absolute session timeout
+    $age = time() - (int)($_SESSION['login_time'] ?? 0);
+    if ($age > 7200) {
+        $_SESSION = [];
+        session_destroy();
+        json_response(['success' => false, 'message' => 'Session expired. Please log in again.'], 401);
+    }
+    // Bind session to the originating IP to defeat trivial hijacking
+    if (!empty($_SESSION['login_ip']) && $_SESSION['login_ip'] !== client_ip()) {
+        $_SESSION = [];
+        session_destroy();
+        error_log('require_admin: session IP mismatch, destroyed');
+        json_response(['success' => false, 'message' => 'Session invalid.'], 401);
+    }
 }
 
 function read_input_json(): array {

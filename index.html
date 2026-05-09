@@ -85,6 +85,10 @@
 
 <!-- Mobile fixed pill nav (visible only on phones) -->
 <nav class="mobile-pill-nav" aria-label="Quick navigation" id="mobilePillNav">
+    <a href="#home" class="pill-brand" aria-label="Tattu Care home">
+        <i class="fas fa-heart"></i><span data-content="org.name">Tattu Care</span>
+    </a>
+    <span class="pill-divider" aria-hidden="true"></span>
     <a href="#home"     data-pill="home"     aria-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
     <a href="#about"    data-pill="about"    aria-label="About"><i class="fas fa-info-circle"></i><span>About</span></a>
     <a href="#programs" data-pill="programs" aria-label="Programs"><i class="fas fa-hand-holding-heart"></i><span>Programs</span></a>
@@ -159,14 +163,12 @@
 <!-- Programs -->
 <section id="programs" class="programs">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-header reveal" style="margin-bottom:14px">
             <h2>Our Programs</h2>
-            <p>We focus on key areas to create comprehensive support. Swipe or use the arrows to browse.</p>
+            <p>Key areas where we deliver real, measurable impact.</p>
         </div>
         <div class="programs-scroller reveal">
-            <button type="button" class="programs-nav prev" aria-label="Previous program"><i class="fas fa-chevron-left"></i></button>
             <div class="programs-grid" data-content="programs"></div>
-            <button type="button" class="programs-nav next" aria-label="Next program"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
 </section>
@@ -223,6 +225,10 @@
             <div class="progress-bar">
                 <div class="progress-fill" data-content="donation.progressFill"></div>
             </div>
+        </div>
+        <div class="currency-picker-row">
+            <label>Currency</label>
+            <div class="cur-dd" data-currency-picker></div>
         </div>
         <div class="donation-amounts" data-content="donation.amounts"></div>
         <p class="donation-note" data-content="donation.note">
@@ -332,6 +338,12 @@
         <button type="button" class="pay-tab"        data-pay-tab="bank"   role="tab"><i class="fas fa-university"></i> Bank</button>
     </div>
 
+    <!-- Currency picker (one source of truth for all forms) -->
+    <div class="dropdown-currency-row">
+        <span class="dc-label">Donate in</span>
+        <div class="cur-dd" data-currency-picker></div>
+    </div>
+
     <!-- MoMo -->
     <div class="pay-panel active" data-pay-panel="momo">
         <form class="pay-form" data-method="momo" novalidate>
@@ -355,6 +367,7 @@
                     <input type="email" name="email" class="form-control" placeholder="optional">
                 </div>
             </div>
+            <p class="charge-preview" data-charge-preview></p>
             <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-lock"></i> Pay with MoMo</button>
         </form>
     </div>
@@ -382,6 +395,7 @@
                     <input type="email" name="email" class="form-control" placeholder="optional">
                 </div>
             </div>
+            <p class="charge-preview" data-charge-preview></p>
             <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-lock"></i> Pay with Airtel</button>
         </form>
     </div>
@@ -429,6 +443,7 @@
                     <input type="email" name="email" class="form-control" placeholder="receipt" required>
                 </div>
             </div>
+            <p class="charge-preview" data-charge-preview></p>
             <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane"></i> Notify Transfer</button>
         </form>
     </div>

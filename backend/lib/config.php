@@ -49,6 +49,19 @@ define('SUBSCRIBERS_FILE', DATA_DIR . 'subscribers.json');
 
 // 6) SESSION + ERROR LOGGING ------------------------------------------
 if (session_status() === PHP_SESSION_NONE) {
+    // Harden the session cookie BEFORE starting the session.
+    $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path'     => '/',
+        'domain'   => '',
+        'secure'   => $secure,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    session_name('TATTU_SID');
     session_start();
 }
 ini_set('display_errors', '0');

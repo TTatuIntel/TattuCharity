@@ -81,5 +81,53 @@
         "ip": "::1",
         "status": "manual_pending",
         "message": "MTN MoMo not configured. Donor must be contacted manually."
+    },
+    {
+        "id": "2056ee76227e20a7",
+        "method": "momo",
+        "amount": 25,
+        "currency": "USD",
+        "chargeAmount": 21.29,
+        "chargeCurrency": "EUR",
+        "phone": "256770000000",
+        "name": "FXTest",
+        "email": "x@y.com",
+        "reference": null,
+        "createdAt": "2026-05-08T20:43:26+02:00",
+        "ip": "::1",
+        "status": "manual_pending",
+        "message": "MTN MoMo not configured. Donor must be contacted manually."
+    },
+    {
+        "id": "5cd4f0f6e694612e",
+        "method": "momo",
+        "amount": 3000,
+        "currency": "KES",
+        "chargeAmount": 19.78,
+        "chargeCurrency": "EUR",
+        "phone": "256770000000",
+        "name": "",
+        "email": "",
+        "reference": null,
+        "createdAt": "2026-05-08T20:43:27+02:00",
+        "ip": "::1",
+        "status": "manual_pending",
+        "message": "MTN MoMo not configured. Donor must be contacted manually."
+    },
+    {
+        "id": "bef759b6d2efc15e",
+        "method": "momo",
+        "amount": 500,
+        "currency": "GHS",
+        "chargeAmount": 37.85,
+        "chargeCurrency": "EUR",
+        "phone": "256770000000",
+        "name": "",
+        "email": "",
+        "reference": null,
+        "createdAt": "2026-05-08T20:52:47+02:00",
+        "ip": "::1",
+        "status": "manual_pending",
+        "message": "MTN MoMo not configured. Donor must be contacted manually."
     }
 ]

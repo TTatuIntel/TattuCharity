@@ -2,6 +2,7 @@
 define('TATTU_INTERNAL', true);
 require_once __DIR__ . '/../lib/helpers.php';
 require_once __DIR__ . '/../lib/momo.php';
+require_once __DIR__ . '/../lib/fx.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['success' => false, 'message' => 'Method not allowed'], 405);
@@ -18,40 +19,61 @@ if (!in_array($method, ['momo', 'airtel', 'bank'], true)) {
     json_response(['success' => false, 'message' => 'Unknown payment method.'], 400);
 }
 
-$amount    = isset($data['amount']) ? (float) $data['amount'] : 0;
-$phone     = isset($data['phone'])  ? preg_replace('/\s+/', '', (string) $data['phone']) : '';
-$name      = trim((string)($data['name']      ?? ''));
-$email     = trim((string)($data['email']     ?? ''));
-$reference = trim((string)($data['reference'] ?? ''));
+$amount         = isset($data['amount']) ? (float) $data['amount'] : 0;
+$displayCurrency= strtoupper(trim((string)($data['currency'] ?? 'USD')));
+$phone          = isset($data['phone'])  ? preg_replace('/\s+/', '', (string) $data['phone']) : '';
+$name           = trim((string)($data['name']      ?? ''));
+$email          = trim((string)($data['email']     ?? ''));
+$reference      = trim((string)($data['reference'] ?? ''));
 
 if ($amount < 1) {
     json_response(['success' => false, 'message' => 'Please enter a valid donation amount.'], 400);
 }
+if (!preg_match('/^[A-Z]{3}$/', $displayCurrency)) {
+    json_response(['success' => false, 'message' => 'Invalid currency code.'], 400);
+}
 if ($email !== '' && !valid_email($email)) {
     json_response(['success' => false, 'message' => 'Please enter a valid email address.'], 400);
 }
-// Phone is required for MoMo / Airtel; not for bank
 if (in_array($method, ['momo', 'airtel'], true) && !valid_phone($phone)) {
     json_response(['success' => false, 'message' => 'Please enter a valid Mobile Money number starting with 256 (e.g. 256770000000).'], 400);
 }
-// Email is required for bank transfer (so we can confirm)
 if ($method === 'bank' && !valid_email($email)) {
     json_response(['success' => false, 'message' => 'Please enter a valid email so we can confirm your transfer.'], 400);
 }
 
+// Server-side currency conversion: donor enters X in their currency,
+// we charge MoMo in CURRENCY (UGX in production, EUR in sandbox).
+try {
+    $chargeAmount = fx_convert($amount, $displayCurrency, CURRENCY);
+} catch (Throwable $e) {
+    error_log('donate.php FX error: ' . $e->getMessage());
+    json_response(['success' => false, 'message' => 'Currency not supported. Please choose another.'], 400);
+}
+// Round to whole units for UGX/JPY/etc.; 2dp for EUR/USD
+$chargeAmount = in_array(CURRENCY, ['UGX','JPY','RWF','TZS','KES','BIF','VND','XAF','XOF'], true)
+    ? round($chargeAmount)
+    : round($chargeAmount, 2);
+
+if ($chargeAmount < 1) {
+    json_response(['success' => false, 'message' => 'Amount too small after conversion.'], 400);
+}
+
 $record = [
-    'id'        => gen_id(),
-    'method'    => $method,
-    'amount'    => $amount,
-    'currency'  => CURRENCY,
-    'phone'     => $phone,
-    'name'      => $name,
-    'email'     => $email,
-    'reference' => $reference ?: null,
-    'createdAt' => date('c'),
-    'ip'        => client_ip(),
-    'status'    => 'pending',
-    'message'   => null,
+    'id'              => gen_id(),
+    'method'          => $method,
+    'amount'          => $amount,           // donor-entered amount
+    'currency'        => $displayCurrency,  // donor's currency
+    'chargeAmount'    => $chargeAmount,     // amount actually charged
+    'chargeCurrency'  => CURRENCY,          // MoMo charge currency
+    'phone'           => $phone,
+    'name'            => $name,
+    'email'           => $email,
+    'reference'       => $reference ?: null,
+    'createdAt'       => date('c'),
+    'ip'              => client_ip(),
+    'status'          => 'pending',
+    'message'         => null,
 ];
 
 /* ----- Bank transfer: log + return immediately ----- */
@@ -80,7 +102,7 @@ if ($method === 'airtel') {
 $momo = new MoMoClient();
 
 if ($momo->isConfigured()) {
-    $res = $momo->requestToPay($phone, $amount, CURRENCY,
+    $res = $momo->requestToPay($phone, $chargeAmount, CURRENCY,
         "Donation to " . CHARITY_NAME . " from " . ($name ?: 'Anonymous'));
 
     if ($res['success']) {

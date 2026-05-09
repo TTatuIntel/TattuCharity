@@ -196,6 +196,7 @@
         "goal": 10000,
         "raised": 7500,
         "currency": "USD",
+        "supportedCurrencies": ["USD", "EUR", "GBP", "UGX", "KES", "TZS", "RWF", "NGN", "ZAR", "GHS"],
         "amounts": [
             10,
             25,

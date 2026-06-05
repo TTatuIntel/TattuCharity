@@ -34,4 +34,11 @@ if (!write_json(SUBSCRIBERS_FILE, $list)) {
     json_response(['success' => false, 'message' => 'Could not save subscription. Please try again.'], 500);
 }
 
+notify_info(
+    '[' . CHARITY_NAME . '] New newsletter subscriber',
+    "Email: {$email}\nSubscribed: " . date('Y-m-d H:i:s') . "\nIP: " . client_ip() . "\n\nView in Admin → Submissions.",
+    $email
+);
+send_newsletter_welcome($email);
+
 json_response(['success' => true, 'message' => 'Thank you for subscribing!']);

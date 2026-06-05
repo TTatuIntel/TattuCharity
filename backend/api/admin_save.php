@@ -6,6 +6,10 @@ require_admin();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['success' => false, 'message' => 'Method not allowed'], 405);
 }
+require_csrf();
+if (!rate_limit('admin_save_' . client_ip(), 30, 60)) {
+    json_response(['success' => false, 'message' => 'Too many save requests. Please wait a moment.'], 429);
+}
 
 $content = read_input_json();
 if (empty($content) || !is_array($content)) {

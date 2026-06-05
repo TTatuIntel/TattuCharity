@@ -1,5 +1,4 @@
-# backend/ - allow only admin.php and api/ directory
-# Block error.log
+# backend/ - deny error log, block PHP execution in uploads path
 <FilesMatch "^error\.log$">
     <IfModule mod_authz_core.c>
         Require all denied
@@ -9,4 +8,13 @@
         Deny from all
     </IfModule>
 </FilesMatch>
+
+# Admin area: no indexing
+<Files "admin.php">
+    <IfModule mod_headers.c>
+        Header set X-Robots-Tag "noindex, nofollow"
+        Header set Cache-Control "no-store, no-cache, must-revalidate"
+    </IfModule>
+</Files>
+
 Options -Indexes

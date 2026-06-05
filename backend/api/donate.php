@@ -81,6 +81,7 @@ if ($method === 'bank') {
     $record['status']  = 'bank_pledged';
     $record['message'] = 'Donor reports a bank transfer. Verify against bank statement.';
     append_json_record(DONATIONS_FILE, $record);
+    notify_donation($record);
     json_response([
         'success' => true,
         'message' => 'Thank you! We will verify your transfer and email confirmation shortly.',
@@ -92,6 +93,7 @@ if ($method === 'airtel') {
     $record['status']  = 'airtel_pledged';
     $record['message'] = 'Airtel Money pledge. Awaiting manual confirmation.';
     append_json_record(DONATIONS_FILE, $record);
+    notify_donation($record);
     json_response([
         'success' => true,
         'message' => 'Thank you! We will contact you shortly with Airtel payment instructions.',
@@ -109,6 +111,7 @@ if ($momo->isConfigured()) {
         $record['status']    = 'awaiting_approval';
         $record['reference'] = $res['referenceId'];
         append_json_record(DONATIONS_FILE, $record);
+        notify_donation($record);
         json_response([
             'success'     => true,
             'message'     => 'Payment request sent. Please check your phone and approve the Mobile Money prompt.',
@@ -118,12 +121,14 @@ if ($momo->isConfigured()) {
         $record['status']  = 'failed';
         $record['message'] = $res['message'];
         append_json_record(DONATIONS_FILE, $record);
+        notify_donation($record);
         json_response(['success' => false, 'message' => $res['message']], 502);
     }
 } else {
     $record['status']  = 'manual_pending';
     $record['message'] = 'MTN MoMo not configured. Donor must be contacted manually.';
     append_json_record(DONATIONS_FILE, $record);
+    notify_donation($record);
     json_response([
         'success' => true,
         'message' => 'Thank you! Your pledge has been recorded. Our team will contact you shortly to complete the donation.',

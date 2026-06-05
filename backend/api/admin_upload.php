@@ -16,6 +16,7 @@ require_admin();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['success' => false, 'message' => 'Method not allowed'], 405);
 }
+require_csrf();
 
 if (empty($_FILES['file']) || !is_array($_FILES['file'])) {
     json_response(['success' => false, 'message' => 'No file received'], 400);

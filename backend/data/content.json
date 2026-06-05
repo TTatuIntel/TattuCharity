@@ -8,10 +8,10 @@
         "address": "Plot 123, Kampala Road, Kampala, Uganda",
         "phone": "+256 770 495 837",
         "email": "info@tattucare.org",
-        "facebook": "#",
-        "twitter": "#",
-        "instagram": "#",
-        "linkedin": ""
+        "facebook": "https://facebook.com/tattucare",
+        "twitter": "https://twitter.com/tattucare",
+        "instagram": "https://instagram.com/tattucare",
+        "linkedin": "https://linkedin.com/company/tattu-care"
     },
     "hero": {
         "title": "Bringing Hope to Uganda",
@@ -19,7 +19,9 @@
         "image": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
         "primaryCtaText": "Donate Now",
         "secondaryCtaText": "Learn More",
-        "rotateMs": 6500,
+        "rotateMs": 4000,
+        "autoPromoteEvents": true,
+        "eventPromoteDays": 60,
         "slides": [
             {
                 "title": "Bringing Hope to Uganda",
@@ -45,7 +47,7 @@
             "Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently."
         ],
         "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-        "rotateMs": 8000,
+        "rotateMs": 3600,
         "slides": [
             {
                 "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
@@ -63,23 +65,32 @@
             }
         ]
     },
+    "statsDisplay": {
+        "showSection": true,
+        "source": "custom",
+        "maxItems": 4
+    },
     "stats": [
         {
+            "enabled": true,
             "icon": "fa-users",
             "number": "5,000+",
             "label": "Families Supported"
         },
         {
+            "enabled": true,
             "icon": "fa-tint",
             "number": "25+",
             "label": "Water Projects"
         },
         {
+            "enabled": true,
             "icon": "fa-school",
             "number": "12",
             "label": "Schools Built"
         },
         {
+            "enabled": true,
             "icon": "fa-clinic-medical",
             "number": "8",
             "label": "Medical Clinics"
@@ -150,26 +161,61 @@
             "quote": "I can finally get treatment.",
             "quoteAuthor": "John, rural Uganda",
             "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "title": "Shelter for Displaced Families",
+            "text": "In 2025 we completed 12 homes in Gulu for families displaced by flooding, with safe roofing and sanitation facilities.",
+            "quote": "My children sleep without fear of rain now.",
+            "quoteAuthor": "Amina, Gulu",
+            "image": "https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "title": "Farmers Thrive in Soroti",
+            "text": "Seed distribution and training helped 200 farmers increase crop yields by 40% in one growing season.",
+            "quote": "We can feed our village again.",
+            "quoteAuthor": "Moses, Soroti",
+            "image": "https://images.unsplash.com/photo-1593113598332-629a3a1c3e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
         }
     ],
     "team": [
         {
-            "name": "Founder Name",
+            "name": "Sarah Nambi",
             "role": "Founder & Director",
-            "bio": "Brief bio - update from the admin panel.",
-            "image": ""
+            "bio": "Sarah founded Tattu Care in 2020 after years of community work in Kampala. She leads strategy, partnerships, and field operations across Uganda.",
+            "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
         },
         {
-            "name": "Team Member",
+            "name": "James Okello",
             "role": "Programs Lead",
-            "bio": "Brief bio - update from the admin panel.",
-            "image": ""
+            "bio": "James coordinates water, education, and healthcare initiatives. He manages local volunteers and tracks impact metrics for every project.",
+            "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+        },
+        {
+            "name": "Grace Achieng",
+            "role": "Community Outreach",
+            "bio": "Grace builds relationships with village leaders and ensures supplies reach families who need them most during collection drives.",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+        },
+        {
+            "name": "Peter Mugisha",
+            "role": "Finance & Donor Relations",
+            "bio": "Peter oversees donations, bank reconciliation, and donor communications so every contribution is acknowledged and accounted for.",
+            "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
         }
     ],
     "events": [
         {
             "title": "April 2026 Drive",
             "date": "April 15-30, 2026",
+            "startDate": "2026-04-15",
+            "endDate": "2026-04-30",
+            "location": "Kampala, Uganda",
+            "status": "upcoming",
+            "featured": true,
+            "featureOnHero": true,
+            "heroTitle": "April Collection Drive — Get Involved",
+            "heroSubtitle": "Help us gather educational materials for children in Kampala. Volunteer or donate supplies today.",
+            "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
             "description": "Collecting educational materials for Kampala.",
             "items": [
                 "Notebooks",
@@ -182,6 +228,13 @@
         {
             "title": "June 2026 Drive",
             "date": "June 1-15, 2026",
+            "startDate": "2026-06-01",
+            "endDate": "2026-06-15",
+            "location": "Mbale, Uganda",
+            "status": "upcoming",
+            "featured": false,
+            "featureOnHero": true,
+            "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
             "description": "Collecting medical supplies for Mbale.",
             "items": [
                 "Bandages",
@@ -190,6 +243,44 @@
             ],
             "ctaText": "Volunteer",
             "ctaLink": "#contact"
+        },
+        {
+            "title": "August Hygiene Kit Drive",
+            "date": "August 5-20, 2026",
+            "startDate": "2026-08-05",
+            "endDate": "2026-08-20",
+            "location": "Jinja, Uganda",
+            "status": "upcoming",
+            "featured": true,
+            "featureOnHero": false,
+            "image": "https://images.unsplash.com/photo-1584483766114-2cea45facac9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Distributing soap, toothbrushes, and hygiene kits to 800 families in Jinja.",
+            "items": [
+                "Soap bars",
+                "Toothbrushes",
+                "Sanitary pads"
+            ],
+            "ctaText": "Donate supplies",
+            "ctaLink": "#contact"
+        },
+        {
+            "title": "December 2025 Water Project",
+            "date": "December 1-31, 2025",
+            "startDate": "2025-12-01",
+            "endDate": "2025-12-31",
+            "location": "Karamoja, Uganda",
+            "status": "completed",
+            "featured": false,
+            "featureOnHero": false,
+            "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Completed well installation serving 600 families in Karamoja region.",
+            "items": [
+                "Well drilling",
+                "Water testing",
+                "Community training"
+            ],
+            "ctaText": "Read impact",
+            "ctaLink": "#impact"
         }
     ],
     "donation": {
@@ -215,9 +306,15 @@
         }
     },
     "trust": {
+        "showTrustBar": false,
         "registrationCountry": "Uganda",
+        "showFooterLegal": false,
         "taxDeductible": false,
         "annualReportUrl": "",
-        "partners": []
+        "partners": [
+            { "name": "Stanbic Bank Uganda", "url": "https://www.stanbicbank.co.ug", "logo": "" },
+            { "name": "Kampala Community Church", "url": "", "logo": "" },
+            { "name": "East Africa Partners Ltd", "url": "", "logo": "" }
+        ]
     }
 }

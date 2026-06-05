@@ -39,10 +39,16 @@ if (!append_json_record(MESSAGES_FILE, $record)) {
 }
 
 $subject = '[' . CHARITY_NAME . '] New contact message from ' . $name;
-$body    = "From: {$name} <{$email}>\n\n{$message}\n\nIP: " . client_ip();
-$headers = "From: " . CHARITY_NAME . " <" . CHARITY_EMAIL . ">\r\n"
-         . "Reply-To: {$email}\r\n"
-         . "Content-Type: text/plain; charset=utf-8\r\n";
-@mail(CHARITY_EMAIL, $subject, $body, $headers);
+$body    = "A visitor submitted the contact form on your website.\n\n"
+         . "From: {$name} <{$email}>\n\n{$message}\n\n"
+         . "Submitted: " . date('Y-m-d H:i:s') . "\nIP: " . client_ip() . "\n\n"
+         . "View and manage in Admin → Submissions.";
+notify_info($subject, $body, $email);
+// Send admin SMS first (if configured), then email notifications and auto-reply.
+if (function_exists('send_admin_sms')) {
+    $smsShort = "New contact from {$name}: " . substr($message, 0, 160);
+    @send_admin_sms($smsShort);
+}
+send_contact_auto_reply($name, $email);
 
 json_response(['success' => true, 'message' => 'Thank you! We will get back to you soon.']);

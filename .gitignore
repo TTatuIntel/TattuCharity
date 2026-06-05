@@ -1,0 +1,8 @@
+# SMTP credentials — never commit
+backend/data/smtp.local.php
+
+# Runtime / local
+backend/error.log
+backend/server.log
+backend/data/rate_*.json
+backend/data/*.tmp

@@ -1,0 +1,30 @@
+<?php
+/**
+ * SMTP credentials — copy to smtp.local.php (gitignored).
+ *
+ * Pattern: authenticate with Gmail (tattuintel@gmail.com + App Password),
+ * deliver notifications to info@tattucare.org, show From as Tattu Care.
+ *
+ * Gmail setup:
+ *   1. Google Account → Security → turn on 2-Step Verification
+ *   2. App passwords → create one for "Mail"
+ *   3. Optional: Gmail Settings → Accounts → "Send mail as" → add info@tattucare.org
+ *
+ * Test: php backend/scripts/test-smtp.php
+ */
+if (!defined('TATTU_INTERNAL')) {
+    return [];
+}
+
+return [
+    'enabled'      => true,
+    'host'         => 'smtp.gmail.com',
+    'port'         => 587,
+    'encryption'   => 'tls',
+    'username'     => 'tattuintel@gmail.com',
+    'password'     => 'YOUR_GMAIL_APP_PASSWORD',
+    'from_email'   => 'info@tattucare.org',
+    'from_name'    => 'Tattu Care',
+    'notify_email' => 'info@tattucare.org',
+    'auto_reply'   => true,
+];

@@ -25,9 +25,10 @@ if ($now - (int)($lock['firstFailAt'] ?? 0) > 900 && empty($lock['lockedUntil'])
 }
 
 $data     = read_input_json();
+require_csrf();
 $password = (string)($data['password'] ?? '');
 
-if (!hash_equals(ADMIN_PASSWORD, $password)) {
+if (!verify_admin_password($password)) {
     $lock['fails']        = (int)($lock['fails'] ?? 0) + 1;
     $lock['firstFailAt']  = $lock['firstFailAt'] ?: $now;
     if ($lock['fails'] >= 5) {
@@ -48,5 +49,6 @@ session_regenerate_id(true);
 $_SESSION['is_admin']   = true;
 $_SESSION['login_time'] = $now;
 $_SESSION['login_ip']   = $ip;
+csrf_token(); // issue token for subsequent admin API calls
 
-json_response(['success' => true, 'message' => 'Welcome.']);
+json_response(['success' => true, 'message' => 'Welcome.', 'csrf' => csrf_token()]);

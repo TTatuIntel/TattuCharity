@@ -1,0 +1,110 @@
+[
+    {
+        "id": "a1b2c3d4e5f67890",
+        "name": "Grace Nakato",
+        "email": "grace.nakato@gmail.com",
+        "message": "Hello! I would like to volunteer for the upcoming water well project in Karamoja. I have experience in community outreach and can commit two weekends per month. Please let me know how to get involved.",
+        "createdAt": "2026-05-28T09:15:00+03:00",
+        "ip": "102.134.22.45",
+        "read": true
+    },
+    {
+        "id": "b2c3d4e5f6789012",
+        "name": "David Mwangi",
+        "email": "d.mwangi@outlook.com",
+        "message": "We are a small business in Nairobi interested in sponsoring the education program. Could someone contact us about corporate partnership tiers and tax documentation?",
+        "createdAt": "2026-05-27T14:32:00+03:00",
+        "ip": "41.89.112.78",
+        "read": true
+    },
+    {
+        "id": "c3d4e5f678901234",
+        "name": "Sarah Mitchell",
+        "email": "sarah.m@yahoo.com",
+        "message": "I made a donation yesterday via bank transfer (ref TXN-88421). Can you confirm it was received? Thank you for the incredible work you do.",
+        "createdAt": "2026-05-26T18:05:00+02:00",
+        "ip": "82.45.201.33",
+        "read": true
+    },
+    {
+        "id": "d4e5f67890123456",
+        "name": "Rev. Peter Okello",
+        "email": "pastor.okello@church.org",
+        "message": "Our congregation would like to host a fundraising dinner for Tattu Care. We expect about 120 attendees. Do you have materials or a speaker who could join us?",
+        "createdAt": "2026-05-24T11:20:00+03:00",
+        "ip": "197.239.88.12",
+        "read": false
+    },
+    {
+        "id": "e5f6789012345678",
+        "name": "Amara Diallo",
+        "email": "amara.diallo@proton.me",
+        "message": "Question about the hygiene kits drive — are you still accepting in-kind donations of soap and toothbrushes? I can arrange a shipment from Kampala.",
+        "createdAt": "2026-05-22T08:44:00+03:00",
+        "ip": "105.163.44.91",
+        "read": false
+    },
+    {
+        "id": "f678901234567890",
+        "name": "James Ochieng",
+        "email": "jochieng@company.co.ke",
+        "message": "Please update my receipt email to jochieng@company.co.ke — I used the wrong address when donating. Amount was USD 500.",
+        "createdAt": "2026-05-20T16:18:00+03:00",
+        "ip": "196.201.214.55",
+        "read": true
+    },
+    {
+        "id": "7890123456789012",
+        "name": "Linda Chen",
+        "email": "linda.chen@university.edu",
+        "message": "I'm a public health student looking for a field placement. Does Tattu Care accept interns for the maternal health program? Available June–August 2026.",
+        "createdAt": "2026-05-18T10:00:00+08:00",
+        "ip": "203.118.45.67",
+        "read": false
+    },
+    {
+        "id": "8901234567890123",
+        "name": "Michael Torres",
+        "email": "mtorres@gmail.com",
+        "message": "Great website! Quick suggestion: adding a monthly giving option would make it easier for diaspora supporters like me to contribute regularly.",
+        "createdAt": "2026-05-15T22:30:00-05:00",
+        "ip": "72.184.55.102",
+        "read": true
+    },
+    {
+        "id": "9012345678901234",
+        "name": "Christine Abiyo",
+        "email": "christine.abiyo@charity.org",
+        "message": "Hello Tattu Care team! I work with another NGO in Uganda and would like to explore partnership opportunities. Our organization focuses on maternal health. Can we set up a meeting?",
+        "createdAt": "2026-05-14T13:45:00+03:00",
+        "ip": "154.112.34.78",
+        "read": true
+    },
+    {
+        "id": "a012345678901234b",
+        "name": "Samuel Kipchoge",
+        "email": "skipchoge@example.com",
+        "message": "I want to organize a fundraiser in my community. Can you send me some promotional materials about the water projects?",
+        "createdAt": "2026-05-12T11:20:00+03:00",
+        "ip": "102.205.88.99",
+        "read": false
+    },
+    {
+        "id": "b012345678901234c",
+        "name": "Thomas Kabuye",
+        "email": "thomas.kabuye@school.edu",
+        "message": "Our school would like to include Tattu Care's work in our social studies curriculum. Could you provide educational materials about your impact?",
+        "createdAt": "2026-05-10T09:30:00+03:00",
+        "ip": "195.34.67.45",
+        "read": false
+    },
+    {
+        "id": "c012345678901234d",
+        "name": "Fatima Hassan",
+        "email": "f.hassan@health.org",
+        "message": "Interested in supporting your healthcare program. What are the current health challenges in the communities you serve?",
+        "createdAt": "2026-05-09T14:15:00+02:00",
+        "ip": "102.134.99.88",
+        "read": true
+    }
+]

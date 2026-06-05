@@ -24,6 +24,7 @@
 <body>
 
 <a class="skip-link" href="#home">Skip to content</a>
+<div class="nav-progress" id="navProgress" aria-hidden="true"></div>
 
 <!-- Header -->
 <header id="header">
@@ -35,11 +36,11 @@
         <nav aria-label="Primary">
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#events">Events</a></li>
                 <li><a href="#programs">Programs</a></li>
                 <li><a href="#impact">Impact</a></li>
                 <li><a href="#team">Team</a></li>
-                <li><a href="#events">Events</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -61,11 +62,11 @@
 
     <ul class="mobile-nav-links">
         <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="#events"><i class="fas fa-calendar"></i> Events</a></li>
         <li><a href="#programs"><i class="fas fa-hand-holding-heart"></i> Our Programs</a></li>
         <li><a href="#impact"><i class="fas fa-chart-line"></i> Our Impact</a></li>
         <li><a href="#team"><i class="fas fa-users"></i> Our Team</a></li>
-        <li><a href="#events"><i class="fas fa-calendar"></i> Events</a></li>
+        <li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
         <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
 
@@ -74,6 +75,7 @@
             <a data-content="org.facebook"  href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a data-content="org.twitter"   href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
             <a data-content="org.instagram" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a data-content="org.linkedin"  href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
         <div class="contact-mini">
             <a data-content="org.phone-link" href="#"><span data-content="org.phone">-</span></a>
@@ -83,19 +85,13 @@
     </div>
 </aside>
 
-<!-- Mobile fixed pill nav (visible only on phones) -->
-<nav class="mobile-pill-nav" aria-label="Quick navigation" id="mobilePillNav">
-    <a href="#home" class="pill-brand" aria-label="Tattu Care home">
-        <i class="fas fa-heart"></i><span data-content="org.name">Tattu Care</span>
-    </a>
-    <span class="pill-divider" aria-hidden="true"></span>
+<!-- Mobile bottom tab bar (phones only — no horizontal scrolling) -->
+<nav class="mobile-bottom-nav" aria-label="Quick navigation" id="mobileBottomNav">
     <a href="#home"     data-pill="home"     aria-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#about"    data-pill="about"    aria-label="About"><i class="fas fa-info-circle"></i><span>About</span></a>
-    <a href="#programs" data-pill="programs" aria-label="Programs"><i class="fas fa-hand-holding-heart"></i><span>Programs</span></a>
-    <a href="#impact"   data-pill="impact"   aria-label="Impact"><i class="fas fa-chart-line"></i><span>Impact</span></a>
-    <a href="#team"     data-pill="team"     aria-label="Team"><i class="fas fa-users"></i><span>Team</span></a>
     <a href="#events"   data-pill="events"   aria-label="Events"><i class="fas fa-calendar"></i><span>Events</span></a>
-    <a href="#contact"  data-pill="contact"  aria-label="Contact"><i class="fas fa-envelope"></i><span>Contact</span></a>
+    <a href="#programs" data-pill="programs" aria-label="Programs"><i class="fas fa-hand-holding-heart"></i><span>Programs</span></a>
+    <a href="#about"    data-pill="about"    aria-label="About"><i class="fas fa-info-circle"></i><span>About</span></a>
+    <button type="button" class="mobile-nav-more" id="mobileNavMore" aria-label="More sections"><i class="fas fa-ellipsis-h"></i><span>More</span></button>
 </nav>
 
 <!-- Theme toggle -->
@@ -107,19 +103,19 @@
 
 <!-- Hero -->
 <section id="home" class="hero">
-    <div class="hero-bg" data-hero-bg="a"></div>
+    <div class="hero-bg is-active" data-hero-bg="a"></div>
     <div class="hero-bg" data-hero-bg="b"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content" data-hero-content>
         <h1 data-content="hero.title">Bringing Hope to Uganda</h1>
         <p data-content="hero.subtitle">Tattu Care provides essential support to vulnerable communities across Uganda.</p>
         <div class="hero-btns">
-            <a href="#about"    class="btn btn-secondary btn-lg" data-content="hero.secondaryCta">Learn More</a>
+            <a href="#events"   class="btn btn-secondary btn-lg" data-content="hero.secondaryCta">Learn More</a>
             <a href="#programs" class="btn btn-outline btn-lg" style="color:#fff;border-color:#fff">Our Programs</a>
         </div>
     </div>
     <div class="hero-dots" data-hero-dots></div>
-    <a href="#about" class="scroll-down" aria-label="Scroll down">
+    <a href="#events" class="scroll-down" aria-label="Scroll down">
         <i class="fas fa-chevron-down"></i>
     </a>
 </section>
@@ -131,30 +127,61 @@
     </div>
 </section>
 
-<!-- Trust bar -->
-<div class="trust-bar">
-    <div class="container trust-bar-inner">
-        <span><i class="fas fa-id-card"></i> Reg #: <strong data-content="org.registrationNumber">-</strong></span>
-        <span><i class="fas fa-flag"></i> Registered in <strong data-content="trust.country">Uganda</strong></span>
-        <span><i class="fas fa-calendar-alt"></i> Founded <strong data-content="org.founded">-</strong></span>
-        <span><i class="fas fa-shield-alt"></i> Secure Mobile Money donations</span>
+<!-- Trust bar (hidden by default — enable in Admin → Trust & Legal) -->
+<div class="trust-bar hidden" id="trustBar" aria-label="Trust and registration">
+    <div class="container">
+        <ul class="trust-bar-grid" role="list">
+            <li class="trust-item">
+                <span class="trust-item-icon" aria-hidden="true"><i class="fas fa-id-card"></i></span>
+                <span class="trust-item-body">
+                    <span class="trust-item-label">Reg #</span>
+                    <strong class="trust-item-value" data-content="org.registrationNumber">—</strong>
+                </span>
+            </li>
+            <li class="trust-item">
+                <span class="trust-item-icon" aria-hidden="true"><i class="fas fa-flag"></i></span>
+                <span class="trust-item-body">
+                    <span class="trust-item-label">Registered in</span>
+                    <strong class="trust-item-value" data-content="trust.country">Uganda</strong>
+                </span>
+            </li>
+            <li class="trust-item">
+                <span class="trust-item-icon" aria-hidden="true"><i class="fas fa-calendar-alt"></i></span>
+                <span class="trust-item-body">
+                    <span class="trust-item-label">Founded</span>
+                    <strong class="trust-item-value" data-content="org.founded">—</strong>
+                </span>
+            </li>
+            <li class="trust-item">
+                <span class="trust-item-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></span>
+                <span class="trust-item-body">
+                    <span class="trust-item-label">Donations</span>
+                    <strong class="trust-item-value">Secure Mobile Money</strong>
+                </span>
+            </li>
+        </ul>
     </div>
 </div>
 
-<section id="about" class="about">
+<!-- Events (before programs — synced with admin) -->
+<section id="events" class="events">
     <div class="container">
-        <div class="about-container">
-            <div class="about-content reveal">
-                <h2 data-content="about.heading">About Tattu Care</h2>
-                <div data-content="about.paragraphs" data-about-paragraphs></div>
-                <a href="#programs" class="btn btn-outline">Explore Our Programs</a>
+        <div class="section-header reveal">
+            <h2>Upcoming Events</h2>
+            <p>Upcoming drives and dates — scroll, swipe, or use arrows to browse.</p>
+        </div>
+        <div class="events-rail-host reveal-fade">
+            <p class="events-empty" data-events-empty hidden>No upcoming events right now. Check back soon!</p>
+            <div class="content-rail-wrap events-rail">
+                <button type="button" class="carousel-btn carousel-prev events-prev" aria-label="Previous event"><i class="fas fa-chevron-left"></i></button>
+                <div class="content-rail-track events-track" data-content="events" role="list"></div>
+                <button type="button" class="carousel-btn carousel-next events-next" aria-label="Next event"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <div class="about-img reveal delay-1" data-about-img-wrap>
-                <img data-content="about.image"
-                     src="https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                     alt="Tattu Care volunteers in the field"
-                     loading="lazy">
-                <div class="about-dots" data-about-dots></div>
+            <div class="carousel-controls" data-events-controls>
+                <div class="carousel-dots" data-events-dots role="tablist" aria-label="Events"></div>
+                <button type="button" class="carousel-auto-btn" data-events-auto aria-pressed="true" title="Pause auto-scroll">
+                    <i class="fas fa-pause" aria-hidden="true"></i><span>Auto</span>
+                </button>
             </div>
         </div>
     </div>
@@ -163,12 +190,20 @@
 <!-- Programs -->
 <section id="programs" class="programs">
     <div class="container">
-        <div class="section-header reveal" style="margin-bottom:14px">
+        <div class="section-header reveal" style="margin-bottom:10px">
             <h2>Our Programs</h2>
             <p>Key areas where we deliver real, measurable impact.</p>
         </div>
-        <div class="programs-scroller reveal">
+        <div class="programs-scroller reveal-fade">
+            <button type="button" class="carousel-btn carousel-prev programs-prev" aria-label="Previous program"><i class="fas fa-chevron-left"></i></button>
             <div class="programs-grid" data-content="programs"></div>
+            <button type="button" class="carousel-btn carousel-next programs-next" aria-label="Next program"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-controls" data-programs-controls>
+            <div class="carousel-dots" data-programs-dots role="tablist" aria-label="Program slides"></div>
+            <button type="button" class="carousel-auto-btn" data-programs-auto aria-pressed="true" title="Pause auto-rotate">
+                <i class="fas fa-pause" aria-hidden="true"></i><span>Auto</span>
+            </button>
         </div>
     </div>
 </section>
@@ -180,8 +215,16 @@
             <h2>Our Impact</h2>
             <p>Real stories of transformation from the communities we serve. Tap a card for the full story.</p>
         </div>
-        <div class="impact-track-wrap reveal">
+        <div class="impact-track-wrap reveal-fade">
+            <button type="button" class="carousel-btn carousel-prev impact-prev" aria-label="Previous stories"><i class="fas fa-chevron-left"></i></button>
             <div class="impact-track" data-content="impactStories" role="list"></div>
+            <button type="button" class="carousel-btn carousel-next impact-next" aria-label="Next stories"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-controls" data-impact-controls>
+            <div class="carousel-dots" data-impact-dots role="tablist" aria-label="Impact stories"></div>
+            <button type="button" class="carousel-auto-btn" data-impact-auto aria-pressed="true" title="Pause auto-scroll">
+                <i class="fas fa-pause" aria-hidden="true"></i><span>Auto</span>
+            </button>
         </div>
     </div>
 </section>
@@ -198,17 +241,6 @@
         </div>
     </div>
 </div>
-
-<!-- Team -->
-<section id="team" class="team">
-    <div class="container">
-        <div class="section-header reveal">
-            <h2>Our Team</h2>
-            <p>Meet the people behind Tattu Care.</p>
-        </div>
-        <div class="team-grid reveal-stagger" data-content="team"></div>
-    </div>
-</section>
 
 <!-- Donation -->
 <section id="donation" class="donation">
@@ -242,14 +274,64 @@
     </div>
 </section>
 
-<!-- Events -->
-<section id="events" class="events">
+<!-- Team -->
+<section id="team" class="team">
     <div class="container">
-        <div class="section-header">
-            <h2>Upcoming Events</h2>
-            <p>Join our collection drives to support Uganda.</p>
+        <div class="section-header reveal">
+            <h2>Our Team</h2>
+            <p>Meet the people behind Tattu Care — scroll or swipe through the team.</p>
         </div>
-        <div class="events-grid" data-content="events"></div>
+        <div class="content-rail-wrap team-rail reveal-fade">
+            <button type="button" class="carousel-btn carousel-prev team-prev" aria-label="Previous team member"><i class="fas fa-chevron-left"></i></button>
+            <div class="content-rail-track team-track" data-content="team" role="list"></div>
+            <button type="button" class="carousel-btn carousel-next team-next" aria-label="Next team member"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-controls" data-team-controls>
+            <div class="carousel-dots" data-team-dots role="tablist" aria-label="Team members"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Partners -->
+<section id="partners" class="partners">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2>Our Partners</h2>
+            <p>Organizations that stand with us — scroll or swipe to see all partners.</p>
+        </div>
+        <div class="content-rail-wrap partners-rail reveal-fade">
+            <button type="button" class="carousel-btn carousel-prev partners-prev" aria-label="Previous partners"><i class="fas fa-chevron-left"></i></button>
+            <div class="content-rail-track partners-track" data-content="partners" role="list"></div>
+            <button type="button" class="carousel-btn carousel-next partners-next" aria-label="Next partners"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-controls" data-partners-controls>
+            <div class="carousel-dots" data-partners-dots role="tablist" aria-label="Partners"></div>
+        </div>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about">
+    <div class="container">
+        <div class="about-container">
+            <div class="about-content reveal" data-about-content>
+                <h2 data-content="about.heading">About Tattu Care</h2>
+                <div data-content="about.paragraphs" data-about-paragraphs></div>
+                <div class="about-controls" data-about-controls hidden>
+                    <button type="button" class="about-nav-btn about-prev" aria-label="Previous story"><i class="fas fa-chevron-left"></i></button>
+                    <div class="about-dots" data-about-dots role="tablist" aria-label="About stories"></div>
+                    <button type="button" class="about-nav-btn about-next" aria-label="Next story"><i class="fas fa-chevron-right"></i></button>
+                    <span class="about-slide-index" data-about-index aria-live="polite"></span>
+                </div>
+                <a href="#programs" class="btn btn-outline">Explore Our Programs</a>
+            </div>
+            <div class="about-img reveal delay-1" data-about-img-wrap>
+                <img data-content="about.image"
+                     src="https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                     alt="Tattu Care volunteers in the field"
+                     loading="lazy">
+            </div>
+        </div>
     </div>
 </section>
 
@@ -282,6 +364,7 @@
                     <a data-content="org.facebook"  href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a data-content="org.twitter"   href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                     <a data-content="org.instagram" href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a data-content="org.linkedin"  href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div class="contact-form">
@@ -307,7 +390,7 @@
 </section>
 
 <!-- Newsletter -->
-<section class="newsletter">
+<section id="newsletter" class="newsletter">
     <div class="container">
         <div class="newsletter-container">
             <div class="newsletter-content">
@@ -455,20 +538,26 @@
 
 <!-- Footer -->
 <footer class="footer">
+    <div class="footer-accent" aria-hidden="true"></div>
     <div class="container">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h4 data-content="org.name">Tattu Care</h4>
-                <p class="footer-trust">
-                    <strong>Registration:</strong> <span data-content="org.registrationNumber">-</span><br>
-                    <strong>Founded:</strong> <span data-content="org.founded">-</span><br>
-                    <strong>Address:</strong> <span data-content="org.address">-</span>
-                </p>
-                <a class="footer-link hidden" data-content="trust.annualReport" target="_blank" rel="noopener">
-                    <i class="fas fa-file-pdf"></i> Annual Report
-                </a>
+        <div class="footer-top reveal">
+            <a href="#home" class="footer-brand">
+                <span class="footer-brand-icon"><i class="fas fa-heart"></i></span>
+                <span class="footer-brand-text">
+                    <strong data-content="org.name">Tattu Care</strong>
+                    <em>Bringing hope to Uganda</em>
+                </span>
+            </a>
+            <div class="footer-socials">
+                <a data-content="org.facebook"  href="#" class="footer-social" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a data-content="org.twitter"   href="#" class="footer-social" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a data-content="org.instagram" href="#" class="footer-social" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a data-content="org.linkedin"  href="#" class="footer-social" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <div class="footer-col">
+        </div>
+
+        <div class="footer-container reveal-stagger">
+            <div class="footer-col footer-col--programs">
                 <h4>Programs</h4>
                 <ul class="footer-links">
                     <li><a href="#programs" class="footer-link">All Programs</a></li>
@@ -476,7 +565,7 @@
                     <li><a href="#events" class="footer-link">Events</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="footer-col footer-col--involve">
                 <h4>Get Involved</h4>
                 <ul class="footer-links">
                     <li><button type="button" class="footer-link donate-trigger">Donate</button></li>
@@ -484,17 +573,37 @@
                     <li><a href="#contact" class="footer-link">Partner With Us</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="footer-col footer-col--legal">
                 <h4>Legal</h4>
                 <ul class="footer-links">
                     <li><a href="frontend/pages/privacy.html" class="footer-link">Privacy Policy</a></li>
                     <li><a href="frontend/pages/terms.html"   class="footer-link">Terms of Use</a></li>
                     <li><a href="#contact"     class="footer-link">Contact</a></li>
+                    <li><a href="backend/admin.php" class="footer-link footer-link--admin" rel="nofollow">Login</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-col--contact">
+                <h4>Contact Us</h4>
+                <ul class="footer-meta">
+                    <li>
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        <span><strong>Location</strong> <span data-content="org.address">-</span></span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                        <span><strong>Phone</strong> <a data-content="org.phone-link" href="#" class="footer-contact-link"><span data-content="org.phone">-</span></a></span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <span><strong>Email</strong> <a data-content="org.email-link" href="#" class="footer-contact-link"><span data-content="org.email">-</span></a></span>
+                    </li>
                 </ul>
             </div>
         </div>
-        <div class="copyright">
-            <p>© <span data-content="year">2026</span> <span data-content="org.name">Tattu Care</span>. All rights reserved.</p>
+
+        <div class="footer-bottom">
+            <p class="footer-reg" data-footer-legal hidden>Reg # <span data-content="org.registrationNumber">-</span> · Registered in <span data-content="trust.country">Uganda</span></p>
+            <p class="copyright">© <span data-content="year">2026</span> <span data-content="org.name">Tattu Care</span>. All rights reserved.</p>
         </div>
     </div>
 </footer>

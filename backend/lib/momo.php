@@ -114,6 +114,54 @@ class MoMoClient
         return ['success' => true, 'referenceId' => $referenceId];
     }
 
+    /**
+     * @return array{success:bool, status?:string, message?:string}
+     */
+    public function getTransactionStatus(string $referenceId): array
+    {
+        $referenceId = trim($referenceId);
+        if ($referenceId === '') {
+            return ['success' => false, 'message' => 'Reference ID required.'];
+        }
+
+        $tokenRes = $this->getToken();
+        if (!$tokenRes['success']) {
+            return $tokenRes;
+        }
+
+        $ch = curl_init($this->base . '/collection/v1_0/requesttopay/' . rawurlencode($referenceId));
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 20,
+            CURLOPT_HTTPHEADER     => [
+                'Authorization: Bearer ' . $tokenRes['token'],
+                'X-Target-Environment: ' . $this->targetEnv,
+                'Ocp-Apim-Subscription-Key: ' . $this->subKey,
+            ],
+        ]);
+        $resp = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $err  = curl_error($ch);
+        curl_close($ch);
+
+        if ($resp === false) {
+            return ['success' => false, 'message' => 'Network error: ' . $err];
+        }
+        if ($code === 404) {
+            return ['success' => false, 'message' => 'Transaction not found at MoMo.'];
+        }
+        if ($code !== 200) {
+            error_log("MoMo getTransactionStatus error ($code): $resp");
+            return ['success' => false, 'message' => 'Could not fetch MoMo status (' . $code . ')'];
+        }
+        $body = json_decode($resp, true);
+        $status = (string)($body['status'] ?? '');
+        if ($status === '') {
+            return ['success' => false, 'message' => 'MoMo returned no status.'];
+        }
+        return ['success' => true, 'status' => $status, 'raw' => $body];
+    }
+
     private function uuidV4(): string
     {
         $b = random_bytes(16);

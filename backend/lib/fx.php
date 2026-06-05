@@ -15,6 +15,77 @@ const FX_CACHE_TTL    = 3600;     // 1 hour
 const FX_API_URL      = 'https://open.er-api.com/v6/latest/USD';
 const FX_API_TIMEOUT  = 8;
 
+function fx_fetch_crypto(): ?array
+{
+    $url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,usd-coin,binancecoin,solana&vs_currencies=usd';
+    $ch  = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => FX_API_TIMEOUT,
+        CURLOPT_USERAGENT      => CHARITY_NAME . ' (server)',
+    ]);
+    $body = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    curl_close($ch);
+
+    if ($code !== 200 || !$body) {
+        return null;
+    }
+    $data = json_decode($body, true);
+    if (!is_array($data)) {
+        return null;
+    }
+
+    $map = [
+        'BTC'  => 'bitcoin',
+        'ETH'  => 'ethereum',
+        'USDT' => 'tether',
+        'USDC' => 'usd-coin',
+        'BNB'  => 'binancecoin',
+        'SOL'  => 'solana',
+    ];
+    $out = [];
+    foreach ($map as $code => $id) {
+        $usdPerCoin = (float)($data[$id]['usd'] ?? 0);
+        if ($usdPerCoin > 0) {
+            $out[$code] = 1 / $usdPerCoin;
+        }
+    }
+    return $out ?: null;
+}
+
+function fx_crypto_fallback(): array
+{
+    return [
+        'BTC'  => 1 / 95000,
+        'ETH'  => 1 / 3500,
+        'USDT' => 1.0,
+        'USDC' => 1.0,
+        'BNB'  => 1 / 600,
+        'SOL'  => 1 / 150,
+    ];
+}
+
+function fx_get_crypto_rates(): array
+{
+    $cache = read_json(FX_CACHE_FILE, ['ts' => 0, 'crypto' => []]);
+    $age   = time() - (int)($cache['cryptoTs'] ?? 0);
+    if ($age < FX_CACHE_TTL && !empty($cache['crypto'])) {
+        return $cache['crypto'];
+    }
+    $live = fx_fetch_crypto();
+    if ($live) {
+        $cache['crypto']   = $live;
+        $cache['cryptoTs'] = time();
+        write_json(FX_CACHE_FILE, $cache);
+        return $live;
+    }
+    if (!empty($cache['crypto'])) {
+        return $cache['crypto'];
+    }
+    return fx_crypto_fallback();
+}
+
 /**
  * Returns rates relative to USD (e.g. ['UGX' => 3700, 'EUR' => 0.92, ...]).
  * Always returns at least the fallback table.
@@ -25,23 +96,22 @@ function fx_get_rates(): array
     $age   = time() - (int)($cache['ts'] ?? 0);
 
     if ($age < FX_CACHE_TTL && !empty($cache['rates'])) {
-        return $cache['rates'];
+        $fiat = $cache['rates'];
+    } else {
+        $fiat = fx_fetch_live();
+        if ($fiat) {
+            $cache['ts']    = time();
+            $cache['rates'] = $fiat;
+            $cache['source'] = 'live';
+            write_json(FX_CACHE_FILE, $cache);
+        } elseif (!empty($cache['rates'])) {
+            $fiat = $cache['rates'];
+        } else {
+            $fiat = fx_fallback_rates();
+        }
     }
 
-    // Try the live API
-    $rates = fx_fetch_live();
-    if ($rates) {
-        write_json(FX_CACHE_FILE, ['ts' => time(), 'rates' => $rates, 'source' => 'live']);
-        return $rates;
-    }
-
-    // API failed — keep using last cached rates if we have them
-    if (!empty($cache['rates'])) {
-        return $cache['rates'];
-    }
-
-    // Last resort: hard-coded approximations
-    return fx_fallback_rates();
+    return array_merge($fiat, fx_get_crypto_rates());
 }
 
 /** @return array<string, float>|null */
@@ -104,4 +174,19 @@ function fx_convert(float $amount, string $fromCurrency, string $toCurrency): fl
     }
     $usd = $amount / (float) $rates[$from];
     return $usd * (float) $rates[$to];
+}
+
+function fx_is_crypto(string $code): bool
+{
+    return in_array(strtoupper(trim($code)), ['BTC', 'ETH', 'USDT', 'USDC', 'BNB', 'SOL', 'LTC'], true);
+}
+
+function valid_donation_currency(string $code): bool
+{
+    $code = strtoupper(trim($code));
+    if (!preg_match('/^[A-Z0-9]{3,5}$/', $code)) {
+        return false;
+    }
+    $rates = fx_get_rates();
+    return isset($rates[$code]);
 }

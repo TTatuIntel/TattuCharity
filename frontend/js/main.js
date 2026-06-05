@@ -303,6 +303,7 @@
         if (preset != null) {
             const amount = dropdown.querySelector('.pay-panel.active input[name="amount"]');
             if (amount) amount.value = preset;
+            refreshAllChargePreviews();
         }
         const first = dropdown.querySelector('.pay-panel.active input');
         if (first) setTimeout(() => first.focus(), 220);
@@ -324,7 +325,7 @@
     document.addEventListener('click', e => {
         if (!isDropdownOpen()) return;
         if (e.target.closest('#donationDropdown')) return;
-        if (e.target.closest('.donate-trigger, #floatingDonate, .amount-btn')) return;
+        if (e.target.closest('.donate-trigger, #floatingDonate, #floatingDonateCluster, .amount-btn')) return;
         closeDropdown();
     });
 
@@ -354,6 +355,7 @@
             $$('.pay-tab', dropdown).forEach(t => t.classList.toggle('active', t === tab));
             $$('.pay-panel', dropdown).forEach(p =>
                 p.classList.toggle('active', p.getAttribute('data-pay-panel') === key));
+            refreshAllChargePreviews();
             return;
         }
 
@@ -381,7 +383,6 @@
             return;
         }
 
-        // Bank: copy account number (without revealing)
         const copy = e.target.closest('[data-copy]');
         if (copy && dropdown) {
             const key = copy.getAttribute('data-copy');
@@ -400,6 +401,19 @@
                     }, 1500);
                 }).catch(() => toast('Could not copy', 'error'));
             }
+            return;
+        }
+
+        const copyCrypto = e.target.closest('[data-copy-crypto]');
+        if (copyCrypto && dropdown) {
+            const code = copyCrypto.getAttribute('data-copy-crypto');
+            const wallet = dropdown.querySelector(`[data-crypto-wallet="${code}"] .crypto-addr`);
+            const value = wallet ? wallet.textContent.trim() : '';
+            if (value && navigator.clipboard) {
+                navigator.clipboard.writeText(value).then(() => {
+                    toast(`${code} address copied`);
+                }).catch(() => toast('Could not copy', 'error'));
+            }
         }
     });
 
@@ -409,27 +423,37 @@
         }
     });
 
-    /* Submit handler shared by all 3 payment forms */
+    /* Submit handler shared by all payment forms */
     async function submitPayment(form) {
         const submitBtn = form.querySelector('button[type="submit"]');
         const method    = form.getAttribute('data-method') || 'momo';
         const fd        = new FormData(form);
+        let currency = FX_STATE.selected || 'UGX';
+        if (method === 'crypto') {
+            currency = String(fd.get('cryptoAsset') || currency).trim().toUpperCase();
+        }
         const payload = {
             method,
             amount:    Number(fd.get('amount') || 0),
-            currency:  FX_STATE.selected || 'USD',
+            currency,
+            cryptoAsset: method === 'crypto' ? currency : undefined,
             name:      String(fd.get('name')      || '').trim(),
             phone:     String(fd.get('phone')     || '').replace(/\s+/g, ''),
             email:     String(fd.get('email')     || '').trim(),
             reference: String(fd.get('reference') || '').trim(),
+            website:   String(fd.get('website')   || '').trim(),
         };
 
-        if (payload.amount < 1) { toast('Please enter an amount.', 'error'); return; }
+        if (method === 'crypto') {
+            if (payload.amount <= 0) { toast('Please enter a crypto amount.', 'error'); return; }
+        } else if (payload.amount < 1) {
+            toast('Please enter an amount.', 'error'); return;
+        }
         if ((method === 'momo' || method === 'airtel') && !/^256\d{9}$/.test(payload.phone)) {
             toast('Phone must start with 256 + 9 digits, e.g. 256770000000', 'error');
             return;
         }
-        if (method === 'bank' && !payload.email) {
+        if ((method === 'bank' || method === 'crypto') && !payload.email) {
             toast('Please provide an email so we can confirm.', 'error');
             return;
         }
@@ -445,9 +469,21 @@
             });
             const body = await res.json().catch(() => ({}));
             if (res.ok && body.success) {
-                toast(body.message || 'Thank you for your donation!');
-                form.reset();
-                closeDropdown();
+                const isPending = body.pending || ['awaiting_approval', 'manual_pending', 'bank_pledged', 'airtel_pledged', 'crypto_pledged'].includes(body.status);
+                const msg = body.message || (isPending
+                    ? 'Thank you! Your donation is being processed.'
+                    : 'Thank you for your donation!');
+                toast(msg, isPending ? 'info' : 'success');
+                if (isPending && method === 'momo' && body.status === 'awaiting_approval') {
+                    const hint = form.querySelector('.pay-pending-hint') || document.createElement('p');
+                    hint.className = 'pay-pending-hint';
+                    hint.innerHTML = '<i class="fas fa-mobile-alt"></i> Check your phone and approve the MoMo prompt.';
+                    if (!form.querySelector('.pay-pending-hint')) form.appendChild(hint);
+                } else {
+                    form.reset();
+                    form.querySelector('.pay-pending-hint')?.remove();
+                    closeDropdown();
+                }
             } else {
                 toast(body.message || 'Could not process the donation.', 'error');
             }
@@ -503,6 +539,7 @@
                 name:    contactForm.name.value.trim(),
                 email:   contactForm.email.value.trim(),
                 message: contactForm.message.value.trim(),
+                website: (contactForm.website && contactForm.website.value.trim()) || '',
             };
             if (!data.name || !data.email || !data.message) {
                 if (fb) { fb.textContent = 'Please fill in all fields.'; fb.className = 'form-feedback error'; }
@@ -535,7 +572,10 @@
         newsForm.addEventListener('submit', async e => {
             e.preventDefault();
             const btn  = newsForm.querySelector('button[type="submit"]');
-            const data = { email: newsForm.email.value.trim() };
+            const data = {
+                email: newsForm.email.value.trim(),
+                website: (newsForm.website && newsForm.website.value.trim()) || '',
+            };
             if (!data.email) { toast('Please enter your email.', 'error'); return; }
             btn.disabled = true; const orig = btn.textContent; btn.textContent = '…';
             try {
@@ -1110,7 +1150,7 @@
     /* =========================================================
      *  Multi-currency support (live FX + UGX charge preview)
      * ========================================================= */
-    const FX_STATE = { rates: {}, charge: 'UGX', selected: 'USD' };
+    const FX_STATE = { rates: {}, charge: 'UGX', site: 'UGX', selected: 'UGX', cryptoCodes: new Set(['BTC', 'ETH', 'USDT', 'USDC', 'BNB', 'SOL']) };
 
     const FRIENDLY_NAMES = {
         USD: 'US Dollar', EUR: 'Euro', GBP: 'British Pound', AUD: 'Australian Dollar',
@@ -1120,7 +1160,14 @@
         RWF: 'Rwandan Franc', BIF: 'Burundian Franc', GHS: 'Ghanaian Cedi',
         EGP: 'Egyptian Pound', AED: 'UAE Dirham', SAR: 'Saudi Riyal', XAF: 'CFA Franc',
         XOF: 'West African CFA',
+        BTC: 'Bitcoin', ETH: 'Ethereum', USDT: 'Tether (USD)', USDC: 'USD Coin',
+        BNB: 'BNB', SOL: 'Solana',
     };
+    const CRYPTO_DECIMALS = { BTC: 8, ETH: 6, USDT: 2, USDC: 2, BNB: 4, SOL: 4 };
+
+    function isCrypto(code) {
+        return FX_STATE.cryptoCodes.has(String(code || '').toUpperCase());
+    }
 
     function fxConvert(amount, from, to) {
         if (!amount || from === to) return Number(amount) || 0;
@@ -1130,12 +1177,19 @@
     }
     function fmtMoney(amount, currency) {
         const n = Number(amount) || 0;
+        const code = String(currency || '').toUpperCase();
+        const dec = CRYPTO_DECIMALS[code];
+        if (dec !== undefined) {
+            return `${code} ${n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: dec })}`;
+        }
         try {
+            const whole = ['UGX', 'JPY', 'RWF', 'TZS', 'KES', 'BIF', 'VND', 'XAF', 'XOF'].includes(code);
             return new Intl.NumberFormat(undefined, {
-                style: 'currency', currency, maximumFractionDigits: 2
+                style: 'currency', currency: code,
+                maximumFractionDigits: whole ? 0 : 2,
             }).format(n);
         } catch (_) {
-            return `${currency} ${n.toLocaleString()}`;
+            return `${code} ${n.toLocaleString()}`;
         }
     }
     function friendlyRound(v) {
@@ -1154,20 +1208,26 @@
             if (body && body.success && body.rates) {
                 FX_STATE.rates  = body.rates;
                 FX_STATE.charge = body.charge || 'UGX';
+                FX_STATE.site   = body.siteCurrency || (window.__DONATION_BASE__ && window.__DONATION_BASE__.currency) || 'UGX';
+                if (Array.isArray(body.cryptoCodes)) {
+                    FX_STATE.cryptoCodes = new Set(body.cryptoCodes.map(c => String(c).toUpperCase()));
+                }
             }
         } catch (err) {
             console.warn('FX rates unavailable, using static fallback', err);
-            // Minimal hard-coded fallback so the UI still works offline
-            FX_STATE.rates = { USD:1, EUR:0.92, GBP:0.79, UGX:3700, KES:130, TZS:2500, RWF:1300,
-                               AUD:1.5, CAD:1.36, NZD:1.65, CHF:0.88, JPY:150, INR:83, ZAR:18.5, NGN:1500 };
+            FX_STATE.site = (window.__DONATION_BASE__ && window.__DONATION_BASE__.currency) || 'UGX';
+            FX_STATE.rates = {
+                USD: 1, EUR: 0.92, GBP: 0.79, UGX: 3700, KES: 130, TZS: 2500, RWF: 1300,
+                AUD: 1.5, CAD: 1.36, NZD: 1.65, CHF: 0.88, JPY: 150, INR: 83, ZAR: 18.5, NGN: 1500,
+                BTC: 97000, ETH: 3500, USDT: 1, USDC: 1, BNB: 600, SOL: 150,
+            };
         }
     }
 
     function detectInitialCurrency(supported) {
-        // 1) localStorage 2) navigator.language fallback 3) USD
+        const site = String((window.__DONATION_BASE__ && window.__DONATION_BASE__.currency) || FX_STATE.site || 'UGX').toUpperCase();
         const saved = localStorage.getItem('tattu-currency');
         if (saved && supported.includes(saved)) return saved;
-        // Map common locales to currency
         const localeToCurrency = {
             'en-US': 'USD', 'en-GB': 'GBP', 'en-AU': 'AUD', 'en-CA': 'CAD',
             'en-NZ': 'NZD', 'en-IN': 'INR', 'en-ZA': 'ZAR', 'en-NG': 'NGN',
@@ -1175,29 +1235,45 @@
             'fr-FR': 'EUR', 'de-DE': 'EUR', 'es-ES': 'EUR', 'it-IT': 'EUR',
             'ja-JP': 'JPY', 'zh-CN': 'CNY',
         };
-        const langs = (navigator.languages || [navigator.language || 'en-US']);
+        const langs = (navigator.languages || [navigator.language || 'en-UG']);
         for (const l of langs) {
             const c = localeToCurrency[l] || localeToCurrency[l.split('-')[0]];
             if (c && supported.includes(c)) return c;
         }
-        return supported.includes('USD') ? 'USD' : supported[0];
+        if (supported.includes(site)) return site;
+        return supported.includes('UGX') ? 'UGX' : supported[0];
     }
 
     function buildCurDropdown(host, supported, initial) {
         host.classList.add('cur-dd');
         host.setAttribute('data-open', 'false');
+        const fiat = supported.filter(c => !isCrypto(c));
+        const crypto = supported.filter(c => isCrypto(c));
+        const item = code => `
+            <li role="option" data-value="${code}" class="${code === initial ? 'selected' : ''}">
+                <span><strong>${code}</strong></span>
+                <small>${FRIENDLY_NAMES[code] || code}</small>
+            </li>`;
+        const groups = [];
+        if (fiat.length) {
+            groups.push(`<li class="cur-dd-label" aria-hidden="true">Fiat</li>${fiat.map(item).join('')}`);
+        }
+        if (crypto.length) {
+            groups.push(`<li class="cur-dd-label" aria-hidden="true">Crypto</li>${crypto.map(item).join('')}`);
+        }
         host.innerHTML = `
             <button type="button" class="cur-dd-trigger" aria-haspopup="listbox" aria-expanded="false">
                 <span class="cur-code">${initial}</span>
                 <i class="fas fa-chevron-down"></i>
             </button>
-            <ul class="cur-dd-menu" role="listbox">
-                ${supported.map(code => `
-                    <li role="option" data-value="${code}" class="${code === initial ? 'selected' : ''}">
-                        <span><strong>${code}</strong></span>
-                        <small>${FRIENDLY_NAMES[code] || code}</small>
-                    </li>`).join('')}
-            </ul>`;
+            <ul class="cur-dd-menu" role="listbox">${groups.join('')}</ul>`;
+    }
+
+    function syncCryptoAssetSelect(code) {
+        if (!isCrypto(code)) return;
+        $$('[data-crypto-asset]').forEach(sel => {
+            if ([...sel.options].some(o => o.value === code)) sel.value = code;
+        });
     }
 
     function setCurrencyEverywhere(code) {
@@ -1213,11 +1289,12 @@
         });
         renderAmountButtons();
         refreshAllChargePreviews();
+        syncCryptoAssetSelect(code);
     }
 
     function populateCurrencyPickers() {
         const supported = (window.__DONATION_BASE__ && window.__DONATION_BASE__.supportedCurrencies)
-                       || ['USD','EUR','GBP','UGX','KES'];
+                       || ['UGX', 'USD', 'EUR', 'GBP', 'KES', 'BTC', 'ETH', 'USDT'];
         const initial = detectInitialCurrency(supported);
         FX_STATE.selected = initial;
         $$('[data-currency-picker]').forEach(host => buildCurDropdown(host, supported, initial));
@@ -1239,7 +1316,7 @@
             trig.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
             return;
         }
-        const opt = e.target.closest('.cur-dd-menu li');
+        const opt = e.target.closest('.cur-dd-menu li[data-value]');
         if (opt) {
             setCurrencyEverywhere(opt.getAttribute('data-value'));
             return;
@@ -1268,7 +1345,7 @@
         const base = window.__DONATION_BASE__;
         if (!host || !base) return;
         const selected = FX_STATE.selected;
-        const baseCur  = base.currency || 'USD';
+        const baseCur  = base.currency || 'UGX';
         const cur      = selected;
         // Convert each base amount to selected currency, rounded friendly
         const converted = base.amounts.map(a => friendlyRound(fxConvert(a, baseCur, cur)));
@@ -1283,21 +1360,40 @@
         if (raisedEl) raisedEl.textContent = `${cur} ${friendlyRound(fxConvert(base.raised, baseCur, cur)).toLocaleString()}`;
     }
 
-    function chargePreviewFor(amount) {
+    function chargePreviewFor(amount, form) {
         if (!amount || !Number(amount)) return '';
-        const sel    = FX_STATE.selected;
-        const charge = FX_STATE.charge;
-        if (sel === charge) return '';
-        const ugx = fxConvert(amount, sel, charge);
+        const method = form && form.getAttribute('data-method');
+        let sel = FX_STATE.selected;
+        if (method === 'crypto') {
+            const assetSel = form && form.querySelector('[data-crypto-asset]');
+            if (assetSel) sel = assetSel.value || sel;
+        }
+        const charge = FX_STATE.charge || 'UGX';
+        const site   = FX_STATE.site || charge;
+        const ugx = sel === charge ? Number(amount) : fxConvert(amount, sel, charge);
         if (!ugx || isNaN(ugx)) return '';
-        return `≈ <strong>${fmtMoney(ugx, charge)}</strong> will be charged via Mobile Money`;
+
+        if (method === 'crypto') {
+            const ugxFmt = fmtMoney(Math.round(ugx), charge);
+            return `≈ <strong>${ugxFmt}</strong> equivalent · send <strong>${fmtMoney(Number(amount), sel)}</strong> to the wallet above`;
+        }
+        if (method === 'bank') {
+            if (sel === site) return `We will record your gift in ${site}.`;
+            return `≈ <strong>${fmtMoney(Math.round(ugx), charge)}</strong> equivalent for our records`;
+        }
+        if (method === 'airtel') {
+            if (sel === charge) return '';
+            return `≈ <strong>${fmtMoney(Math.round(ugx), charge)}</strong> equivalent · Airtel instructions follow`;
+        }
+        if (sel === charge) return '';
+        return `≈ <strong>${fmtMoney(Math.round(ugx), charge)}</strong> will be charged via Mobile Money`;
     }
     function refreshAllChargePreviews() {
         $$('.pay-form').forEach(form => {
             const amt = form.querySelector('input[name="amount"]');
             const pre = form.querySelector('[data-charge-preview]');
             if (!pre) return;
-            const html = chargePreviewFor(amt ? amt.value : '');
+            const html = chargePreviewFor(amt ? amt.value : '', form);
             pre.innerHTML = html;
             pre.classList.toggle('empty', !html);
         });
@@ -1307,10 +1403,52 @@
             const form = e.target.closest('.pay-form');
             const pre  = form && form.querySelector('[data-charge-preview]');
             if (!pre) return;
-            const html = chargePreviewFor(e.target.value);
+            const html = chargePreviewFor(e.target.value, form);
             pre.innerHTML = html;
             pre.classList.toggle('empty', !html);
         }
+    });
+    document.addEventListener('change', e => {
+        if (e.target && e.target.matches('[data-crypto-asset]')) {
+            const form = e.target.closest('.pay-form');
+            if (form) refreshAllChargePreviews();
+        }
+    });
+
+    function renderCryptoWallets() {
+        const host = $('[data-crypto-wallets]');
+        const crypto = (window.__DONATION_BASE__ && window.__DONATION_BASE__.crypto) || {};
+        if (!host) return;
+        const assets = Object.keys(crypto);
+        if (!assets.length) {
+            host.innerHTML = '<p class="crypto-empty">Crypto wallet addresses will appear here once configured.</p>';
+            return;
+        }
+        host.innerHTML = assets.map(code => {
+            const addr = String(crypto[code] || '').trim();
+            const label = FRIENDLY_NAMES[code] || code;
+            if (!addr) {
+                return `<div class="crypto-wallet crypto-wallet--empty"><strong>${code}</strong><span>Address not set yet — contact us to donate in ${code}</span></div>`;
+            }
+            return `<div class="crypto-wallet" data-crypto-wallet="${code}">
+                <div class="crypto-wallet-head"><strong>${code}</strong><small>${label}</small></div>
+                <code class="crypto-addr">${addr}</code>
+                <button type="button" class="btn-copy-crypto" data-copy-crypto="${code}" title="Copy address"><i class="fas fa-copy"></i> Copy</button>
+            </div>`;
+        }).join('');
+
+        $$('[data-crypto-asset]').forEach(sel => {
+            const current = sel.value;
+            sel.innerHTML = assets.map(code =>
+                `<option value="${code}">${code} — ${FRIENDLY_NAMES[code] || code}</option>`
+            ).join('');
+            if (assets.includes(current)) sel.value = current;
+            else if (assets.length) sel.value = assets[0];
+        });
+    }
+
+    document.addEventListener('content:ready', () => {
+        renderCryptoWallets();
     });
 
     /* =========================================================
@@ -1572,6 +1710,7 @@
         await loadFxRates();
         populateCurrencyPickers();
         renderAmountButtons();
+        renderCryptoWallets();
     });
     // Also kick off reveal on initial load (for elements present before content fetch)
     document.addEventListener('DOMContentLoaded', initRevealObserver);

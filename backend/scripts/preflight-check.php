@@ -42,9 +42,21 @@ check(count($content['team'] ?? []) >= 2, 'team data', count($content['team'] ??
 $messages = read_json(MESSAGES_FILE, []);
 $donations = read_json(DONATIONS_FILE, []);
 $subs = read_json(SUBSCRIBERS_FILE, []);
-check(count($messages) >= 1, 'messages.json', count($messages) . ' messages');
-check(count($donations) >= 1, 'donations.json', count($donations) . ' donations');
-check(count($subs) >= 1, 'subscribers.json', count($subs) . ' subscribers');
+if (count($messages) === 0) {
+    warn('messages.json', 'No contact messages yet — empty live database');
+} else {
+    check(count($messages) >= 1, 'messages.json', count($messages) . ' messages');
+}
+if (count($donations) === 0) {
+    warn('donations.json', 'No donations yet — empty live database');
+} else {
+    check(count($donations) >= 1, 'donations.json', count($donations) . ' donations');
+}
+if (count($subs) === 0) {
+    warn('subscribers.json', 'No subscribers yet — empty live database');
+} else {
+    check(count($subs) >= 1, 'subscribers.json', count($subs) . ' subscribers');
+}
 
 $unread = count(array_filter($messages, fn($m) => empty($m['read'])));
 echo "       Unread messages: $unread" . PHP_EOL;
@@ -67,6 +79,12 @@ if (smtp_is_configured()) {
     echo "       SMTP: configured (" . smtp_config()['host'] . ')' . PHP_EOL;
 } else {
     warn('SMTP email', 'Not configured — copy smtp.local.php.example → smtp.local.php');
+}
+
+if (function_exists('sms_is_configured') && sms_is_configured()) {
+    echo "       SMS: configured (Twilio)" . PHP_EOL;
+} else {
+    warn('SMS notifications', 'Not configured — copy sms.local.php.example → sms.local.php');
 }
 
 if (MOMO_SUBSCRIPTION_KEY === 'YOUR_SUBSCRIPTION_KEY') {

@@ -3,6 +3,7 @@ if (!defined('TATTU_INTERNAL')) { http_response_code(403); exit('Forbidden'); }
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/mailer.php';
 require_once __DIR__ . '/sms.php';
+require_once __DIR__ . '/tracking.php';
 
 function json_response($data, int $status = 200): void {
     http_response_code($status);
@@ -189,6 +190,9 @@ function send_donation_auto_reply(array $record): void {
         case 'awaiting_approval':
             $nextStep = 'Please approve the Mobile Money prompt on your phone to complete the payment.';
             break;
+        case 'crypto_pledged':
+            $nextStep = 'We will verify your cryptocurrency transfer on-chain and email you once it is confirmed.';
+            break;
         case 'bank_pledged':
             $nextStep = 'We will verify your bank transfer and email you once it is confirmed.';
             break;
@@ -239,18 +243,18 @@ function gen_id(): string {
 
 function donation_allowed_statuses(): array {
     return [
-        'success', 'completed', 'bank_pledged', 'airtel_pledged',
+        'success', 'completed', 'bank_pledged', 'airtel_pledged', 'crypto_pledged',
         'awaiting_approval', 'manual_pending', 'pending',
         'failed', 'cancelled', 'rejected',
     ];
 }
 
 function donation_allowed_methods(): array {
-    return ['momo', 'airtel', 'bank', 'manual', 'cash'];
+    return ['momo', 'airtel', 'bank', 'crypto', 'manual', 'cash'];
 }
 
 function donation_pending_statuses(): array {
-    return ['bank_pledged', 'airtel_pledged', 'awaiting_approval', 'manual_pending', 'pending'];
+    return ['bank_pledged', 'airtel_pledged', 'crypto_pledged', 'awaiting_approval', 'manual_pending', 'pending'];
 }
 
 function count_pending_donations(array $donations): int {

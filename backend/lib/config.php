@@ -64,6 +64,7 @@ define('CONTENT_FILE',     DATA_DIR . 'content.json');
 define('DONATIONS_FILE',   DATA_DIR . 'donations.json');
 define('MESSAGES_FILE',    DATA_DIR . 'messages.json');
 define('SUBSCRIBERS_FILE', DATA_DIR . 'subscribers.json');
+define('ACTIVITY_FILE',    DATA_DIR . 'activity.json');
 
 // 7) SESSION + ERROR LOGGING ------------------------------------------
 if (session_status() === PHP_SESSION_NONE) {

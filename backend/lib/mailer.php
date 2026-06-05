@@ -243,7 +243,11 @@ function send_mail(string $to, string $subject, string $body, array $opts = []):
 
     if (smtp_is_configured()) {
         $mailer = new SmtpMailer($cfg);
-        return $mailer->send($to, $subject, $body, $opts);
+        $ok = $mailer->send($to, $subject, $body, $opts);
+        if ($ok) {
+            return true;
+        }
+        error_log("send_mail: SMTP failed, falling back to mail() for {$to}");
     }
 
     $fromEmail = $cfg['from_email'];

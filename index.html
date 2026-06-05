@@ -50,6 +50,9 @@
     </div>
 </header>
 
+<!-- Mobile menu backdrop -->
+<div class="overlay" aria-hidden="true"></div>
+
 <!-- Mobile menu (full-screen frosted overlay) -->
 <aside class="mobile-menu" aria-label="Mobile navigation">
     <div class="mobile-menu-header">
@@ -251,25 +254,27 @@
         </div>
         <div class="donation-progress">
             <p class="donation-progress-text">
-                Goal: <strong data-content="donation.goal">$0</strong>
-                | Raised: <strong data-content="donation.raised">$0</strong>
+                Goal: <strong data-content="donation.goal">UGX 0</strong>
+                | Raised: <strong data-content="donation.raised">UGX 0</strong>
             </p>
             <div class="progress-bar">
                 <div class="progress-fill" data-content="donation.progressFill"></div>
             </div>
         </div>
         <div class="currency-picker-row">
-            <label>Currency</label>
+            <label>Your currency</label>
             <div class="cur-dd" data-currency-picker></div>
+            <p class="currency-hint">Default is UGX. Switch to USD, EUR, crypto, or any listed currency.</p>
         </div>
         <div class="donation-amounts" data-content="donation.amounts"></div>
         <p class="donation-note" data-content="donation.note">
             Your donation helps provide clean water, education, and healthcare to communities in Uganda.
         </p>
         <div class="payment-badges">
-            <span><i class="fas fa-mobile-alt"></i> MTN Mobile Money</span>
-            <span><i class="fas fa-lock"></i> Secure Payment</span>
-            <span><i class="fas fa-receipt"></i> Receipt by email</span>
+            <span><i class="fas fa-mobile-alt"></i> MTN MoMo (UGX)</span>
+            <span><i class="fab fa-bitcoin"></i> Crypto</span>
+            <span><i class="fas fa-university"></i> Bank</span>
+            <span><i class="fas fa-globe"></i> Any currency</span>
         </div>
     </div>
 </section>
@@ -369,6 +374,7 @@
             </div>
             <div class="contact-form">
                 <form id="contactForm" novalidate>
+                    <div class="hp-field" aria-hidden="true"><label for="contact-website">Website</label><input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off"></div>
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Your name" required maxlength="200">
@@ -398,6 +404,7 @@
                 <p>Subscribe for project updates and impact reports.</p>
             </div>
             <form class="newsletter-form" id="newsletterForm" novalidate>
+                <div class="hp-field" aria-hidden="true"><label for="newsletter-website">Website</label><input type="text" id="newsletter-website" name="website" tabindex="-1" autocomplete="off"></div>
                 <input type="email" name="email" class="newsletter-input" placeholder="Your email" required aria-label="Email">
                 <button type="submit" class="btn btn-primary">Subscribe</button>
             </form>
@@ -410,15 +417,17 @@
 <!-- Donation dropdown (compact, anchored to floating button) -->
 <div id="donationDropdown" class="donate-dropdown" role="dialog" aria-modal="false" aria-labelledby="donationDropdownTitle">
     <h2 id="donationDropdownTitle">
-        <span><i class="fas fa-heart" style="color:var(--primary);margin-right:6px"></i>Quick Donation</span>
+        Quick gift
+        <span class="sr-only"> — donation form</span>
         <button type="button" class="close-modal" aria-label="Close">&times;</button>
     </h2>
 
     <!-- Method tabs -->
-    <div class="pay-tabs" role="tablist">
+    <div class="pay-tabs pay-tabs-scroll" role="tablist">
         <button type="button" class="pay-tab active" data-pay-tab="momo"   role="tab"><i class="fas fa-mobile-alt"></i> MoMo</button>
         <button type="button" class="pay-tab"        data-pay-tab="airtel" role="tab"><i class="fas fa-signal"></i> Airtel</button>
         <button type="button" class="pay-tab"        data-pay-tab="bank"   role="tab"><i class="fas fa-university"></i> Bank</button>
+        <button type="button" class="pay-tab"        data-pay-tab="crypto" role="tab"><i class="fab fa-bitcoin"></i> Crypto</button>
     </div>
 
     <!-- Currency picker (one source of truth for all forms) -->
@@ -430,6 +439,7 @@
     <!-- MoMo -->
     <div class="pay-panel active" data-pay-panel="momo">
         <form class="pay-form" data-method="momo" novalidate>
+            <div class="hp-field" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Amount</label>
@@ -458,6 +468,7 @@
     <!-- Airtel -->
     <div class="pay-panel" data-pay-panel="airtel">
         <form class="pay-form" data-method="airtel" novalidate>
+            <div class="hp-field" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Amount</label>
@@ -506,6 +517,7 @@
             <div class="bank-row"><span class="label">SWIFT</span><span class="value" data-bank="swift">-</span></div>
         </div>
         <form class="pay-form" data-method="bank" novalidate>
+            <div class="hp-field" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Amount</label>
@@ -528,6 +540,45 @@
             </div>
             <p class="charge-preview" data-charge-preview></p>
             <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane"></i> Notify Transfer</button>
+        </form>
+    </div>
+
+    <!-- Crypto -->
+    <div class="pay-panel" data-pay-panel="crypto">
+        <div class="crypto-wallets-host" data-crypto-wallets aria-live="polite"></div>
+        <form class="pay-form" data-method="crypto" novalidate>
+            <div class="hp-field" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Asset</label>
+                    <select name="cryptoAsset" class="form-control" data-crypto-asset required>
+                        <option value="BTC">BTC — Bitcoin</option>
+                        <option value="ETH">ETH — Ethereum</option>
+                        <option value="USDT">USDT — Tether</option>
+                        <option value="USDC">USDC — USD Coin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" name="amount" class="form-control" min="0" step="any" required placeholder="e.g. 0.001">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="optional" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="for receipt" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Transaction hash (optional)</label>
+                <input type="text" name="reference" class="form-control" placeholder="paste after sending" maxlength="120">
+            </div>
+            <p class="charge-preview" data-charge-preview></p>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fab fa-bitcoin"></i> I sent crypto — notify us</button>
         </form>
     </div>
 
@@ -608,10 +659,20 @@
     </div>
 </footer>
 
-<!-- Floating donate CTA -->
-<button class="floating-donate donate-trigger" type="button" aria-label="Donate Now" id="floatingDonate">
-    <i class="fas fa-heart"></i>
-</button>
+<!-- Floating donate CTA — label floats beside the heart button -->
+<div class="floating-donate-cluster" id="floatingDonateCluster">
+    <span class="floating-donate-label donate-trigger" aria-hidden="true">
+        <span class="floating-donate-blink-glow">Donate</span>
+        <span class="floating-donate-blink-text">Donate</span>
+    </span>
+    <button class="floating-donate donate-trigger" type="button" aria-label="Donate Now" id="floatingDonate">
+        <span class="floating-donate-heart-wrap" aria-hidden="true">
+            <span class="floating-donate-heart-pulse"></span>
+            <svg class="floating-donate-heart-glow" viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="floating-donate-heart-core" viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+    </button>
+</div>
 
 <button class="back-to-top" aria-label="Back to top">
     <i class="fas fa-arrow-up"></i>

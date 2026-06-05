@@ -324,18 +324,19 @@
         }
 
         const d = c.donation || {};
+        const ls = c.liveStats || {};
         setText('[data-content="donation.note"]',         d.note);
         setText('[data-content="donation.merchantCode"]', d.merchantCode);
-        // Stored values are interpreted as the BASE currency in content.json
-        // (default USD). Frontend will re-render in the active picker currency.
+        const confirmedRaised = typeof ls.raised === 'number' ? ls.raised : Number(d.raised || 0);
         window.__DONATION_BASE__ = {
-            currency: d.currency || 'USD',
+            currency: d.currency || 'UGX',
             goal:     Number(d.goal   || 0),
-            raised:   Number(d.raised || 0),
-            amounts:  Array.isArray(d.amounts) ? d.amounts.map(Number) : [10, 25, 50, 100],
+            raised:   confirmedRaised,
+            amounts:  Array.isArray(d.amounts) ? d.amounts.map(Number) : [10000, 25000, 50000, 100000],
             supportedCurrencies: Array.isArray(d.supportedCurrencies) && d.supportedCurrencies.length
                 ? d.supportedCurrencies
-                : ['USD','EUR','GBP','UGX','KES'],
+                : ['UGX','USD','EUR','GBP','KES','BTC','ETH','USDT'],
+            crypto: (d.crypto && typeof d.crypto === 'object') ? d.crypto : {},
         };
         const fill = $('[data-content="donation.progressFill"]');
         if (fill) {

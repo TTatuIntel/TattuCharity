@@ -91,6 +91,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             <button data-tab="donation"><i class="fas fa-donate"></i> Donation</button>
             <button data-tab="trust"><i class="fas fa-shield-alt"></i> Trust & Legal</button>
             <button data-tab="submissions"><i class="fas fa-inbox"></i> Submissions <span class="nav-badge" id="navUnreadBadge" hidden>0</span></button>
+            <button data-tab="reports"><i class="fas fa-file-export"></i> Reports</button>
         </nav>
         <div class="logout">
             <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Log out</button>
@@ -320,17 +321,22 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             <div class="card">
                 <h3>Donation Campaign</h3>
                 <div class="row3">
-                    <div class="field"><label>Currency</label><input data-bind="donation.currency" placeholder="USD"></div>
-                    <div class="field"><label>Goal (number)</label><input type="number" data-bind="donation.goal"></div>
-                    <div class="field"><label>Raised (number)</label><input type="number" data-bind="donation.raised"></div>
+                    <div class="field"><label>Currency (site default)</label><input data-bind="donation.currency" placeholder="UGX"></div>
+                    <div class="field"><label>Goal (number)</label><input type="number" data-bind="donation.goal" placeholder="37000000"></div>
+                    <div class="field"><label>Raised (number)</label><input type="number" data-bind="donation.raised" placeholder="27750000"></div>
                 </div>
                 <p class="help" >
                     <button type="button" class="btn btn-ghost help-action-btn" id="syncRaisedBtn"><i class="fas fa-sync"></i> Sync raised from recorded donations</button>
-                    — sums successful / pledged donations (same currency as first record).
+                    — sums confirmed donations converted to site currency (UGX).
                 </p>
                 <div class="field">
-                    <label>Suggested Amounts (comma-separated)</label>
-                    <input data-bind="donation.amounts" data-as="numberList" placeholder="10, 25, 50, 100">
+                    <label>Suggested Amounts (comma-separated, in site currency)</label>
+                    <input data-bind="donation.amounts" data-as="numberList" placeholder="10000, 25000, 50000, 100000">
+                </div>
+                <div class="field">
+                    <label>Supported currencies (comma-separated codes)</label>
+                    <input data-bind="donation.supportedCurrencies" data-as="stringList" placeholder="UGX, USD, EUR, BTC, ETH, USDT">
+                    <p class="help">Shown in the donor currency picker — fiat and crypto codes.</p>
                 </div>
                 <div class="row2">
                     <div class="field"><label>MTN Merchant Code</label><input data-bind="donation.merchantCode"></div>
@@ -350,6 +356,18 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                     <div class="field"><label>Branch</label><input data-bind="donation.bank.branch"></div>
                 </div>
                 <div class="field"><label>SWIFT Code</label><input data-bind="donation.bank.swift"></div>
+            </div>
+            <div class="card">
+                <h3><i class="fab fa-bitcoin"></i> Crypto wallet addresses</h3>
+                <p class="help">Paste your receiving addresses — donors see these on the Crypto tab with a copy button.</p>
+                <div class="row2">
+                    <div class="field"><label>BTC</label><input data-bind="donation.crypto.BTC" placeholder="bc1… or 1…"></div>
+                    <div class="field"><label>ETH</label><input data-bind="donation.crypto.ETH" placeholder="0x…"></div>
+                </div>
+                <div class="row2">
+                    <div class="field"><label>USDT</label><input data-bind="donation.crypto.USDT" placeholder="TRC20 / ERC20 address"></div>
+                    <div class="field"><label>USDC</label><input data-bind="donation.crypto.USDC" placeholder="0x…"></div>
+                </div>
             </div>
             </div>
         </section>
@@ -400,6 +418,54 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                     <p class="help">Upload your annual report PDF to <code>frontend/images/</code> (or anywhere accessible) and link it here.</p>
                 </div>
             </div>
+            <div class="card card-span-2">
+                <h3><i class="fas fa-handshake"></i> Partners &amp; sponsors <button class="btn btn-sm" data-add="trustPartners">+ Add partner</button></h3>
+                <p class="help">Shown in the homepage partners carousel. Add logo URL or leave blank for a text-only tile.</p>
+                <div data-list="trustPartners"></div>
+            </div>
+            </div>
+        </section>
+
+        <section class="tabs-content page-view" data-tab="reports">
+            <div class="reports-hero">
+                <div class="reports-hero-copy">
+                    <h3><i class="fas fa-chart-pie"></i> Accountability &amp; exports</h3>
+                    <p>Download CSV reports for donors, messages, subscribers, and a full accountability summary. Sync confirmed donations to update the public progress bar.</p>
+                </div>
+                <div class="reports-hero-actions">
+                    <button type="button" class="btn btn-sm" id="reportsSyncRaised"><i class="fas fa-sync"></i> Sync raised total</button>
+                    <button type="button" class="btn btn-ghost btn-sm" id="reportsPollMomo"><i class="fas fa-mobile-alt"></i> Poll pending MoMo</button>
+                    <button type="button" class="btn btn-ghost btn-sm" id="reportsRefresh"><i class="fas fa-sync"></i> Refresh</button>
+                </div>
+            </div>
+
+            <div class="reports-kpi-grid" id="reportsKpi">
+                <div class="reports-kpi"><span class="reports-kpi-val" data-rpt="confirmedRaised">—</span><span class="reports-kpi-lbl">Confirmed raised</span></div>
+                <div class="reports-kpi"><span class="reports-kpi-val" data-rpt="pendingRaised">—</span><span class="reports-kpi-lbl">Pending pledged</span></div>
+                <div class="reports-kpi"><span class="reports-kpi-val" data-rpt="confirmedCount">—</span><span class="reports-kpi-lbl">Confirmed gifts</span></div>
+                <div class="reports-kpi"><span class="reports-kpi-val" data-rpt="pendingCount">—</span><span class="reports-kpi-lbl">Awaiting action</span></div>
+                <div class="reports-kpi"><span class="reports-kpi-val" data-rpt="messagesTotal">—</span><span class="reports-kpi-lbl">Messages</span></div>
+                <div class="reports-kpi"><span class="reports-kpi-val" data-rpt="subscribersTotal">—</span><span class="reports-kpi-lbl">Subscribers</span></div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-download"></i> Export data</h3>
+                <p class="help">CSV files open in Excel or Google Sheets. Exports are logged in the activity trail below.</p>
+                <div class="export-grid">
+                    <a class="export-card" href="api/admin_export.php?type=summary" download><i class="fas fa-file-alt"></i><strong>Accountability summary</strong><span>Full report with totals &amp; breakdowns</span></a>
+                    <a class="export-card" href="api/admin_export.php?type=donations" download><i class="fas fa-donate"></i><strong>All donations</strong><span>Every record with status history</span></a>
+                    <a class="export-card" href="api/admin_export.php?type=messages" download><i class="fas fa-envelope"></i><strong>Contact messages</strong><span>Full inbox export</span></a>
+                    <a class="export-card" href="api/admin_export.php?type=subscribers" download><i class="fas fa-paper-plane"></i><strong>Newsletter list</strong><span>Subscriber emails &amp; dates</span></a>
+                    <a class="export-card" href="api/admin_export.php?type=activity" download><i class="fas fa-history"></i><strong>Activity log</strong><span>System audit trail</span></a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head-row">
+                    <h3><i class="fas fa-history"></i> Recent activity</h3>
+                    <span class="help" id="reportsGeneratedAt"></span>
+                </div>
+                <div id="activityLog"><p class="empty-state"><i class="fas fa-spinner fa-spin"></i> Loading…</p></div>
             </div>
         </section>
 
@@ -480,7 +546,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             <input type="hidden" id="donFormId">
             <div class="row2">
                 <div class="field"><label for="donFormAmount">Amount</label><input type="number" id="donFormAmount" min="0" step="0.01" required></div>
-                <div class="field"><label for="donFormCurrency">Currency</label><input id="donFormCurrency" maxlength="3" placeholder="USD" required></div>
+                <div class="field"><label for="donFormCurrency">Currency</label><input id="donFormCurrency" maxlength="5" placeholder="UGX" required></div>
             </div>
             <div class="row2">
                 <div class="field"><label for="donFormMethod">Method</label>
@@ -488,6 +554,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                         <option value="manual">Manual / offline</option>
                         <option value="cash">Cash</option>
                         <option value="bank">Bank transfer</option>
+                        <option value="crypto">Cryptocurrency</option>
                         <option value="momo">MTN MoMo</option>
                         <option value="airtel">Airtel Money</option>
                     </select>
@@ -496,6 +563,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                     <select id="donFormStatus">
                         <option value="success">success — confirmed received</option>
                         <option value="bank_pledged">bank_pledged — awaiting verification</option>
+                        <option value="crypto_pledged">crypto_pledged — awaiting on-chain verify</option>
                         <option value="airtel_pledged">airtel_pledged — awaiting Airtel</option>
                         <option value="awaiting_approval">awaiting_approval — MoMo prompt sent</option>
                         <option value="manual_pending">manual_pending — needs follow-up</option>
@@ -575,7 +643,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     let MESSAGES_CACHE = [];
     let SUBSCRIBERS_CACHE = [];
     const CSRF = <?= json_encode($csrfToken) ?>;
-    const DON_PENDING = new Set(['bank_pledged', 'airtel_pledged', 'awaiting_approval', 'manual_pending', 'pending']);
+    const DON_PENDING = new Set(['bank_pledged', 'crypto_pledged', 'airtel_pledged', 'awaiting_approval', 'manual_pending', 'pending']);
     const DON_CONFIRMED = new Set(['success', 'completed']);
     const NOTIFY_EMAIL = <?= json_encode($notifyEmail) ?>;
     const $  = (s, c=document)=>c.querySelector(s);
@@ -625,6 +693,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         donation: 'fa-donate',
         trust: 'fa-shield-alt',
         submissions: 'fa-inbox',
+        reports: 'fa-file-export',
     };
 
     const TAB_HINTS = {
@@ -639,6 +708,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         donation: 'Donation goals, amounts, and payment details',
         trust: 'Trust bar, footer legal line, and compliance',
         submissions: 'Donations, messages, and newsletter sign-ups',
+        reports: 'Accountability exports, live stats, and activity log',
     };
 
     function setDirty(flag = true) {
@@ -719,6 +789,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         syncBottomNav(tab);
         if (tab === 'submissions') loadSubmissions();
         if (tab === 'dashboard')   loadDashboard();
+        if (tab === 'reports')     loadReports();
         if (window.innerWidth <= 1024) setSidebar(false);
         const main = $('.main');
         if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
@@ -887,7 +958,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         $('#donFormId').value = isCreate ? '' : (record?.id || '');
         $('#donFormAmount').value = isCreate ? '' : (record?.amount ?? '');
         $('#donFormCurrency').value = isCreate
-            ? String((CONTENT.donation && CONTENT.donation.currency) || 'USD').toUpperCase()
+            ? String((CONTENT.donation && CONTENT.donation.currency) || 'UGX').toUpperCase()
             : (record?.currency || '');
         $('#donFormMethod').value = isCreate ? 'manual' : (record?.method || 'manual');
         $('#donFormStatus').value = isCreate ? 'success' : (record?.status || 'pending');
@@ -1000,10 +1071,25 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         ).join('')}</dl>`;
     }
 
+    function renderStatusHistory(d) {
+        const hist = Array.isArray(d.statusHistory) ? d.statusHistory : [];
+        if (!hist.length) return '';
+        const items = [...hist].reverse().map(h => `
+            <li class="status-timeline-item">
+                <span class="status-badge s-${esc(h.status || '')}">${esc(h.status || '')}</span>
+                <span class="status-timeline-meta">${esc(fmtDateShort(h.at))} · ${esc(h.by || '')}</span>
+                ${h.note ? `<span class="status-timeline-note">${esc(h.note)}</span>` : ''}
+            </li>`).join('');
+        return `<div class="detail-item status-timeline-wrap"><dt>Status history</dt><dd><ul class="status-timeline">${items}</ul></dd></div>`;
+    }
+
     function showDonationDetail(d) {
         if (!d) return;
         const pending = donationNeedsAction(d);
         const note = [d.adminNote, d.message].filter(Boolean).join('\n\n');
+        const canPollMomo = String(d.method || '').toLowerCase() === 'momo'
+            && String(d.status || '').toLowerCase() === 'awaiting_approval'
+            && d.reference;
         const bodyHtml = `
             <div class="detail-amount-hero">
                 <strong>${esc(d.currency || '')} ${esc(d.amount)}</strong>
@@ -1011,18 +1097,23 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             </div>
             <div class="detail-status-row">
                 <span class="status-badge s-${esc(d.status || '')}">${esc(d.status || '—')}</span>
+                ${d.momoStatus ? `<span class="record-date">MoMo: ${esc(d.momoStatus)}</span>` : ''}
                 ${pending ? '<span class="unread-pill">Needs action</span>' : ''}
             </div>
             ${detailGrid([
                 ['Date', esc(fmtDateFull(d.createdAt))],
+                ['Updated', d.updatedAt ? esc(fmtDateFull(d.updatedAt)) : '—'],
                 ['Donor', esc(d.name || 'Anonymous')],
                 ['Email', d.email ? `<a href="mailto:${esc(d.email)}">${esc(d.email)}</a>` : '—'],
                 ['Phone', esc(d.phone || '—')],
                 ['Reference / txn ID', esc(d.reference || '—')],
                 ['Record ID', `<code style="font-size:.76rem">${esc(d.id || '—')}</code>`],
+                ['IP / source', esc(d.ip || '—') + (d.source ? ` · ${esc(d.source)}` : '')],
             ])}
+            ${renderStatusHistory(d)}
             ${note ? `<div class="detail-item" style="margin-top:12px"><dt>Notes</dt><dd class="detail-message-box" style="margin-top:6px;border-left-color:var(--accent)">${esc(note)}</dd></div>` : ''}`;
         const footHtml = `
+            ${canPollMomo ? `<button type="button" class="btn btn-sm" data-detail-don-poll="${esc(d.id)}"><i class="fas fa-sync"></i> Check MoMo status</button>` : ''}
             ${pending ? `<button type="button" class="btn btn-sm" data-detail-don-confirm="${esc(d.id)}"><i class="fas fa-check"></i> Confirm received</button>` : ''}
             <button type="button" class="btn btn-ghost btn-sm" data-detail-don-edit="${esc(d.id)}"><i class="fas fa-pen"></i> Edit</button>
             <button type="button" class="btn btn-ghost btn-sm danger-text" data-detail-don-delete="${esc(d.id)}"><i class="fas fa-trash"></i> Delete</button>`;
@@ -1159,6 +1250,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         events:       { title:'New Event', date:'', startDate:'', endDate:'', location:'', status:'upcoming', featured:false, featureOnHero:true, heroTitle:'', heroSubtitle:'', image:'', description:'', items:[], ctaText:'Volunteer', ctaLink:'#contact' },
         heroSlides:   { title:'New headline', subtitle:'A short supporting line', image:'' },
         aboutSlides:  { paragraphs: [], image:'' },
+        trustPartners: { name: 'Partner name', url: '', logo: '' },
     };
     const FIELDS = {
         stats: [
@@ -1212,6 +1304,11 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         aboutSlides: [
             ['paragraphs','Paragraphs (blank line between paragraphs)','paragraphs'],
             ['image','Image','input'],
+        ],
+        trustPartners: [
+            ['name','Partner name','input'],
+            ['url','Website URL (optional)','input'],
+            ['logo','Logo URL (optional)','input'],
         ],
     };
 
@@ -1304,6 +1401,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             let v = getPath(CONTENT, path);
             if (as === 'paragraphs' && Array.isArray(v)) v = v.join('\n\n');
             if (as === 'numberList' && Array.isArray(v)) v = v.join(', ');
+            if (as === 'stringList' && Array.isArray(v)) v = v.join(', ');
             if (as === 'bool') v = v === false ? 'false' : 'true';
             if (el.type === 'checkbox' || as === 'checkbox') { el.checked = !!v; return; }
             el.value = v ?? '';
@@ -1429,6 +1527,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             else v = el.value;
             if (as === 'paragraphs') v = v.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
             else if (as === 'numberList') v = v.split(',').map(s=>Number(s.trim())).filter(n=>!isNaN(n) && n>0);
+            else if (as === 'stringList') v = v.split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
             else if (as === 'bool') v = v === 'true' || v === true;
             else if (el.type === 'number') v = v === '' ? 0 : Number(v);
             setPath(CONTENT, path, v);
@@ -1540,9 +1639,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     $('#saveBtn').addEventListener('click', async () => {
         collectFields();
-        // Mirror the heroSlides/aboutSlides shadow lists into hero.slides / about.slides
+        // Mirror shadow lists into nested storage paths
         if (Array.isArray(CONTENT.heroSlides))  { (CONTENT.hero  ||= {}).slides = CONTENT.heroSlides;  delete CONTENT.heroSlides; }
         if (Array.isArray(CONTENT.aboutSlides)) { (CONTENT.about ||= {}).slides = CONTENT.aboutSlides; delete CONTENT.aboutSlides; }
+        if (Array.isArray(CONTENT.trustPartners)) { (CONTENT.trust ||= {}).partners = CONTENT.trustPartners; delete CONTENT.trustPartners; }
         const btn = $('#saveBtn');
         btn.disabled = true; const orig = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
@@ -1615,28 +1715,26 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 
     const syncBtn = $('#syncRaisedBtn');
-    if (syncBtn) syncBtn.addEventListener('click', async () => {
+    async function syncRaisedFromDonations(showPublishHint = true) {
         try {
-            const res = await fetch('api/admin_data.php');
-            if (res.status === 401) { location.reload(); return; }
-            const b = await res.json();
-            const baseCur = (CONTENT.donation && CONTENT.donation.currency) || 'USD';
-            const skip = new Set(['failed', 'cancelled', 'rejected']);
-            const total = (b.donations || []).reduce((s, d) => {
-                if (skip.has(String(d.status || '').toLowerCase())) return s;
-                const amt = Number(d.amount) || 0;
-                const cur = String(d.currency || baseCur).toUpperCase();
-                return cur === String(baseCur).toUpperCase() ? s + amt : s;
-            }, 0);
+            const body = await donationApi({ action: 'sync_raised' });
+            if (!body) return null;
             if (!CONTENT.donation) CONTENT.donation = {};
-            CONTENT.donation.raised = Math.round(total * 100) / 100;
+            CONTENT.donation.raised = body.raised;
             bindFields();
-            setDirty(true);
-            toast(`Raised updated to ${baseCur} ${CONTENT.donation.raised.toLocaleString()} (click Save to publish).`);
+            if (showPublishHint) {
+                setDirty(true);
+                toast(`Raised synced to ${body.stats?.currency || ''} ${Number(body.raised).toLocaleString()} — click Save to publish.`);
+            } else {
+                toast(body.message || 'Raised total synced.');
+            }
+            return body;
         } catch (err) {
-            toast('Could not sync donations', 'error');
+            toast(err.message || 'Could not sync raised total', 'error');
+            return null;
         }
-    });
+    }
+    if (syncBtn) syncBtn.addEventListener('click', () => syncRaisedFromDonations(true));
 
     async function loadSubmissions(){
         const refreshBtn = $('#refreshSubmissions');
@@ -1685,6 +1783,52 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 
     /* Dashboard: counts + recent activity */
+    function renderActivityLog(items) {
+        const host = $('#activityLog');
+        if (!host) return;
+        if (!items || !items.length) {
+            host.innerHTML = '<div class="empty-state"><i class="fas fa-history"></i><p>No activity yet</p><span>Donations, exports, and sync actions appear here.</span></div>';
+            return;
+        }
+        host.innerHTML = `<div class="activity-log">${items.map(a => {
+            const data = a.data ? JSON.stringify(a.data) : '';
+            return `<article class="activity-row">
+                <span class="activity-type">${esc(a.type || '')}</span>
+                <span class="activity-when">${esc(fmtDateShort(a.at))}</span>
+                <span class="activity-by">${esc(a.by || '')}</span>
+                ${data ? `<span class="activity-data">${esc(data.length > 120 ? data.slice(0, 120) + '…' : data)}</span>` : ''}
+            </article>`;
+        }).join('')}</div>`;
+    }
+
+    function updateReportsKpi(ls) {
+        if (!ls) return;
+        const cur = ls.raisedCurrency || 'USD';
+        const set = (key, val) => { const el = $(`[data-rpt="${key}"]`); if (el) el.textContent = val; };
+        set('confirmedRaised', `${cur} ${Number(ls.raised || 0).toLocaleString()}`);
+        set('pendingRaised', `${cur} ${Number(ls.pendingRaised || 0).toLocaleString()}`);
+        set('confirmedCount', String(ls.confirmedDonations ?? '0'));
+        set('pendingCount', String(ls.pendingDonations ?? '0'));
+        set('messagesTotal', String(ls.messagesTotal ?? '0'));
+        set('subscribersTotal', String(ls.subscribersTotal ?? '0'));
+        const gen = $('#reportsGeneratedAt');
+        if (gen && ls.generatedAt) {
+            gen.textContent = 'Updated ' + fmtDateShort(ls.generatedAt);
+        }
+    }
+
+    async function loadReports() {
+        try {
+            const res = await fetch('api/admin_data.php');
+            if (res.status === 401) { location.reload(); return; }
+            const b = await res.json();
+            updateReportsKpi(b.liveStats);
+            renderActivityLog(b.activity || []);
+        } catch (err) {
+            toast('Could not load reports', 'error');
+        }
+    }
+
     async function loadDashboard(){
         // Content-driven counts (already in CONTENT)
         const counts = {
@@ -1717,15 +1861,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             $('[data-stat="subscribers"]').textContent = SUBSCRIBERS_CACHE.length;
             updateUnreadBadge(b.unreadMessages);
 
-            // Total raised (matching campaign currency)
-            const baseCur = String((CONTENT.donation && CONTENT.donation.currency) || 'USD').toUpperCase();
-            const skip = new Set(['failed', 'cancelled', 'rejected']);
-            const raised = (b.donations || []).reduce((s, d) => {
-                if (skip.has(String(d.status || '').toLowerCase())) return s;
-                const cur = String(d.currency || baseCur).toUpperCase();
-                if (cur !== baseCur) return s;
-                return s + (Number(d.amount) || 0);
-            }, 0);
+            const ls = b.liveStats || {};
+            const baseCur = ls.raisedCurrency || String((CONTENT.donation && CONTENT.donation.currency) || 'USD').toUpperCase();
+            const raised = Number(ls.raised) || 0;
             const rEl = $('[data-stat="raised"]');
             if (rEl) rEl.textContent = raised > 0 ? `${baseCur} ${Math.round(raised).toLocaleString()}` : '';
 
@@ -1854,6 +1992,22 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
         const detailConfirm = e.target.closest('[data-detail-don-confirm]');
         if (detailConfirm) { closeDetailDrawer(); confirmDonation(detailConfirm.getAttribute('data-detail-don-confirm')); return; }
+        const detailPoll = e.target.closest('[data-detail-don-poll]');
+        if (detailPoll) {
+            const id = detailPoll.getAttribute('data-detail-don-poll');
+            detailPoll.disabled = true;
+            donationApi({ action: 'poll_momo', id }).then(body => {
+                if (!body) return;
+                toast(body.poll?.changed ? `MoMo status: ${body.donation?.status}` : 'No change from MoMo yet.');
+                loadSubmissions();
+                loadDashboard();
+                if ($('.tabs-content.active')?.getAttribute('data-tab') === 'reports') loadReports();
+                const rec = body.donation || DONATIONS_CACHE.find(d => d.id === id);
+                if (rec) showDonationDetail(rec);
+            }).catch(err => toast(err.message || 'MoMo poll failed', 'error'))
+              .finally(() => { detailPoll.disabled = false; });
+            return;
+        }
         const detailEdit = e.target.closest('[data-detail-don-edit]');
         if (detailEdit) {
             const rec = DONATIONS_CACHE.find(d => d.id === detailEdit.getAttribute('data-detail-don-edit'));
@@ -1938,20 +2092,45 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         if (delBtn) deleteDonation(delBtn.getAttribute('data-don-delete'));
     });
 
+    $('#reportsSyncRaised')?.addEventListener('click', async () => {
+        const body = await syncRaisedFromDonations(false);
+        if (body) loadReports();
+    });
+    $('#reportsPollMomo')?.addEventListener('click', async () => {
+        const btn = $('#reportsPollMomo');
+        if (btn) btn.disabled = true;
+        try {
+            const body = await donationApi({ action: 'poll_all_momo' });
+            if (!body) return;
+            toast(body.message || 'MoMo poll complete.');
+            loadSubmissions();
+            loadDashboard();
+            loadReports();
+        } catch (err) {
+            toast(err.message || 'MoMo poll failed', 'error');
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    });
+    $('#reportsRefresh')?.addEventListener('click', () => loadReports());
+
     async function init(){
         try {
             const res  = await fetch('api/content.php');
             CONTENT    = await res.json();
             bindFields();
-            ['stats','programs','impactStories','team','events','heroSlides','aboutSlides']
+            ['stats','programs','impactStories','team','events','heroSlides','aboutSlides','trustPartners']
                 .forEach(k => {
-                    // Map heroSlides -> hero.slides, aboutSlides -> about.slides for storage
+                    // Map shadow lists into nested storage paths
                     if (k === 'heroSlides') {
                         if (!CONTENT.hero) CONTENT.hero = {};
                         CONTENT[k] = CONTENT.hero.slides || [];
                     } else if (k === 'aboutSlides') {
                         if (!CONTENT.about) CONTENT.about = {};
                         CONTENT[k] = CONTENT.about.slides || [];
+                    } else if (k === 'trustPartners') {
+                        if (!CONTENT.trust) CONTENT.trust = {};
+                        CONTENT[k] = CONTENT.trust.partners || [];
                     }
                     renderList(k);
                 });
@@ -1972,6 +2151,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const tab = $('.tabs-content.active')?.getAttribute('data-tab');
         if (tab === 'dashboard') loadDashboard();
         else if (tab === 'submissions') loadSubmissions();
+        else if (tab === 'reports') loadReports();
     }, 45000);
 })();
 </script>

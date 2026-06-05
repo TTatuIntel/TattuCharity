@@ -1,0 +1,26 @@
+<?php
+/**
+ * SMS credentials — copy this file to sms.local.php and fill in your values.
+ *
+ *   cp sms.local.php.example sms.local.php
+ *
+ * Example Twilio settings:
+ *   provider: twilio
+ *   account_sid: ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ *   auth_token: your_auth_token
+ *   from: +12345678901
+ *   admin_number: +256770000000
+ */
+if (!defined('TATTU_INTERNAL')) {
+    return [];
+}
+
+return [
+    'enabled'      => true,
+    'provider'     => 'twilio',
+    'account_sid'  => 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'auth_token'   => 'YOUR_AUTH_TOKEN',
+    'from'         => '+12345678901',
+    'admin_number' => '+256770000000',
+    'timeout'      => 10,
+];

@@ -10,6 +10,11 @@ if (!rate_limit('contact_' . client_ip(), 5, 120)) {
 }
 
 $data = read_input_json();
+
+if (is_honeypot_triggered($data)) {
+    json_response(['success' => true, 'message' => 'Thank you! We will get back to you soon.']);
+}
+
 $name    = trim((string)($data['name']    ?? ''));
 $email   = trim((string)($data['email']   ?? ''));
 $message = trim((string)($data['message'] ?? ''));
@@ -38,17 +43,19 @@ if (!append_json_record(MESSAGES_FILE, $record)) {
     json_response(['success' => false, 'message' => 'Could not save your message. Please try again.'], 500);
 }
 
+log_activity('contact', ['id' => $record['id'], 'email' => $email, 'name' => $name], 'visitor');
+
 $subject = '[' . CHARITY_NAME . '] New contact message from ' . $name;
 $body    = "A visitor submitted the contact form on your website.\n\n"
          . "From: {$name} <{$email}>\n\n{$message}\n\n"
          . "Submitted: " . date('Y-m-d H:i:s') . "\nIP: " . client_ip() . "\n\n"
          . "View and manage in Admin → Submissions.";
-notify_info($subject, $body, $email);
 // Send admin SMS first (if configured), then email notifications and auto-reply.
 if (function_exists('send_admin_sms')) {
     $smsShort = "New contact from {$name}: " . substr($message, 0, 160);
     @send_admin_sms($smsShort);
 }
+notify_info($subject, $body, $email);
 send_contact_auto_reply($name, $email);
 
 json_response(['success' => true, 'message' => 'Thank you! We will get back to you soon.']);

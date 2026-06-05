@@ -10,6 +10,11 @@ if (!rate_limit('news_' . client_ip(), 10, 120)) {
 }
 
 $data  = read_input_json();
+
+if (is_honeypot_triggered($data)) {
+    json_response(['success' => true, 'message' => 'Thank you for subscribing!']);
+}
+
 $email = trim((string)($data['email'] ?? ''));
 
 if (!valid_email($email)) {
@@ -33,6 +38,8 @@ $list[] = [
 if (!write_json(SUBSCRIBERS_FILE, $list)) {
     json_response(['success' => false, 'message' => 'Could not save subscription. Please try again.'], 500);
 }
+
+log_activity('newsletter', ['email' => $email], 'visitor');
 
 notify_info(
     '[' . CHARITY_NAME . '] New newsletter subscriber',

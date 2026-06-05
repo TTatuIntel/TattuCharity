@@ -205,6 +205,27 @@
     ],
     "events": [
         {
+            "title": "April 2026 Drive",
+            "date": "April 15-30, 2026",
+            "startDate": "2026-04-15",
+            "endDate": "2026-04-30",
+            "location": "Kampala, Uganda",
+            "status": "upcoming",
+            "featured": true,
+            "featureOnHero": true,
+            "heroTitle": "April Collection Drive \u2014 Get Involved",
+            "heroSubtitle": "Help us gather educational materials for children in Kampala. Volunteer or donate supplies today.",
+            "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Collecting educational materials for Kampala.",
+            "items": [
+                "Notebooks",
+                "Pens",
+                "Backpacks"
+            ],
+            "ctaText": "Volunteer",
+            "ctaLink": "#contact"
+        },
+        {
             "title": "June 2026 Drive",
             "date": "June 1-15, 2026",
             "startDate": "2026-06-01",
@@ -219,29 +240,6 @@
                 "Bandages",
                 "Antiseptics",
                 "Gloves"
-            ],
-            "ctaText": "Volunteer",
-            "ctaLink": "#contact",
-            "heroTitle": "",
-            "heroSubtitle": ""
-        },
-        {
-            "title": "April 2026 Drive",
-            "date": "April 15-30, 2026",
-            "startDate": "2026-04-15",
-            "endDate": "2026-04-30",
-            "location": "Kampala, Uganda",
-            "status": "upcoming",
-            "featured": true,
-            "featureOnHero": true,
-            "heroTitle": "April Collection Drive — Get Involved",
-            "heroSubtitle": "Help us gather educational materials for children in Kampala. Volunteer or donate supplies today.",
-            "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-            "description": "Collecting educational materials for Kampala.",
-            "items": [
-                "Notebooks",
-                "Pens",
-                "Backpacks"
             ],
             "ctaText": "Volunteer",
             "ctaLink": "#contact"
@@ -263,9 +261,7 @@
                 "Sanitary pads"
             ],
             "ctaText": "Donate supplies",
-            "ctaLink": "#contact",
-            "heroTitle": "",
-            "heroSubtitle": ""
+            "ctaLink": "#contact"
         },
         {
             "title": "December 2025 Water Project",
@@ -273,7 +269,7 @@
             "startDate": "2025-12-01",
             "endDate": "2025-12-31",
             "location": "Karamoja, Uganda",
-            "status": "upcoming",
+            "status": "completed",
             "featured": false,
             "featureOnHero": false,
             "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
@@ -284,52 +280,33 @@
                 "Community training"
             ],
             "ctaText": "Read impact",
-            "ctaLink": "#impact",
-            "heroTitle": "",
-            "heroSubtitle": ""
+            "ctaLink": "#impact"
         }
     ],
     "donation": {
-        "goal": 37000000,
-        "raised": 27750000,
-        "currency": "UGX",
+        "goal": 10000,
+        "raised": 7500,
+        "currency": "USD",
         "supportedCurrencies": [
-            "UGX",
             "USD",
             "EUR",
             "GBP",
+            "UGX",
             "KES",
             "TZS",
             "RWF",
             "NGN",
             "ZAR",
-            "GHS",
-            "INR",
-            "CNY",
-            "AUD",
-            "CAD",
-            "BTC",
-            "ETH",
-            "USDT",
-            "USDC",
-            "BNB",
-            "SOL"
+            "GHS"
         ],
         "amounts": [
-            10000,
-            25000,
-            50000,
-            100000,
-            500000
+            10,
+            25,
+            50,
+            100
         ],
-        "crypto": {
-            "BTC": "",
-            "ETH": "",
-            "USDT": "",
-            "USDC": ""
-        },
         "merchantCode": "288198",
-        "note": "Give in UGX or any currency you prefer — including Bitcoin, Ethereum, and USDT. Mobile Money is charged in UGX; bank and crypto options are also available.",
+        "note": "Your donation helps provide clean water, education, and healthcare to communities in Uganda.",
         "airtelMerchantCode": "",
         "bank": {
             "bankName": "Stanbic Bank Uganda",

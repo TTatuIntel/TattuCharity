@@ -32,12 +32,17 @@
     window.toast = toast;
 
     /* ---------------- Sticky header / back-to-top / floating donate ---------------- */
-    const header   = $('#header');
-    const fab      = $('#floatingDonate');
-    const backToTop = $('.back-to-top');
+    const header     = $('#header');
+    const fab        = $('#floatingDonate');
+    const backToTop  = $('.back-to-top');
+    const pillNav    = $('#mobilePillNav');
+    const themeBtn   = $('.theme-toggle');
     function onScroll() {
         const y = window.scrollY;
-        if (header)    header.classList.toggle('header-scrolled', y > 60);
+        const scrolled = y > 60;
+        if (header)    header.classList.toggle('header-scrolled', scrolled);
+        if (pillNav)   pillNav.classList.toggle('is-scrolled', scrolled);
+        if (themeBtn)  themeBtn.classList.toggle('is-scrolled', scrolled);
         if (backToTop) backToTop.classList.toggle('visible', y > 300);
         // (FAB stays visible; do not hide on scroll-up)
     }

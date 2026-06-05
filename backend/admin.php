@@ -183,6 +183,109 @@ table th{background:#f9fafb;font-weight:600;font-size:.7rem;color:var(--muted);t
 }
 .upload-btn:hover{border-color:var(--primary);color:var(--primary)}
 .upload-btn.uploading{opacity:.6;cursor:wait}
+
+/* ===== Sidebar grouping ===== */
+.nav-section{
+    padding:14px 18px 4px;font-size:.6rem;color:#94a3b8;
+    text-transform:uppercase;letter-spacing:.6px;font-weight:600;
+}
+
+/* ===== Dashboard / overview ===== */
+.dash-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:10px;margin-bottom:12px;
+}
+.dash-card{
+    position:relative;background:#fff;border:1px solid var(--border);
+    border-radius:9px;padding:11px 13px 12px;cursor:pointer;
+    transition:.18s;overflow:hidden;
+}
+.dash-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:transparent}
+.dash-card-icon{
+    position:absolute;top:10px;right:10px;
+    width:30px;height:30px;border-radius:7px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.78rem;
+}
+.dash-card-label{
+    font-size:.62rem;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.4px;font-weight:600;margin-bottom:3px;
+}
+.dash-card-value{font-size:1.45rem;font-weight:700;color:#111;line-height:1;}
+.dash-card-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+
+.dash-cols{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:12px;
+}
+@media(max-width:780px){.dash-cols{grid-template-columns:1fr}}
+
+.quick-actions{display:flex;flex-wrap:wrap;gap:6px}
+.quick-actions .qa{
+    background:#f4f6f8;color:var(--text);border:1px solid var(--border);
+    padding:7px 12px;border-radius:6px;font-family:inherit;font-size:.78rem;
+    font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+    text-decoration:none;transition:.15s;
+}
+.quick-actions .qa:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.quick-actions .qa i{font-size:.7rem}
+
+/* Dashboard recent tables (compact) */
+.dash-recent{font-size:.78rem}
+.dash-recent .row{
+    display:grid;grid-template-columns:auto 1fr auto;gap:10px;
+    padding:6px 0;border-bottom:1px dashed var(--border);align-items:center;
+}
+.dash-recent .row:last-child{border-bottom:none}
+.dash-recent .when{color:var(--muted);font-size:.7rem;white-space:nowrap}
+.dash-recent .who strong{color:#111;font-weight:600}
+.dash-recent .who small{color:var(--muted);display:block;font-size:.68rem}
+.dash-recent .amount{font-weight:600;color:var(--primary-dark);font-size:.78rem}
+
+/* ===== Collapsible list items (Programs, Stories, Team, Events) ===== */
+.list-item.collapsible{padding:0;overflow:hidden}
+.list-item.collapsible .list-item-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 14px;margin:0;cursor:pointer;
+    transition:background .15s;gap:10px;
+}
+.list-item.collapsible .list-item-head:hover{background:rgba(0,0,0,.025)}
+.list-item.collapsible .li-title{
+    flex:1;display:flex;align-items:center;gap:9px;min-width:0;
+}
+.list-item.collapsible .li-title .chevron{
+    color:var(--muted);font-size:.7rem;transition:transform .25s;
+    flex-shrink:0;
+}
+.list-item.collapsible.expanded .li-title .chevron{transform:rotate(90deg);color:var(--primary)}
+.list-item.collapsible .li-title strong{
+    font-size:.85rem;color:#111;font-weight:600;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;
+}
+.list-item.collapsible .li-title .li-snippet{
+    color:var(--muted);font-size:.75rem;font-weight:400;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;
+}
+.list-item.collapsible .list-item-body{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s ease,padding .25s ease;
+    padding:0 14px;
+}
+.list-item.collapsible.expanded .list-item-body{
+    max-height:1500px;padding:6px 14px 12px;
+    border-top:1px solid var(--border);
+}
+
+/* ===== Submissions tables (compact) ===== */
+table tr:hover{background:#f9fafb}
+[data-tab="submissions"] .card{padding:14px 16px}
+[data-tab="submissions"] .card h3{margin-bottom:8px}
+
+/* ===== General compaction ===== */
+.tabs-content > .card:first-of-type{margin-top:0}
+.toolbar h1 i{color:var(--primary);margin-right:6px;font-size:.92rem}
 </style>
 </head>
 <body>
@@ -226,13 +329,16 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     <aside class="sidebar" id="adminSidebar">
         <h2><i class="fas fa-heart"></i> Tattu Care Admin</h2>
         <nav id="adminNav">
-            <button data-tab="org"        class="active"><i class="fas fa-building"></i> Organization</button>
+            <button data-tab="dashboard"  class="active"><i class="fas fa-th-large"></i> Dashboard</button>
+            <div class="nav-section">CONTENT</div>
+            <button data-tab="org"><i class="fas fa-building"></i> Organization</button>
             <button data-tab="hero"><i class="fas fa-image"></i> Hero & About</button>
             <button data-tab="stats"><i class="fas fa-chart-bar"></i> Stats</button>
             <button data-tab="programs"><i class="fas fa-hand-holding-heart"></i> Programs</button>
             <button data-tab="impact"><i class="fas fa-quote-right"></i> Impact Stories</button>
             <button data-tab="team"><i class="fas fa-users"></i> Team</button>
             <button data-tab="events"><i class="fas fa-calendar"></i> Events</button>
+            <div class="nav-section">SETTINGS</div>
             <button data-tab="donation"><i class="fas fa-donate"></i> Donation</button>
             <button data-tab="trust"><i class="fas fa-shield-alt"></i> Trust & Legal</button>
             <button data-tab="submissions"><i class="fas fa-inbox"></i> Submissions</button>
@@ -244,7 +350,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     <main class="main">
         <div class="toolbar">
-            <h1 id="tabTitle">Organization</h1>
+            <h1 id="tabTitle">Dashboard</h1>
             <div>
                 <a href="../index.html" target="_blank" class="btn btn-ghost"><i class="fas fa-external-link-alt"></i> View site</a>
                 <button id="saveBtn" class="btn"><i class="fas fa-save"></i> Save changes</button>
@@ -252,7 +358,74 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         </div>
         <div id="msg"></div>
 
-        <section class="tabs-content active" data-tab="org">
+        <!-- ============ DASHBOARD ============ -->
+        <section class="tabs-content active" data-tab="dashboard">
+            <div class="dash-grid">
+                <div class="dash-card" data-go-tab="programs">
+                    <div class="dash-card-icon" style="background:rgba(46,204,113,.12); color:#27ae60"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="dash-card-label">Programs</div>
+                    <div class="dash-card-value" data-stat="programs">0</div>
+                </div>
+                <div class="dash-card" data-go-tab="impact">
+                    <div class="dash-card-icon" style="background:rgba(243,156,18,.12); color:#f39c12"><i class="fas fa-quote-right"></i></div>
+                    <div class="dash-card-label">Impact Stories</div>
+                    <div class="dash-card-value" data-stat="impactStories">0</div>
+                </div>
+                <div class="dash-card" data-go-tab="team">
+                    <div class="dash-card-icon" style="background:rgba(52,152,219,.12); color:#3498db"><i class="fas fa-users"></i></div>
+                    <div class="dash-card-label">Team Members</div>
+                    <div class="dash-card-value" data-stat="team">0</div>
+                </div>
+                <div class="dash-card" data-go-tab="events">
+                    <div class="dash-card-icon" style="background:rgba(155,89,182,.12); color:#9b59b6"><i class="fas fa-calendar"></i></div>
+                    <div class="dash-card-label">Events</div>
+                    <div class="dash-card-value" data-stat="events">0</div>
+                </div>
+                <div class="dash-card" data-go-tab="submissions">
+                    <div class="dash-card-icon" style="background:rgba(46,204,113,.12); color:#27ae60"><i class="fas fa-donate"></i></div>
+                    <div class="dash-card-label">Donations</div>
+                    <div class="dash-card-value" data-stat="donations">0</div>
+                    <div class="dash-card-sub" data-stat="raised">—</div>
+                </div>
+                <div class="dash-card" data-go-tab="submissions">
+                    <div class="dash-card-icon" style="background:rgba(231,76,60,.12); color:#e74c3c"><i class="fas fa-envelope"></i></div>
+                    <div class="dash-card-label">Messages</div>
+                    <div class="dash-card-value" data-stat="messages">0</div>
+                </div>
+                <div class="dash-card" data-go-tab="submissions">
+                    <div class="dash-card-icon" style="background:rgba(52,152,219,.12); color:#3498db"><i class="fas fa-paper-plane"></i></div>
+                    <div class="dash-card-label">Subscribers</div>
+                    <div class="dash-card-value" data-stat="subscribers">0</div>
+                </div>
+            </div>
+
+            <div class="dash-cols">
+                <div class="card">
+                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="qa" data-go-tab="programs"><i class="fas fa-plus"></i> Add Program</button>
+                        <button class="qa" data-go-tab="impact"><i class="fas fa-plus"></i> Add Story</button>
+                        <button class="qa" data-go-tab="team"><i class="fas fa-plus"></i> Add Team Member</button>
+                        <button class="qa" data-go-tab="events"><i class="fas fa-plus"></i> Add Event</button>
+                        <a class="qa" href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> View Site</a>
+                        <button class="qa" data-go-tab="submissions"><i class="fas fa-inbox"></i> View Submissions</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-clock"></i> Recent Donations</h3>
+                    <div id="dashRecentDonations"><p class="empty">No donations yet.</p></div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-clock"></i> Recent Messages</h3>
+                    <div id="dashRecentMessages"><p class="empty">No messages yet.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ORGANIZATION ============ -->
+        <section class="tabs-content" data-tab="org">
             <div class="card">
                 <h3>Basic Information</h3>
                 <div class="row2">
@@ -557,17 +730,27 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             }
             return `<div class="field"><label for="${id}">${label}</label><input id="${id}" data-li="${liKey}" value="${esc(v ?? '')}"></div>`;
         }).join('');
+        // 1-line snippet (description / role / date) shown when collapsed
+        const snippetSrc = item.description || item.role || item.text || item.date || item.bio || '';
+        const snippet = String(snippetSrc).slice(0, 80);
+        const titleText = item.title || item.name || item.label || ('#' + (idx + 1));
         return `
-            <div class="list-item" data-row="${listKey}|${idx}">
+            <div class="list-item collapsible" data-row="${listKey}|${idx}">
                 <div class="list-item-head">
-                    <strong>${esc(item.title || item.name || item.label || ('#'+(idx+1)))}</strong>
+                    <div class="li-title">
+                        <i class="fas fa-chevron-right chevron"></i>
+                        <strong>${esc(titleText)}</strong>
+                        ${snippet ? `<span class="li-snippet">${esc(snippet)}${snippetSrc.length > 80 ? '…' : ''}</span>` : ''}
+                    </div>
                     <div class="list-item-actions">
-                        <button class="icon-btn" title="Move up"   data-move="${listKey}|${idx}|-1"><i class="fas fa-arrow-up"></i></button>
-                        <button class="icon-btn" title="Move down" data-move="${listKey}|${idx}|1"><i class="fas fa-arrow-down"></i></button>
-                        <button class="icon-btn danger" title="Delete" data-del="${listKey}|${idx}"><i class="fas fa-trash"></i></button>
+                        <button class="icon-btn"        title="Move up"   data-move="${listKey}|${idx}|-1"><i class="fas fa-arrow-up"></i></button>
+                        <button class="icon-btn"        title="Move down" data-move="${listKey}|${idx}|1"><i class="fas fa-arrow-down"></i></button>
+                        <button class="icon-btn danger" title="Delete"   data-del="${listKey}|${idx}"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
-                ${inner}
+                <div class="list-item-body">
+                    ${inner}
+                </div>
             </div>`;
     }
 
@@ -726,6 +909,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             $$('.tabs-content').forEach(s => s.classList.toggle('active', s.getAttribute('data-tab') === t));
             $('#tabTitle').textContent = b.textContent.trim();
             if (t === 'submissions') loadSubmissions();
+            if (t === 'dashboard')   loadDashboard();
         });
     });
 
@@ -737,6 +921,11 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             CONTENT[k] = CONTENT[k] || [];
             CONTENT[k].push(JSON.parse(JSON.stringify(TEMPLATES[k] || {})));
             renderList(k);
+            // Auto-expand the new (last) item so admin can edit immediately
+            requestAnimationFrame(() => {
+                const items = $$(`[data-list="${k}"] .list-item.collapsible`);
+                if (items.length) items[items.length - 1].classList.add('expanded');
+            });
             return;
         }
         const del = e.target.closest('[data-del]');
@@ -758,6 +947,22 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             collectFields();
             [arr[i], arr[j]] = [arr[j], arr[i]];
             renderList(k);
+            return;
+        }
+
+        // Toggle accordion when the item header (but NOT its action buttons) is clicked
+        const head = e.target.closest('.list-item.collapsible .list-item-head');
+        if (head && !e.target.closest('.list-item-actions')) {
+            head.parentElement.classList.toggle('expanded');
+            return;
+        }
+
+        // Dashboard: clicking a dash-card or quick action jumps to that tab
+        const goTab = e.target.closest('[data-go-tab]');
+        if (goTab) {
+            const t = goTab.getAttribute('data-go-tab');
+            const navBtn = $(`#adminNav button[data-tab="${t}"]`);
+            if (navBtn) navBtn.click();
         }
     });
 
@@ -839,6 +1044,77 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
     }
 
+    /* Dashboard: counts + recent activity */
+    async function loadDashboard(){
+        // Content-driven counts (already in CONTENT)
+        const counts = {
+            programs:      (CONTENT.programs || []).length,
+            impactStories: (CONTENT.impactStories || []).length,
+            team:          (CONTENT.team || []).length,
+            events:        (CONTENT.events || []).length,
+        };
+        Object.entries(counts).forEach(([k, v]) => {
+            const el = $(`[data-stat="${k}"]`);
+            if (el) el.textContent = String(v);
+        });
+
+        // Submissions data (donations / messages / subscribers)
+        try {
+            const res = await fetch('api/admin_data.php');
+            if (res.status === 401) { location.reload(); return; }
+            const b = await res.json();
+
+            $('[data-stat="donations"]').textContent   = (b.donations   || []).length;
+            $('[data-stat="messages"]').textContent    = (b.messages    || []).length;
+            $('[data-stat="subscribers"]').textContent = (b.subscribers || []).length;
+
+            // Total raised (sum of charged amounts in charge-currency)
+            const raised = (b.donations || []).reduce((s, d) => s + (Number(d.chargeAmount) || 0), 0);
+            const cur    = (b.donations[0] && b.donations[0].chargeCurrency) || 'UGX';
+            const rEl = $('[data-stat="raised"]');
+            if (rEl) rEl.textContent = raised > 0 ? `${cur} ${Math.round(raised).toLocaleString()} raised` : '—';
+
+            // Recent donations (top 5)
+            const dHost = $('#dashRecentDonations');
+            if (dHost) {
+                const recent = (b.donations || []).slice(0, 5);
+                if (!recent.length) {
+                    dHost.innerHTML = '<p class="empty">No donations yet.</p>';
+                } else {
+                    dHost.innerHTML = '<div class="dash-recent">' + recent.map(d => `
+                        <div class="row">
+                            <span class="when">${esc(new Date(d.createdAt).toLocaleDateString())}</span>
+                            <span class="who">
+                                <strong>${esc(d.name || 'Anonymous')}</strong>
+                                <small>${esc(d.method || 'momo')} · <span class="status-badge s-${esc(d.status || '')}">${esc(d.status || '')}</span></small>
+                            </span>
+                            <span class="amount">${esc(d.currency || '')} ${esc(d.amount)}</span>
+                        </div>`).join('') + '</div>';
+                }
+            }
+            // Recent messages (top 5)
+            const mHost = $('#dashRecentMessages');
+            if (mHost) {
+                const recent = (b.messages || []).slice(0, 5);
+                if (!recent.length) {
+                    mHost.innerHTML = '<p class="empty">No messages yet.</p>';
+                } else {
+                    mHost.innerHTML = '<div class="dash-recent">' + recent.map(m => `
+                        <div class="row">
+                            <span class="when">${esc(new Date(m.createdAt).toLocaleDateString())}</span>
+                            <span class="who">
+                                <strong>${esc(m.name)}</strong>
+                                <small>${esc((m.message || '').slice(0, 60))}${(m.message||'').length > 60 ? '…' : ''}</small>
+                            </span>
+                            <span><a href="mailto:${esc(m.email)}" title="Reply" class="icon-btn"><i class="fas fa-reply"></i></a></span>
+                        </div>`).join('') + '</div>';
+                }
+            }
+        } catch (err) {
+            // Network error - keep zero counts visible, no toast (silent)
+        }
+    }
+
     async function init(){
         try {
             const res  = await fetch('api/content.php');
@@ -856,6 +1132,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                     }
                     renderList(k);
                 });
+            // Populate dashboard right after content arrives
+            loadDashboard();
         } catch (err) {
             toast('Could not load content', 'error');
         }

@@ -1104,24 +1104,37 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 
 .theme-toggle {
     position: fixed; top: 14px; right: 14px;
-    background: rgba(255, 255, 255, .04);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, .10);
+    background: rgba(255, 255, 255, .03);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, .08);
     width: 36px; height: 36px; border-radius: 50%;
     font-size: .9rem;
     color: #fff;
     cursor: pointer; z-index: 1101;
     display: flex; align-items: center; justify-content: center;
-    transition: var(--transition);
+    transition: background .25s ease, backdrop-filter .25s ease, border-color .25s ease, color .25s ease, transform .2s ease;
     box-shadow: none;
 }
-.header-scrolled ~ .theme-toggle { background: rgba(255, 255, 255, .08); border-color: rgba(0,0,0,.08); color: var(--dark); }
-.theme-toggle:hover { transform: scale(1.08); background: rgba(255, 255, 255, .18); }
+.theme-toggle.is-scrolled {
+    background: rgba(255, 255, 255, .55);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border-color: rgba(255, 255, 255, .45);
+    color: var(--dark);
+    box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .18);
+}
+.header-scrolled ~ .theme-toggle { background: rgba(255, 255, 255, .55); border-color: rgba(255,255,255,.45); color: var(--dark); }
+.theme-toggle:hover { transform: scale(1.08); }
 [data-theme="dark"] .theme-toggle {
     background: rgba(0, 0, 0, .10);
     border-color: rgba(255, 255, 255, .05);
     color: #f0f0f0;
+}
+[data-theme="dark"] .theme-toggle.is-scrolled {
+    background: rgba(20, 20, 20, .55);
+    border-color: rgba(255, 255, 255, .10);
+    color: #fff;
 }
 
 /* =========================================================
@@ -1748,16 +1761,26 @@ input:focus-visible, textarea:focus-visible {
         gap: 4px;
         padding: 5px;
         align-items: center;
-        /* near-invisible bar - just enough blur to define the container */
-        background: rgba(255, 255, 255, .04);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, .10);
+        /* AT-TOP: near-invisible, looks like part of the hero */
+        background: rgba(255, 255, 255, .03);
+        backdrop-filter: blur(14px) saturate(160%);
+        -webkit-backdrop-filter: blur(14px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, .08);
         border-radius: 50px;
         box-shadow: none;
         overflow-x: auto;
         scrollbar-width: none;
         scroll-behavior: smooth;
+        transition: background .25s ease, backdrop-filter .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    /* SCROLLED: stronger frost so it stays readable over white sections */
+    .mobile-pill-nav.is-scrolled {
+        background: rgba(255, 255, 255, .55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border-color: rgba(255, 255, 255, .45);
+        box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .18),
+                    0 0 0 1px rgba(255, 255, 255, .15) inset;
     }
     /* Brand chip at the start of the pill nav — matches desktop logo size */
     .mobile-pill-nav .pill-brand {
@@ -1803,6 +1826,10 @@ input:focus-visible, textarea:focus-visible {
     [data-theme="dark"] .mobile-pill-nav {
         background: rgba(0, 0, 0, .10);
         border-color: rgba(255, 255, 255, .05);
+    }
+    [data-theme="dark"] .mobile-pill-nav.is-scrolled {
+        background: rgba(20, 20, 20, .55);
+        border-color: rgba(255, 255, 255, .10);
     }
 
     .mobile-pill-nav a {

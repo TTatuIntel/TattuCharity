@@ -1,1 +1,34 @@
-[]
+[
+    {
+        "id": "a14e86f22f064a0a",
+        "type": "raised_sync",
+        "at": "2026-06-09T18:26:17+02:00",
+        "by": "admin",
+        "data": {
+            "raised": 0,
+            "currency": "UGX",
+            "count": 0
+        }
+    },
+    {
+        "id": "14b0d8f61745c504",
+        "type": "export",
+        "at": "2026-06-09T18:25:24+02:00",
+        "by": "admin",
+        "data": {
+            "type": "donations",
+            "count": 1
+        }
+    },
+    {
+        "id": "efdcafea3e68bc1e",
+        "type": "donation",
+        "at": "2026-06-09T18:20:15+02:00",
+        "by": "system",
+        "data": {
+            "id": "a7e086d391c05139",
+            "method": "momo",
+            "status": "manual_pending"
+        }
+    }
+]

@@ -1,1 +1,32 @@
-﻿[]
+[
+    {
+        "id": "a7e086d391c05139",
+        "method": "momo",
+        "amount": 5000,
+        "currency": "UGX",
+        "chargeAmount": 1.16,
+        "chargeCurrency": "EUR",
+        "phone": "256770495837",
+        "name": "kib",
+        "email": "lugemwa174@gmail.com",
+        "reference": null,
+        "createdAt": "2026-06-09T18:20:11+02:00",
+        "ip": "127.0.0.1",
+        "status": "manual_pending",
+        "message": "MTN MoMo not configured. Donor must be contacted manually.",
+        "statusHistory": [
+            {
+                "status": "pending",
+                "at": "2026-06-09T18:20:11+02:00",
+                "by": "donor",
+                "note": "Donation initiated"
+            },
+            {
+                "status": "manual_pending",
+                "at": "2026-06-09T18:20:11+02:00",
+                "by": "system",
+                "note": "MTN MoMo not configured. Donor must be contacted manually."
+            }
+        ]
+    }
+]

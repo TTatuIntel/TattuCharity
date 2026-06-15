@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" role="img" aria-label="Tattu Care">
+  <defs>
+    <linearGradient id="waterFill" x1="24" y1="17" x2="24" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5dade2"/>
+      <stop offset="55%" stop-color="#3498db"/>
+      <stop offset="100%" stop-color="#2471a3"/>
+    </linearGradient>
+  </defs>
+  <path fill="#ffffff" stroke="#2ecc71" stroke-width="2.4" stroke-linejoin="round" d="M24 41.5C24 41.5 6.5 27.5 6.5 17.2C6.5 11 11.5 6.2 18 6.2C21.1 6.2 23.1 7.8 24 10.2C24.9 7.8 26.9 6.2 30 6.2C36.5 6.2 41.5 11 41.5 17.2C41.5 27.5 24 41.5 24 41.5Z"/>
+  <path fill="url(#waterFill)" d="M24 17.2C20.2 17.2 17.2 20.8 17.2 25.2C17.2 30.8 24 37.2 24 37.2C24 37.2 30.8 30.8 30.8 25.2C30.8 20.8 27.8 17.2 24 17.2Z"/>
+  <text x="58" y="33" font-family="Poppins, system-ui, sans-serif" font-size="26" font-weight="700" fill="#34495e">Tattu</text>
+  <text x="138" y="33" font-family="Poppins, system-ui, sans-serif" font-size="26" font-weight="600" fill="#2ecc71">Care</text>
+</svg>

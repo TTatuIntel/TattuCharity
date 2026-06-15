@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tattu Care">
+  <rect width="48" height="48" rx="10" fill="#1a5c42"/>
+  <path fill="#c9a227" d="M8 40V18c0-8 6.5-14 16-14s16 6 16 14v22H8z" opacity=".35"/>
+  <path fill="none" stroke="#c9a227" stroke-width="2" d="M10 40V20c0-6.5 5.5-12 14-12s14 5.5 14 12v20"/>
+  <g fill="#e8f5ef">
+    <rect x="15" y="24" width="3" height="10" rx="1"/>
+    <rect x="13" y="21" width="10" height="2.5" rx="1.25"/>
+    <rect x="27" y="24" width="3" height="10" rx="1"/>
+    <rect x="25" y="21" width="10" height="2.5" rx="1.25"/>
+  </g>
+  <circle cx="24" cy="14" r="2" fill="#c9a227"/>
+</svg>

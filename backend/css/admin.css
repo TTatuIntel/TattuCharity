@@ -75,16 +75,77 @@ a:hover { text-decoration: underline; }
 .login-brand-inner { position: relative; z-index: 1; max-width: 420px; animation: adminSlideUp .6s ease; }
 
 .login-logo {
-    width: 56px;
-    height: 56px;
+    width: 72px;
+    height: 72px;
     border-radius: 14px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    box-shadow: 0 10px 24px rgba(46, 204, 113, .35);
+    box-shadow: none;
     margin-bottom: 24px;
+    padding: 0;
+}
+.login-logo img { width: 64px; height: 64px; object-fit: contain; display: block; filter: drop-shadow(0 4px 12px rgba(0,0,0,.2)); }
+.login-logo .logo-mark { width: 64px; height: 64px; filter: drop-shadow(0 4px 12px rgba(0,0,0,.2)); }
+
+/* Animated logo (shared with public site) */
+.logo-mark { display: inline-flex; align-items: center; justify-content: center; line-height: 0; }
+.logo-svg { display: block; overflow: visible; }
+.logo-heart-group { transform-origin: 24px 26px; animation: logoHeartBeat 1.15s ease-in-out infinite, logoGreenGlow 1.15s ease-in-out infinite; }
+.logo-heart {
+    stroke: #2ecc71;
+    stroke-width: 2.4;
+    animation: logoGreenStroke 1.15s ease-in-out infinite;
+}
+.logo-water-group { transform-origin: 24px 28px; animation: logoWaterBeat 1.15s ease-in-out infinite; }
+.logo-drop-shine { animation: logoWaterShine 2.3s ease-in-out infinite; }
+.logo-svg--static .logo-heart-group,
+.logo-svg--static .logo-water-group,
+.logo-svg--static .logo-drop-shine,
+.logo-svg--static .logo-heart { animation: none !important; }
+@keyframes logoHeartBeat {
+    0%, 100% { transform: scale(1); }
+    11% { transform: scale(1.08); }
+    22% { transform: scale(1); }
+    33% { transform: scale(1.05); }
+    44%, 100% { transform: scale(1); }
+}
+@keyframes logoGreenStroke {
+    0%, 100% { stroke: #2ecc71; }
+    11% { stroke: #58d68d; }
+    22% { stroke: #2ecc71; }
+    33% { stroke: #58d68d; }
+    44%, 100% { stroke: #2ecc71; }
+}
+@keyframes logoGreenGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px rgba(46, 204, 113, .28));
+    }
+    11% {
+        filter: drop-shadow(0 0 5px rgba(46, 204, 113, .55));
+    }
+    22% {
+        filter: drop-shadow(0 0 2px rgba(46, 204, 113, .28));
+    }
+    33% {
+        filter: drop-shadow(0 0 4px rgba(46, 204, 113, .45));
+    }
+    44%, 100% {
+        filter: drop-shadow(0 0 2px rgba(46, 204, 113, .28));
+    }
+}
+@keyframes logoWaterBeat {
+    0%, 100% { transform: scale(1) translateY(0); }
+    11% { transform: scale(1.1) translateY(-0.5px); }
+    33% { transform: scale(1.05) translateY(0); }
+}
+@keyframes logoWaterShine {
+    0%, 100% { opacity: .25; }
+    50% { opacity: .55; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .logo-heart-group, .logo-water-group, .logo-drop-shine, .logo-heart { animation: none !important; }
 }
 
 .login-brand h1 {
@@ -208,16 +269,15 @@ a:hover { text-decoration: underline; }
     gap: 10px;
 }
 
-.sidebar-brand h2 i {
-    width: 32px;
-    height: 32px;
+.sidebar-brand h2 .sidebar-logo-icon,
+.sidebar-brand h2 .logo-mark {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: block;
     border-radius: 8px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .85rem;
 }
+.sidebar-brand .logo-brand-care { color: var(--primary); font-weight: 500; }
 
 .sidebar-brand small {
     display: block;
@@ -1319,7 +1379,8 @@ table tr:hover { background: rgba(46, 204, 113, .04); }
 
     .sidebar-brand { padding: 14px 10px 12px; text-align: center; }
     .sidebar-brand h2 { justify-content: center; font-size: 0; gap: 0; }
-    .sidebar-brand h2 i { width: 40px; height: 40px; font-size: 1rem; }
+    .sidebar-brand h2 .sidebar-logo-icon,
+    .sidebar-brand h2 .logo-mark { width: 44px; height: 44px; }
     .sidebar-brand small,
     .sidebar-brand-text,
     .nav-section { display: none; }

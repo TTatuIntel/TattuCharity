@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tattu Care">
+  <rect width="48" height="48" rx="10" fill="#1a5c42"/>
+  <path fill="#c9a227" d="M8 8h16v16H8zm16 0h16v16H24zm-16 16h16v16H8zm16 0h16v16H24z" opacity=".25"/>
+  <path fill="none" stroke="#c9a227" stroke-width="1.5" d="M8 8h32v32H8zM24 8v32M8 24h32"/>
+  <text x="24" y="29" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="700" fill="#e8f5ef">TC</text>
+</svg>

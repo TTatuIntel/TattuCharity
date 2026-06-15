@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tattu Care">
+  <circle cx="24" cy="24" r="22" fill="#2ecc71"/>
+  <path fill="#ffffff" d="M16 32V16h5v6h7v-6h5v16h-5v-7h-7v7h-5z"/>
+  <path fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" d="M31 18c4 0 7 3 7 7s-3 7-7 7"/>
+</svg>

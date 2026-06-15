@@ -1,0 +1,367 @@
+{
+    "organization": {
+        "name": "Tattu Care",
+        "tagline": "Bringing Hope to Uganda",
+        "shortDescription": "Tattu Care provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.",
+        "registrationNumber": "12qwer4567",
+        "founded": "2020",
+        "address": "Plot 123, Kampala Road, Kampala, Uganda",
+        "phone": "+256 770 495 837",
+        "email": "info@tattucare.org",
+        "facebook": "https://facebook.com/tattucare",
+        "twitter": "https://twitter.com/tattucare",
+        "instagram": "https://instagram.com/tattucare",
+        "linkedin": "https://linkedin.com/company/tattu-care"
+    },
+    "hero": {
+        "title": "Bringing Hope to Uganda",
+        "subtitle": "Tattu Care provides essential support to vulnerable communities across Uganda through clean water, education, healthcare, and shelter initiatives.",
+        "image": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+        "primaryCtaText": "Donate Now",
+        "secondaryCtaText": "Learn More",
+        "rotateMs": 4000,
+        "autoPromoteEvents": true,
+        "eventPromoteDays": 60,
+        "slides": [
+            {
+                "title": "Bringing Hope to Uganda",
+                "subtitle": "Tattu Care provides essential support to vulnerable communities across Uganda - clean water, education, healthcare, and shelter.",
+                "image": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                "title": "Clean Water for Every Family",
+                "subtitle": "We dig wells and install purification systems so children stop walking miles for unsafe water.",
+                "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                "title": "Education Opens Doors",
+                "subtitle": "From school construction to scholarships - we help children stay in class and dream further.",
+                "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80"
+            }
+        ]
+    },
+    "about": {
+        "heading": "About Tattu Care",
+        "paragraphs": [
+            "Founded with a vision to transform lives across Uganda, Tattu Care works directly with communities to address their most pressing needs. Every two months, we organize collection drives and distribute essential resources to those who need them most.",
+            "Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently."
+        ],
+        "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+        "rotateMs": 3600,
+        "slides": [
+            {
+                "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                "paragraphs": [
+                    "Founded with a vision to transform lives across Uganda, Tattu Care works directly with communities to address their most pressing needs. Every two months, we organize collection drives and distribute essential resources to those who need them most.",
+                    "Our approach is holistic - we don't just provide temporary relief, but work on sustainable solutions that empower communities to thrive independently."
+                ]
+            },
+            {
+                "image": "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                "paragraphs": [
+                    "Our volunteer network spans across rural Uganda. Local coordinators, community leaders, and donors all play a vital role in reaching the families who need us most.",
+                    "Every shilling, every box of supplies, and every hour of volunteer time is documented and reported back so our donors see the difference they made."
+                ]
+            }
+        ]
+    },
+    "statsDisplay": {
+        "showSection": true,
+        "source": "custom",
+        "maxItems": 4
+    },
+    "stats": [
+        {
+            "enabled": true,
+            "icon": "fa-users",
+            "number": "5,000+",
+            "label": "Families Supported"
+        },
+        {
+            "enabled": true,
+            "icon": "fa-tint",
+            "number": "25+",
+            "label": "Water Projects"
+        },
+        {
+            "enabled": true,
+            "icon": "fa-school",
+            "number": "12",
+            "label": "Schools Built"
+        },
+        {
+            "enabled": true,
+            "icon": "fa-clinic-medical",
+            "number": "8",
+            "label": "Medical Clinics"
+        }
+    ],
+    "programs": [
+        {
+            "icon": "fa-tint",
+            "title": "Clean Water",
+            "description": "Providing access to safe, clean water through wells and purification systems.",
+            "stats": "25 communities reached",
+            "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "icon": "fa-book-open",
+            "title": "Education",
+            "description": "Building schools and providing educational materials.",
+            "stats": "12 schools built",
+            "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80"
+        },
+        {
+            "icon": "fa-heartbeat",
+            "title": "Healthcare",
+            "description": "Supporting clinics and organizing health camps.",
+            "stats": "10,000+ patients treated",
+            "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "icon": "fa-home",
+            "title": "Shelter",
+            "description": "Building safe homes for displaced families.",
+            "stats": "50 homes constructed",
+            "image": "https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "icon": "fa-seedling",
+            "title": "Food Security",
+            "description": "Distributing seeds and training farmers.",
+            "stats": "200 farmers supported",
+            "image": "https://images.unsplash.com/photo-1593113598332-629a3a1c3e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "icon": "fa-users",
+            "title": "Community Development",
+            "description": "Empowering communities with skills.",
+            "stats": "15 communities engaged",
+            "image": "https://images.unsplash.com/photo-1541802645635-11f2286a7482?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        }
+    ],
+    "impactStories": [
+        {
+            "title": "Clean Water in Namugongo",
+            "text": "In 2022, Tattu Care installed a well in Namugongo Village, serving over 450 families.",
+            "quote": "This water has changed everything for us.",
+            "quoteAuthor": "Nakato, Namugongo Village",
+            "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "title": "Education in Mbale",
+            "text": "A new school in Mbale now educates 320 children, boosting literacy by 70%.",
+            "quote": "I dream of becoming a doctor.",
+            "quoteAuthor": "Sarah, Mbale",
+            "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80"
+        },
+        {
+            "title": "Healthcare Access",
+            "text": "Our mobile clinics have provided healthcare to over 5,000 people in remote areas.",
+            "quote": "I can finally get treatment.",
+            "quoteAuthor": "John, rural Uganda",
+            "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "title": "Shelter for Displaced Families",
+            "text": "In 2025 we completed 12 homes in Gulu for families displaced by flooding, with safe roofing and sanitation facilities.",
+            "quote": "My children sleep without fear of rain now.",
+            "quoteAuthor": "Amina, Gulu",
+            "image": "https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            "title": "Farmers Thrive in Soroti",
+            "text": "Seed distribution and training helped 200 farmers increase crop yields by 40% in one growing season.",
+            "quote": "We can feed our village again.",
+            "quoteAuthor": "Moses, Soroti",
+            "image": "https://images.unsplash.com/photo-1593113598332-629a3a1c3e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+        }
+    ],
+    "team": [
+        {
+            "name": "Sarah Nambi",
+            "role": "Founder & Director",
+            "bio": "Sarah founded Tattu Care in 2020 after years of community work in Kampala. She leads strategy, partnerships, and field operations across Uganda.",
+            "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+        },
+        {
+            "name": "James Okello",
+            "role": "Programs Lead",
+            "bio": "James coordinates water, education, and healthcare initiatives. He manages local volunteers and tracks impact metrics for every project.",
+            "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+        },
+        {
+            "name": "Grace Achieng",
+            "role": "Community Outreach",
+            "bio": "Grace builds relationships with village leaders and ensures supplies reach families who need them most during collection drives.",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+        },
+        {
+            "name": "Peter Mugisha",
+            "role": "Finance & Donor Relations",
+            "bio": "Peter oversees donations, bank reconciliation, and donor communications so every contribution is acknowledged and accounted for.",
+            "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+        }
+    ],
+    "events": [
+        {
+            "title": "June 2026 Drive",
+            "date": "June 1-15, 2026",
+            "startDate": "2026-06-01",
+            "endDate": "2026-06-15",
+            "location": "Mbale, Uganda",
+            "status": "upcoming",
+            "featured": false,
+            "featureOnHero": true,
+            "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Collecting medical supplies for Mbale.",
+            "items": [
+                "Bandages",
+                "Antiseptics",
+                "Gloves"
+            ],
+            "ctaText": "Volunteer",
+            "ctaLink": "#contact",
+            "heroTitle": "",
+            "heroSubtitle": ""
+        },
+        {
+            "title": "April 2026 Drive",
+            "date": "April 15-30, 2026",
+            "startDate": "2026-04-15",
+            "endDate": "2026-04-30",
+            "location": "Kampala, Uganda",
+            "status": "upcoming",
+            "featured": true,
+            "featureOnHero": true,
+            "heroTitle": "April Collection Drive \u2014 Get Involved",
+            "heroSubtitle": "Help us gather educational materials for children in Kampala. Volunteer or donate supplies today.",
+            "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Collecting educational materials for Kampala.",
+            "items": [
+                "Notebooks",
+                "Pens",
+                "Backpacks"
+            ],
+            "ctaText": "Volunteer",
+            "ctaLink": "#contact"
+        },
+        {
+            "title": "August Hygiene Kit Drive",
+            "date": "August 5-20, 2026",
+            "startDate": "2026-08-05",
+            "endDate": "2026-08-20",
+            "location": "Jinja, Uganda",
+            "status": "upcoming",
+            "featured": true,
+            "featureOnHero": false,
+            "image": "https://images.unsplash.com/photo-1584483766114-2cea45facac9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Distributing soap, toothbrushes, and hygiene kits to 800 families in Jinja.",
+            "items": [
+                "Soap bars",
+                "Toothbrushes",
+                "Sanitary pads"
+            ],
+            "ctaText": "Donate supplies",
+            "ctaLink": "#contact",
+            "heroTitle": "",
+            "heroSubtitle": ""
+        },
+        {
+            "title": "December 2025 Water Project",
+            "date": "December 1-31, 2025",
+            "startDate": "2025-12-01",
+            "endDate": "2025-12-31",
+            "location": "Karamoja, Uganda",
+            "status": "upcoming",
+            "featured": false,
+            "featureOnHero": false,
+            "image": "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            "description": "Completed well installation serving 600 families in Karamoja region.",
+            "items": [
+                "Well drilling",
+                "Water testing",
+                "Community training"
+            ],
+            "ctaText": "Read impact",
+            "ctaLink": "#impact",
+            "heroTitle": "",
+            "heroSubtitle": ""
+        }
+    ],
+    "donation": {
+        "goal": 37000000,
+        "raised": 0,
+        "currency": "UGX",
+        "supportedCurrencies": [
+            "UGX",
+            "USD",
+            "EUR",
+            "GBP",
+            "KES",
+            "TZS",
+            "RWF",
+            "NGN",
+            "ZAR",
+            "GHS",
+            "INR",
+            "CNY",
+            "AUD",
+            "CAD",
+            "BTC",
+            "ETH",
+            "USDT",
+            "USDC",
+            "BNB",
+            "SOL"
+        ],
+        "amounts": [
+            10000,
+            25000,
+            50000,
+            100000,
+            500000
+        ],
+        "crypto": {
+            "BTC": "",
+            "ETH": "",
+            "USDT": "",
+            "USDC": ""
+        },
+        "merchantCode": "288198",
+        "note": "Give in UGX or any currency you prefer \u2014 including Bitcoin, Ethereum, and USDT. Mobile Money is charged in UGX; bank and crypto options are also available.",
+        "airtelMerchantCode": "",
+        "bank": {
+            "bankName": "Stanbic Bank Uganda",
+            "accountName": "Tattu Care Uganda Ltd",
+            "accountNumber": "9030012345678",
+            "branch": "Kampala Main Branch",
+            "swift": "SBICUGKX"
+        },
+        "raisedSyncedAt": "2026-06-09T18:26:17+02:00"
+    },
+    "trust": {
+        "showTrustBar": false,
+        "registrationCountry": "Uganda",
+        "showFooterLegal": false,
+        "taxDeductible": false,
+        "annualReportUrl": "",
+        "partners": [
+            {
+                "name": "Stanbic Bank Uganda",
+                "url": "https://www.stanbicbank.co.ug",
+                "logo": ""
+            },
+            {
+                "name": "Kampala Community Church",
+                "url": "",
+                "logo": ""
+            },
+            {
+                "name": "East Africa Partners Ltd",
+                "url": "",
+                "logo": ""
+            }
+        ]
+    }
+}

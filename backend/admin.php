@@ -26,7 +26,7 @@ $notifyEmail = defined('NOTIFY_EMAIL') ? NOTIFY_EMAIL : CHARITY_EMAIL;
 <div class="login-wrap">
     <div class="login-brand">
         <div class="login-brand-inner">
-            <div class="login-logo"><i class="fas fa-heart"></i></div>
+            <div class="login-logo"><img src="../frontend/assets/logo/icon.svg" alt="Tattu Care" class="logo-icon" width="64" height="64"></div>
             <h1>Tattu Care Admin</h1>
             <p>Manage your charity website content, events, donations, and submissions — changes go live when you save.</p>
             <div class="login-features">
@@ -74,7 +74,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     <aside class="sidebar" id="adminSidebar">
         <div class="sidebar-brand">
             <button type="button" class="sidebar-close" id="sidebarClose" aria-label="Close menu"><i class="fas fa-times"></i></button>
-            <h2><i class="fas fa-heart"></i> <span class="sidebar-brand-text">Tattu Care</span></h2>
+            <h2><img src="../frontend/assets/logo/icon.svg" alt="" class="sidebar-logo-icon logo-icon" width="40" height="40"> <span class="sidebar-brand-text"><span class="logo-brand-tattu">Tattu</span><span class="logo-brand-care"> Care</span></span></h2>
             <small class="sidebar-brand-text">Content Management</small>
         </div>
         <nav id="adminNav">
@@ -2156,5 +2156,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 })();
 </script>
 <?php endif; ?>
+<script src="../frontend/js/logo.js"></script>
 </body>
 </html>

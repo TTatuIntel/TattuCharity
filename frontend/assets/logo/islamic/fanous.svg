@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tattu Care">
+  <rect width="48" height="48" rx="10" fill="#1a5c42"/>
+  <path fill="#c9a227" d="M24 6l-10 6v4c0 8 4.5 14.5 10 18 5.5-3.5 10-10 10-18v-4L24 6z"/>
+  <rect x="20" y="34" width="8" height="3" rx="1" fill="#c9a227"/>
+  <path fill="none" stroke="#e8f5ef" stroke-width="1.5" d="M18 18h12M20 24h8M22 30h4"/>
+  <circle cx="24" cy="12" r="2" fill="#e8f5ef"/>
+</svg>

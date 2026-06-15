@@ -15,13 +15,20 @@
 .legal-page ul{margin:0 0 16px 24px}
 .top-bar{background:#fff;border-bottom:1px solid var(--border);padding:18px 0}
 .top-bar .container{display:flex;justify-content:space-between;align-items:center}
+.top-bar .logo{color:var(--secondary);text-shadow:none}
+.top-bar .logo-icon{filter:none;width:56px;height:56px}
+.top-bar .logo-mark{width:56px;height:56px;filter:none}
+.top-bar .logo-brand-care{color:var(--primary-dark)}
 </style>
 </head>
 <body>
 
 <div class="top-bar">
     <div class="container">
-        <a href="../../index.html" class="logo"><i class="fas fa-heart"></i> <span data-content="org.name">Tattu Care</span></a>
+        <a href="../../index.html" class="logo logo--static">
+            <img src="../assets/logo/icon.svg" alt="" class="logo-icon" width="56" height="56">
+            <span class="logo-wordmark"><span class="logo-brand-tattu">Tattu</span><span class="logo-brand-care"> Care</span></span>
+        </a>
         <a href="../../index.html" class="btn btn-outline">← Back to Home</a>
     </div>
 </div>
@@ -83,6 +90,7 @@
 </footer>
 
 <script src="../js/api-config.js"></script>
+<script src="../js/logo.js"></script>
 <script src="../js/content-loader.js"></script>
 <script>document.getElementById('updated').textContent = new Date().toLocaleDateString();</script>
 </body>

@@ -148,12 +148,25 @@
         }
     }
 
+    function renderLogoWordmark(name) {
+        const n = String(name || 'Tattu Care').trim();
+        const sp = n.indexOf(' ');
+        $$('.logo-wordmark').forEach(el => {
+            if (sp > 0) {
+                el.innerHTML = `<span class="logo-brand-tattu">${esc(n.slice(0, sp))}</span><span class="logo-brand-care">${esc(n.slice(sp))}</span>`;
+            } else {
+                el.textContent = n;
+            }
+        });
+    }
+
     function render(c) {
         if (!c) return;
         const org = c.organization || {};
 
         document.title = `${org.name || 'Tattu Care'} - ${org.tagline || ''}`.trim();
         $$('[data-content="org.name"]').forEach(el => el.textContent = org.name || '');
+        renderLogoWordmark(org.name || 'Tattu Care');
         $$('[data-content="org.tagline"]').forEach(el => el.textContent = org.tagline || '');
         $$('[data-content="org.phone"]').forEach(el => el.textContent = org.phone || '');
         $$('[data-content="org.email"]').forEach(el => el.textContent = org.email || '');
